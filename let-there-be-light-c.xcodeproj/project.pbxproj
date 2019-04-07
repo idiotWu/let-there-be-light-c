@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC3CB038225A18740058F9E3 /* gl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gl.h; sourceTree = "<group>"; };
 		DC77734B225A168C00F8EA1B /* let-there-be-light-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "let-there-be-light-c"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC77734E225A168C00F8EA1B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DC777356225A169A00F8EA1B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -44,6 +45,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC3CB037225A18660058F9E3 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				DC3CB038225A18740058F9E3 /* gl.h */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		DC777342225A168C00F8EA1B = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +73,7 @@
 		DC77734D225A168C00F8EA1B /* let-there-be-light-c */ = {
 			isa = PBXGroup;
 			children = (
+				DC3CB037225A18660058F9E3 /* lib */,
 				DC77734E225A168C00F8EA1B /* main.cpp */,
 			);
 			path = "let-there-be-light-c";

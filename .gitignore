@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Xcode
+xcuserdata/
+
+# misc
+.DS_Store

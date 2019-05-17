@@ -139,9 +139,9 @@ int main(void) {
   section("initMaze()");
   Tile tiles[MAP_SIZE][MAP_SIZE];
   
-  unsigned pathLength = initMaze(4, 8, 16, tiles);
+  size_t pathLength = initMaze(4, 8, 16, tiles);
   
-  printf("path length: %u\n", pathLength);
+  printf("path length: %lu\n", pathLength);
   
   for (size_t i = 0; i < MAP_SIZE; i++) {
     for (size_t j = 0; j < MAP_SIZE; j++) {

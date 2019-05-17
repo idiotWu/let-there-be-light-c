@@ -6,8 +6,8 @@ bool isSingleDirection(Direction dir) {
   return (dir & dir - 1) == 0;
 }
 
-size_t extractDirections(Direction dir, Direction res[4]) {
-  size_t count = 0;
+unsigned int extractDirections(Direction dir, Direction res[4]) {
+  unsigned int count = 0;
   
   if (dir & DIR_UP) {
     res[count++] = DIR_UP;

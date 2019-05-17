@@ -7,7 +7,9 @@
 #include "tile.h"
 #include "config.h"
 
-static void mark(size_t x, size_t y, FloodState* state) {
+static void mark(size_t x,
+                 size_t y,
+                 FloodState* state) {
   if (state->visited[y][x]) {
     return;
   }
@@ -55,19 +57,23 @@ void floodForward(FloodState* state) {
   }
 }
 
-FloodState* floodGenerate(const Tile tiles[MAP_SIZE][MAP_SIZE], size_t x, size_t y) {
+FloodState* floodGenerate(const Tile tiles[MAP_SIZE][MAP_SIZE],
+                          size_t startX,
+                          size_t startY) {
   FloodState* state = calloc(1, sizeof(FloodState));
   
   state->frontiers = (FrontierList*)createList();
   state->tiles = tiles;
   state->pathLength = 0;
   
-  mark(x, y, state);
+  mark(startX, startY, state);
   
   return state;
 }
 
-FloodState* floodFill(Tile tiles[MAP_SIZE][MAP_SIZE], size_t x, size_t y) {
+FloodState* floodFill(Tile tiles[MAP_SIZE][MAP_SIZE],
+                      size_t x,
+                      size_t y) {
   FloodState* state = floodGenerate(tiles, x, y);
   
   while (state->frontiers->count) {

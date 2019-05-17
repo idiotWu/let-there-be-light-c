@@ -17,6 +17,6 @@ typedef enum Direction {
 } Direction;
 
 bool isSingleDirection(Direction dir);
-size_t extractDirections(Direction dir, Direction res[4]);
+unsigned int extractDirections(Direction dir, Direction res[4]);
 
 #endif

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DC3347C32283D3320027F173 /* floodfill.c in Sources */ = {isa = PBXBuildFile; fileRef = DC3347C22283D3320027F173 /* floodfill.c */; };
+		DC5F74E1228F1404007A2301 /* engine.c in Sources */ = {isa = PBXBuildFile; fileRef = DC5F74E0228F1404007A2301 /* engine.c */; };
 		DC77734F225A168C00F8EA1B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DC77734E225A168C00F8EA1B /* main.c */; };
 		DC777358225A169A00F8EA1B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC777356225A169A00F8EA1B /* GLUT.framework */; };
 		DC777359225A169A00F8EA1B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC777357225A169A00F8EA1B /* OpenGL.framework */; };
@@ -33,6 +34,8 @@
 		DC33479C227F27CF0027F173 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		DC3347C12283D3320027F173 /* floodfill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = floodfill.h; sourceTree = "<group>"; };
 		DC3347C22283D3320027F173 /* floodfill.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = floodfill.c; sourceTree = "<group>"; };
+		DC5F74DF228F1404007A2301 /* engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = engine.h; sourceTree = "<group>"; };
+		DC5F74E0228F1404007A2301 /* engine.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = engine.c; sourceTree = "<group>"; };
 		DC77734B225A168C00F8EA1B /* let-there-be-light-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "let-there-be-light-c"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC77734E225A168C00F8EA1B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		DC777356225A169A00F8EA1B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -86,6 +89,8 @@
 				DC33479C227F27CF0027F173 /* config.h */,
 				DC8A4C322278826300D6BCA4 /* direction.c */,
 				DC8A4C312278826300D6BCA4 /* direction.h */,
+				DC5F74E0228F1404007A2301 /* engine.c */,
+				DC5F74DF228F1404007A2301 /* engine.h */,
 				DC3347C22283D3320027F173 /* floodfill.c */,
 				DC3347C12283D3320027F173 /* floodfill.h */,
 				DC8A4C2D22774BDC00D6BCA4 /* glut.h */,
@@ -167,6 +172,7 @@
 			files = (
 				DC8A4C52227B52E500D6BCA4 /* list.c in Sources */,
 				DC3347C32283D3320027F173 /* floodfill.c in Sources */,
+				DC5F74E1228F1404007A2301 /* engine.c in Sources */,
 				DC8A4C332278826300D6BCA4 /* direction.c in Sources */,
 				DC8A4C3A2278AB6B00D6BCA4 /* util.c in Sources */,
 				DC8A4C302278819600D6BCA4 /* maze.c in Sources */,
@@ -293,6 +299,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				"OTHER_CFLAGS[arch=*]" = (
 					"-Wall",
 					"-Wextra",
@@ -310,6 +317,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -9,7 +9,7 @@
 #include "util.h"
 
 #define UNUSED(x) (void)(x)
-#define RECT_COUNT 11
+#define RECT_COUNT 60
 #define RECT_WIDTH (2.0 / RECT_COUNT)
 
 typedef struct Rectangle {
@@ -40,7 +40,7 @@ void renderRect(Animation* animation) {
   double pos = easeInOutBack(pFix);
   
   if (animation->currentFrame == 0) {
-    rect->color[0] = randomBetween(0, 1);
+    rect->color[0] = randomBetween(0.5, 1);
     rect->color[1] = randomBetween(0.5, 1);
     rect->color[2] = randomBetween(0.5, 1);
   }
@@ -54,19 +54,19 @@ void renderRect(Animation* animation) {
 }
 
 void createRect(Animation* animation) {
-  unsigned int interval = animation->totalFrames / (RECT_COUNT - 1);
+  double interval = (double)animation->totalFrames / (RECT_COUNT - 1);
   
-  if (animation->currentFrame % interval == 0) {
+  if (animation->currentFrame % (unsigned)interval == 0) {
     Rectangle* rect = malloc(sizeof(Rectangle));
     
-    unsigned int i = animation->currentFrame / interval;
+    double offset = RECT_WIDTH * animation->currentFrame / interval;
     
     double height = sin((double)animation->currentFrame / animation->totalFrames * M_PI) * 1.25 + 0.25;
     
-    rect->x1 = -1 + RECT_WIDTH * i;
-    rect->y1 = -1;
+    rect->x1 = -1.0 + offset;
+    rect->y1 = -1.0;
     rect->x2 = rect->x1 + RECT_WIDTH;
-    rect->y2 = -1 + height;
+    rect->y2 = -1.0 + height;
     
     Animation* a = createAnimation60FPS(1500, ANIMATION_INFINITY);
     

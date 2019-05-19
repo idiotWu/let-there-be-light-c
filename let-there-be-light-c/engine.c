@@ -80,13 +80,13 @@ bool cancelAnimation(Animation* animation) {
  * 0       1      0(2)     1      0(2)[discard]
  */
 void engineNext(void) {
-  TimelineNode* node = gameTL.head;
-  TimelineNode* next;
-  
-  if (!node) {
+  if (!gameTL.count) {
     return;
   }
   
+  TimelineNode* node = gameTL.head;
+  TimelineNode* next;
+
   do {
     // record `next` in case that node is deleted
     next = node->next;

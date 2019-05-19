@@ -270,6 +270,8 @@ static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
     BuilderNode* node = builders->head;
 
     while (node) {
+      // record `next` in case that node is deleted
+      BuilderNode* next = node->next;
       MazeBuilder* b = node->data;
       
       moveBuilder(b);
@@ -281,7 +283,7 @@ static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
         tiles[b->y][b->x] = TILE_BEAN;
       }
       
-      node = node->next;
+      node = next;
     }
   }
 }

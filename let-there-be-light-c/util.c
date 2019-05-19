@@ -43,14 +43,6 @@ void shuffle(void* array, size_t length, size_t bytesPerElement) {
   }
 }
 
-double min(double a, double b) {
-  return a < b ? a : b;
-}
-
-double max(double a, double b) {
-  return a > b ? a : b;
-}
-
 int sign(double num) {
   if (num < 0) {
     return -1;

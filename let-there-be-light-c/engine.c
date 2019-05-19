@@ -35,6 +35,7 @@ Animation* createAnimation(uint16_t totalFrames,
   animation->nth = 1;
   animation->repeat = repeat;
   
+  animation->shape = NULL;
   animation->render = NULL;
   animation->complete = NULL;
   
@@ -80,12 +81,16 @@ bool cancelAnimation(Animation* animation) {
  */
 void engineNext(void) {
   TimelineNode* node = gameTL.head;
+  TimelineNode* next;
   
   if (!node) {
     return;
   }
   
   do {
+    // record `next` in case that node is deleted
+    next = node->next;
+    
     Animation* animation = node->data;
 
     animation->render(animation);
@@ -124,7 +129,8 @@ void engineNext(void) {
         animation->complete(animation);
       }
       
+      free(animation->shape);
       listDelete((List*)&gameTL, (Node*)node);
     }
-  } while ((node = node->next) != NULL);
+  } while ((node = next) != NULL);
 }

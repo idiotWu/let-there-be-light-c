@@ -10,6 +10,8 @@
 #define ANIMATION_INFINITY    UINT16_MAX
 
 typedef struct Animation {
+  void* shape;
+  
   uint16_t currentFrame;
   uint16_t totalFrames;
   

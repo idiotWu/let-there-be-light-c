@@ -13,7 +13,7 @@ defList(Timeline, TimelineNode);
 static Timeline gameTL;
 
 // reset state to the beginning of animaiton
-void resetFrame(Animation* animation) {
+static void resetFrame(Animation* animation) {
   animation->currentFrame = 0;
   animation->elapsed = 0;
 }

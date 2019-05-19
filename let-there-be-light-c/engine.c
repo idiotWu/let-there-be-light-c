@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <math.h>
 
 #include "engine.h"
 #include "list.h"
@@ -17,9 +18,9 @@ void resetFrame(Animation* animation) {
   animation->elapsed = 0;
 }
 
-Animation* createAnimation(uint8_t totalFrames,
+Animation* createAnimation(uint16_t totalFrames,
                            double duration,
-                           uint8_t repeat) {
+                           uint16_t repeat) {
   assert(totalFrames > 0);
   assert(repeat > 0);
   
@@ -29,7 +30,7 @@ Animation* createAnimation(uint8_t totalFrames,
   
   animation->totalFrames = totalFrames;
   
-  animation->interval = duration / ANIMATION_60_FPS / totalFrames;
+  animation->interval = round(duration / ANIMATION_60_FPS / totalFrames);
   
   animation->nth = 1;
   animation->repeat = repeat;
@@ -45,8 +46,8 @@ Animation* createAnimation(uint8_t totalFrames,
   return animation;
 }
 
-Animation* createAnimation60FPS(double duration, uint8_t repeat) {
-  return createAnimation(duration / ANIMATION_60_FPS, duration, repeat);
+Animation* createAnimation60FPS(double duration, uint16_t repeat) {
+  return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
 }
 
 bool cancelAnimation(Animation* animation) {
@@ -65,18 +66,19 @@ bool cancelAnimation(Animation* animation) {
 }
 
 /**
- * Right-continuous animation:
- * jumps to 0 frame when the animation ends.
+ * Right-continuous animation (repeat > 1):
+ *  - jumps to 0 frame when the animation ends;
+ *  - discards the final frame.
  *
  * 2FPS non-repeat:
  * [--------------|--------------]
- * 0              1              2(final)
+ * 0              1              2[final]
  *
  * 2FPS * 2 repeats:
  * [-------|-------|-------|-------]
- * 0       1      0(2)     1      0(2)
+ * 0       1      0(2)     1      0(2)[discard]
  */
-void engineRefresh(void) {
+void engineNext(void) {
   TimelineNode* node = gameTL.head;
   
   if (!node) {

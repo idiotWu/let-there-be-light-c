@@ -10,14 +10,12 @@
 void render(Animation* animation) {
   double percent = (double)animation->currentFrame / animation->totalFrames;
   
-  printf("%d/%d\n", animation->currentFrame, animation->totalFrames);
-  
   double c = percent < 0.5 ? (percent * 2) : (1 - (percent - 0.5) * 2);
   
-  printf("%.2lf\n", c);
+  printf("%2d/%2d\t%.2lf\n", animation->currentFrame, animation->totalFrames, c);
   
-  glColor3d(0.75+c*0.25, c, 1-c);
-  glRectd(-0.5, -0.5, 0.5, 0.5);
+  glColor3d(0.75 + c * 0.25, c, 1 - c);
+  glRectd(-1.0 + c, -0.5, c, 0.5);
 }
 
 void init(void) {
@@ -25,7 +23,7 @@ void init(void) {
   glEnable(GL_BLEND);
   glClearColor(0.0, 0.0, 0.0, 0.0);
   
-  Animation* animation = createAnimation(6, 1000, ANIMATION_INFINITY);
+  Animation* animation = createAnimation60FPS(1000, ANIMATION_INFINITY);
   
   animation->render = render;
 }
@@ -40,7 +38,7 @@ void update(int _) {
 
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
-  engineRefresh();
+  engineNext();
   glutSwapBuffers();
 }
 

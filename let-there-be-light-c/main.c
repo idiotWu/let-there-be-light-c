@@ -53,13 +53,19 @@ void renderRect(Animation* animation) {
           rect->y1 + (rect->y2 - rect->y1) * pos);
 }
 
+static int i = -1;
+
 void createRect(Animation* animation) {
-  double interval = (double)animation->totalFrames / (RECT_COUNT - 1);
+  double interval = (double)animation->totalFrames / RECT_COUNT;
   
-  if (animation->currentFrame % (unsigned)interval == 0) {
+  int t = animation->currentFrame / interval;
+  
+  if (t > i) {
+    i = t;
+    
     Rectangle* rect = malloc(sizeof(Rectangle));
     
-    double offset = RECT_WIDTH * animation->currentFrame / interval;
+    double offset = RECT_WIDTH * (int)(animation->currentFrame / interval);
     
     double height = sin((double)animation->currentFrame / animation->totalFrames * M_PI) * 1.25 + 0.25;
     
@@ -114,6 +120,7 @@ int main(int argc, char* argv[]) {
   glutInit(&argc, argv);
 
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+  glutInitWindowSize(800, 800);
   glutCreateWindow("Test");
   glutDisplayFunc(display);
   init();

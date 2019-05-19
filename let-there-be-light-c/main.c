@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -7,10 +9,8 @@
 #include "util.h"
 
 #define UNUSED(x) (void)(x)
-#define RECT_COUNT 10
-#define MAX_HEIGHT 1.5
+#define RECT_COUNT 11
 #define RECT_WIDTH (2.0 / RECT_COUNT)
-#define RECT_HEIGHT_STEP (MAX_HEIGHT / (RECT_COUNT / 2.0))
 
 typedef struct Rectangle {
   double x1;
@@ -20,10 +20,14 @@ typedef struct Rectangle {
   double color[3];
 } Rectangle;
 
-double easeInOutBack(double pos) {
-  double s = 1.70158;
-  if((pos/=0.5) < 1) return 0.5*(pos*pos*(((s*=(1.525))+1)*pos -s));
-  return 0.5*((pos-=2)*pos*(((s*=(1.525))+1)*pos +s) +2);
+double easeInOutBack(double p) {
+  if (p < 0.5) {
+    double f = 2 * p;
+    return 0.5 * (f * f * f - f * sin(f * M_PI));
+  } else {
+    double f = (1 - (2*p - 1));
+    return 0.5 * (1 - (f * f * f - f * sin(f * M_PI))) + 0.5;
+  }
 }
 
 void renderRect(Animation* animation) {
@@ -37,8 +41,8 @@ void renderRect(Animation* animation) {
   
   if (animation->currentFrame == 0) {
     rect->color[0] = randomBetween(0, 1);
-    rect->color[1] = randomBetween(0, 1);
-    rect->color[2] = randomBetween(0, 1);
+    rect->color[1] = randomBetween(0.5, 1);
+    rect->color[2] = randomBetween(0.5, 1);
   }
   
   glColor3dv(rect->color);
@@ -49,18 +53,15 @@ void renderRect(Animation* animation) {
           rect->y1 + (rect->y2 - rect->y1) * pos);
 }
 
-double calcHeight(unsigned int i) {
-  unsigned int m = RECT_COUNT / 2;
-  
-  return i < m ? RECT_HEIGHT_STEP * (i + 1) : (MAX_HEIGHT - RECT_HEIGHT_STEP * (i - m));
-}
-
 void createRect(Animation* animation) {
-  unsigned int interval = animation->totalFrames / RECT_COUNT;
+  unsigned int interval = animation->totalFrames / (RECT_COUNT - 1);
+  
   if (animation->currentFrame % interval == 0) {
     Rectangle* rect = malloc(sizeof(Rectangle));
+    
     unsigned int i = animation->currentFrame / interval;
-    double height = calcHeight(i);
+    
+    double height = sin((double)animation->currentFrame / animation->totalFrames * M_PI) * 1.25 + 0.25;
     
     rect->x1 = -1 + RECT_WIDTH * i;
     rect->y1 = -1;

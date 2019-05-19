@@ -1,8 +1,13 @@
 #ifndef GLUT_H
 #define GLUT_H
 
-#define GL_SILENCE_DEPRECATION
-#include <OpenGL/gl3.h>
-#include <GLUT/GLUT.h>
+#ifdef __APPLE__
+  #define GL_SILENCE_DEPRECATION
+  #include <OpenGL/gl.h>
+  #include <GLUT/GLUT.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glut.h>
+#endif
 
 #endif

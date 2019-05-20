@@ -1,3 +1,21 @@
+/**
+ * Timeline based animation engine
+ *
+ *      t
+ * -----+----------------------------> timeline
+ * +----|-+
+ * |  A | |
+ * +----|-+
+ *    +-|--------+
+ *    | |   A    |
+ *    +-|--------+
+ *  +---|-+-----+-----+-----+-----+
+ *  |  A| |  A  |  A  |  A  |  A  |
+ *  +---|-+-----+-----+-----+-----+
+ *      ^
+ *    render
+ */
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -23,27 +41,27 @@ Animation* createAnimation(uint16_t totalFrames,
                            uint16_t repeat) {
   assert(totalFrames > 0);
   assert(repeat > 0);
-  
+
   Animation* animation = malloc(sizeof(Animation));
-  
+
   resetFrame(animation);
-  
+
   animation->totalFrames = totalFrames;
-  
+
   animation->interval = round(duration / ANIMATION_60_FPS / totalFrames);
-  
+
   animation->nth = 1;
   animation->repeat = repeat;
-  
+
   animation->shape = NULL;
   animation->render = NULL;
   animation->complete = NULL;
-  
+
   TimelineNode* node = (TimelineNode*)createNode();
   node->data = animation;
-  
+
   listAppend((List *)&gameTL, (Node *)node);
-  
+
   return animation;
 }
 
@@ -53,16 +71,16 @@ Animation* createAnimation60FPS(double duration, uint16_t repeat) {
 
 bool cancelAnimation(Animation* animation) {
   TimelineNode* node = gameTL.head;
-  
+
   while (node) {
     if (node->data == animation) {
       listDelete((List*)&gameTL, (Node*)node);
       return true;
     }
-    
+
     node = node->next;
   }
-  
+
   return false;
 }
 
@@ -83,31 +101,31 @@ void engineNext(void) {
   if (!gameTL.count) {
     return;
   }
-  
+
   TimelineNode* node = gameTL.head;
   TimelineNode* next;
 
   do {
     // record `next` in case that node is deleted
     next = node->next;
-    
+
     Animation* animation = node->data;
 
     animation->render(animation);
-    
+
     animation->elapsed++;
-    
+
     // elapsed < interval
     //   -> waiting
     if (animation->elapsed < animation->interval) {
       continue;
     }
-    
+
     // elapsed == interval
     //   -> next frame
     animation->currentFrame++;
     animation->elapsed = 0;
-    
+
     // currentFrame == lastFrame
     //   -> repeat or finish
     if (animation->currentFrame == animation->totalFrames) {
@@ -118,17 +136,17 @@ void engineNext(void) {
         animation->nth++;
         continue;
       }
-      
+
       // finished
       // final rendering (100% completed) for non-repeat mode
       if (animation->repeat == 1) {
         animation->render(animation);
       }
-      
+
       if (animation->complete) {
         animation->complete(animation);
       }
-      
+
       free(animation->shape);
       listDelete((List*)&gameTL, (Node*)node);
     }

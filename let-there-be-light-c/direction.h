@@ -10,7 +10,7 @@ typedef enum Direction {
   DIR_RIGHT = 1 << 1, /* 0010 */
   DIR_DOWN  = 1 << 2, /* 0100 */
   DIR_LEFT  = 1 << 3, /* 1000 */
-  
+
   DIR_VERTICAL   = DIR_UP | DIR_DOWN,
   DIR_HORIZONTAL = DIR_LEFT | DIR_RIGHT,
   DIR_ALL        = DIR_UP | DIR_RIGHT | DIR_DOWN | DIR_LEFT

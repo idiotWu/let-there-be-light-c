@@ -46,19 +46,19 @@ double easeInOutBack(double p) {
 
 void renderWave(Animation* animation) {
   Rectangle* rect = animation->shape;
-  
+
   double percent = (double)animation->currentFrame / animation->totalFrames;
-  
+
   double pFix = percent < 0.5 ? (percent * 2) : (1 - (percent - 0.5) * 2);
-  
+
   double pos = easeInOutBack(pFix);
-  
+
   if (animation->currentFrame == 0) {
     rect->color[0] = randomBetween(0.5, 1);
     rect->color[1] = randomBetween(0.5, 1);
     rect->color[2] = randomBetween(0.5, 1);
   }
-  
+
   glColor3dv(rect->color);
   glRectd(
           rect->x1,
@@ -71,25 +71,25 @@ static int i = -1;
 
 void createWave(Animation* animation) {
   double interval = (double)animation->totalFrames / RECT_COUNT;
-  
+
   int t = animation->currentFrame / interval;
-  
+
   if (t > i) {
     i = t;
-    
+
     Rectangle* rect = malloc(sizeof(Rectangle));
-    
+
     double offset = RECT_WIDTH * (int)(animation->currentFrame / interval);
-    
+
     double height = sin((double)animation->currentFrame / animation->totalFrames * M_PI) * 1.0 + 0.25;
-    
+
     rect->x1 = -1.0 + offset;
     rect->y1 = -1.0;
     rect->x2 = rect->x1 + RECT_WIDTH;
     rect->y2 = -1.0 + height;
-    
+
     Animation* a = createAnimation60FPS(1500, ANIMATION_INFINITY);
-    
+
     a->shape = rect;
     a->render = renderWave;
   }
@@ -97,11 +97,11 @@ void createWave(Animation* animation) {
 
 void renderRect(Animation* animation) {
   double percent = (double)animation->currentFrame / animation->totalFrames;
-  
+
   double c = percent < 0.5 ? (percent * 2) : (1 - (percent - 0.5) * 2);
-  
+
   printf("%2d/%2d\t%.2lf\n", animation->currentFrame, animation->totalFrames, c);
-  
+
   glColor3d(0.75 + c * 0.25, c, 1 - c);
   glRectd(-1.0 + c, -0.5, c, 0.5);
 }
@@ -110,19 +110,19 @@ const double starVertexes[5] = { 90.0, 234.0, 18.0, 162.0, 306.0 };
 
 void renderStar(Animation* animation) {
   Star* star = animation->shape;
-  
+
   star->r *= 0.95;
   star->y -= 1.0/60.0;
   star->rot += 10.0;
   star->color[3] = 1.0 - (double)animation->currentFrame / animation->totalFrames;
-  
+
   double scaleX = (double)glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT);
-  
+
   glColor4dv(star->color);
-  
+
   glBegin(GL_TRIANGLE_FAN);
     glVertex2d(star->x, star->y);
-  
+
     for (size_t i = 0; i <= 5; i++) {
       double rad = deg2rad(star->rot +starVertexes[i % 5]);
       glVertex2d(star->x + star->r/scaleX * cos(rad), star->y + star->r * sin(rad));
@@ -133,9 +133,9 @@ void renderStar(Animation* animation) {
 void mouseListener(int x, int y) {
   double u = (double)x / glutGet(GLUT_WINDOW_WIDTH) * 2.0 - 1.0;
   double v = -(double)y / glutGet(GLUT_WINDOW_HEIGHT) * 2.0 + 1.0;
-  
+
   Star* star = malloc(sizeof(Star));
-  
+
   star->x = u;
   star->y = v;
   star->r = randomBetween(0.05, 0.1);
@@ -143,7 +143,7 @@ void mouseListener(int x, int y) {
   star->color[0] = randomBetween(0.5, 1);
   star->color[1] = randomBetween(0.5, 1);
   star->color[2] = randomBetween(0.5, 1);
-  
+
   Animation* animation = createAnimation60FPS(2000, 1);
   animation->shape = star;
   animation->render = renderStar;
@@ -153,19 +153,19 @@ void init(void) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
   glClearColor(0.0, 0.0, 0.0, 0.0);
-  
+
 #ifdef RENDER_RECT
   Animation* animation = createAnimation60FPS(1000, ANIMATION_INFINITY);
-  
+
   animation->render = renderRect;
 #endif
-  
+
 #ifdef RENDER_WAVE
   Animation* animation = createAnimation60FPS(1000, 1);
-  
+
   animation->render = createWave;
 #endif
-  
+
 #ifdef LISTEN_MOUSE_MOVE
   glutMotionFunc(mouseListener);
   glutPassiveMotionFunc(mouseListener);
@@ -174,9 +174,9 @@ void init(void) {
 
 void update(int _) {
   glutPostRedisplay();
-  
+
   UNUSED(_);
-  
+
   glutTimerFunc(ANIMATION_60_FPS, update, 0);
 }
 
@@ -196,6 +196,6 @@ int main(int argc, char* argv[]) {
   init();
   update(0);
   glutMainLoop();
-  
+
   return EXIT_SUCCESS;
 }

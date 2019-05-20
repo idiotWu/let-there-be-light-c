@@ -11,16 +11,16 @@
 
 typedef struct Animation {
   void* shape;
-  
+
   uint16_t currentFrame;
   uint16_t totalFrames;
-  
+
   uint16_t elapsed;
   uint16_t interval;
-  
+
   uint16_t nth;
   uint16_t repeat;
-  
+
   void (*render)(struct Animation*);
   void (*complete)(struct Animation*);
 } Animation;

@@ -44,13 +44,13 @@ static Direction filterDirections(size_t x,
   } else if (x == limit || x == limit - 1) {
     candidates &= ~DIR_RIGHT;
   }
-  
+
   if (y == 0 || y == 1) {
     candidates &= ~DIR_UP;
   } else if (y == limit || y == limit - 1) {
     candidates &= ~DIR_DOWN;
   }
-  
+
   return candidates;
 }
 
@@ -58,34 +58,34 @@ static Direction filterDirections(size_t x,
 
 static void updateDistance(MazeBuilder* builder) {
   size_t distance = randomInt((int)builder->minDistance, (int)builder->maxDistance);
-  
+
   assert(distance != 0);
-  
+
   switch (builder->direction) {
     case DIR_UP:
       builder->vx = 0;
       builder->vy = -1;
       break;
-      
+
     case DIR_DOWN:
       builder->vx = 0;
       builder->vy = 1;
       break;
-      
+
     case DIR_LEFT:
       builder->vx = -1;
       builder->vy = 0;
       break;
-      
+
     case DIR_RIGHT:
       builder->vx = 1;
       builder->vy = 0;
       break;
-      
+
     default:
       break;
   }
-  
+
   // clamp distance
   if (builder->vx == 1) {
     distance = min(distance, builder->limit - builder->x);
@@ -96,28 +96,28 @@ static void updateDistance(MazeBuilder* builder) {
   } else if (builder->vy == -1) {
     distance = min(distance, builder->y);
   }
-  
+
   // eusures moving an even number of steps
   if (distance % 2) {
     distance--;
   }
-  
+
   assert(distance >= 2);
-  
+
   builder->remain = distance;
 }
 
 static int calcWeight(MazeBuilder* builder, char axis) {
   int weight = 0;
-  
+
   for (size_t i = 0; i < builder->spawnerCount; i++) {
     // skip self
     if (i == builder->spawnerIndex) {
       continue;
     }
-    
+
     size_t spawnerPos, builderPos;
-    
+
     if (axis == 'x') {
       spawnerPos = builder->spawners[i].x;
       builderPos = builder->x;
@@ -125,10 +125,10 @@ static int calcWeight(MazeBuilder* builder, char axis) {
       spawnerPos = builder->spawners[i].y;
       builderPos = builder->y;
     }
-    
+
     weight += sign(spawnerPos - builderPos);
   }
-  
+
   return weight;
 }
 
@@ -136,10 +136,10 @@ static Direction chooseDirection(MazeBuilder* builder, Direction bidir) {
   switch (bidir) {
     case DIR_HORIZONTAL:
       return calcWeight(builder, 'x') > 0 ? DIR_RIGHT : DIR_LEFT;
-      
+
     case DIR_VERTICAL:
       return calcWeight(builder, 'y') > 0 ? DIR_DOWN : DIR_UP;
-      
+
     default:
       return DIR_NONE;
   }
@@ -149,9 +149,9 @@ static void turnBuilder(MazeBuilder* builder) {
   Direction current = builder->direction;
   Direction candidates = (current & DIR_VERTICAL) ? DIR_HORIZONTAL : DIR_VERTICAL;
   Direction next = filterDirections(builder->x, builder->y, builder->limit, candidates);
-  
+
   builder->direction = isSingleDirection(next) ? next : chooseDirection(builder, next);
-  
+
   updateDistance(builder);
 }
 
@@ -159,7 +159,7 @@ static void moveBuilder(MazeBuilder* builder) {
   if (!builder->remain) {
     turnBuilder(builder);
   }
-  
+
   builder->x += builder->vx;
   builder->y += builder->vy;
   builder->remain--;
@@ -191,11 +191,11 @@ static void initSpawners(size_t count,
                          Tile tiles[MAP_SIZE][MAP_SIZE]) {
   // split each row into at least 2 blocks
   const size_t splits = (size_t)max(2, round(count / 2.0));
-  
+
   // shrink to [0.1, 0.9] area of the block to avoid spawners being too close
   const double lower = 0.1;
   const double upper = 0.9;
-  
+
   const double halfBlockWidth = (MAP_SIZE - 1.0) / splits / 2.0;
   const double halfBlockHeight = (MAP_SIZE - 1.0) / 4.0;
 
@@ -206,7 +206,7 @@ static void initSpawners(size_t count,
       ceil(halfBlockWidth * (blockCol + lower)),
       floor(halfBlockWidth * (blockCol + upper))
     );
-    
+
     // y
     size_t blockRow = i % 2;
     size_t halfY = randomInt(
@@ -217,9 +217,9 @@ static void initSpawners(size_t count,
     // map into even-numbered coordinates
     size_t x = halfX * 2;
     size_t y = halfY * 2;
-    
+
     Spawner s = { x, y };
-    
+
     spawners[i] = s;
     tiles[y][x] = TILE_KERNEL;
   }
@@ -231,17 +231,17 @@ static void initBuilders(size_t minDistance,
                          Spawner spawners[],
                          BuilderList* builders) {
   size_t limit = MAP_SIZE - 1;
-  
+
   for (size_t i = 0; i < spawnerCount; i++) {
     Spawner s = spawners[i];
-    
+
     Direction directions[4];
     unsigned int dirCount = extractDirections(filterDirections(s.x, s.y, limit, DIR_ALL), directions);
-    
+
     shuffle(directions, dirCount, sizeof(Direction));
-    
+
     unsigned int dirSelected = randomInt(2, (int)dirCount);
-    
+
     for (size_t j = 0; j < dirSelected; j++) {
       MazeBuilder* builder = malloc(sizeof(MazeBuilder));
       builder->x = s.x;
@@ -254,12 +254,12 @@ static void initBuilders(size_t minDistance,
       builder->spawnerIndex = i;
       builder->spawnerCount = spawnerCount;
       builder->vx = builder->vy = builder->remain = 0;
-      
+
       BuilderNode* node = (BuilderNode*)createNode();
       node->data = builder;
-      
+
       listAppend((List*)builders, (Node*)node);
-      
+
       updateDistance(builder);
     }
   }
@@ -273,16 +273,16 @@ static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
       // record `next` in case that node is deleted
       BuilderNode* next = node->next;
       MazeBuilder* b = node->data;
-      
+
       moveBuilder(b);
-      
+
       if (tiles[b->y][b->x] & TILE_OPEN) {
         // remove collided builders
         listDelete((List*)builders, (Node*)node);
       } else {
         tiles[b->y][b->x] = TILE_BEAN;
       }
-      
+
       node = next;
     }
   }
@@ -290,7 +290,7 @@ static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
 
 static size_t fixMap(Tile tiles[MAP_SIZE][MAP_SIZE], Spawner* startPoint) {
   FloodState* state = floodFill(tiles, startPoint->x, startPoint->y);
-  
+
   for (size_t i = 0; i < MAP_SIZE; i++) {
     for (size_t j = 0; j < MAP_SIZE; j++) {
       if (tiles[i][j] & TILE_OPEN && !state->visited[i][j]) {
@@ -298,11 +298,11 @@ static size_t fixMap(Tile tiles[MAP_SIZE][MAP_SIZE], Spawner* startPoint) {
       }
     }
   }
-  
+
   size_t pathLength = state->pathLength;
-  
+
   floodDestory(state);
-  
+
   return pathLength;
 }
 
@@ -312,17 +312,17 @@ size_t initMaze(size_t spawnerCount,
                 Tile tiles[MAP_SIZE][MAP_SIZE]) {
   Spawner* spawners = malloc(sizeof(Spawner) * spawnerCount);
   BuilderList* builders = (BuilderList*)createList();
-  
+
   initTiles(tiles);
   initSpawners(spawnerCount, spawners, tiles);
   initBuilders(minDistance, maxDistance, spawnerCount, spawners, builders);
-  
+
   generateMap(tiles, builders);
-  
+
   size_t pathLength = fixMap(tiles, &spawners[0]);
-  
+
   free(spawners);
   listDestory((List*)builders);
-  
+
   return pathLength;
 }

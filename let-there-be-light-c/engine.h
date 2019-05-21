@@ -10,10 +10,12 @@
 #define ANIMATION_INFINITY    UINT16_MAX
 
 typedef struct Animation {
-  void* shape;
+  void* from;
+  void* to;
 
   uint16_t currentFrame;
-  uint16_t totalFrames;
+  uint16_t frameCount;
+  uint16_t framesPerSecond;
 
   uint16_t elapsed;
   uint16_t interval;
@@ -25,7 +27,7 @@ typedef struct Animation {
   void (*complete)(struct Animation*);
 } Animation;
 
-Animation* createAnimation(uint16_t totalFrames,
+Animation* createAnimation(uint16_t frames,
                            double duration,
                            uint16_t repeat);
 Animation* createAnimation60FPS(double duration, uint16_t repeat);

@@ -32,28 +32,43 @@ static Timeline gameTL;
 
 // reset state to the beginning of animaiton
 static void resetFrame(Animation* animation) {
-  animation->currentFrame = 0;
+  animation->currentFrame = 1;
   animation->elapsed = 0;
 }
 
-Animation* createAnimation(uint16_t totalFrames,
+/**
+ * Right-continuous animation (repeat > 1):
+ *  - jumps to the first frame when the animation ends;
+ *  - increase FPS by 1 when repeating.
+ *
+ * 3 frames non-repeat: (3 FPS)
+ * [-------|-------]
+ * 1       2       3
+ *
+ * 3 frames * 2 repeats: (3+1 FPS)
+ * [----|----|----][----|----|----]
+ * 1    2    3   1(4)  2    3   1(4)
+ */
+Animation* createAnimation(uint16_t frameCount,
                            double duration,
                            uint16_t repeat) {
-  assert(totalFrames > 0);
+  assert(frameCount > 0);
   assert(repeat > 0);
 
   Animation* animation = malloc(sizeof(Animation));
 
   resetFrame(animation);
 
-  animation->totalFrames = totalFrames;
+  animation->frameCount = frameCount;
+  animation->framesPerSecond = repeat == 1 ? frameCount : frameCount + 1;
 
-  animation->interval = round(duration / ANIMATION_60_FPS / totalFrames);
+  animation->interval = round(duration / ANIMATION_60_FPS / animation->framesPerSecond);
 
   animation->nth = 1;
   animation->repeat = repeat;
 
-  animation->shape = NULL;
+  animation->from = NULL;
+  animation->to = NULL;
   animation->render = NULL;
   animation->complete = NULL;
 
@@ -84,19 +99,6 @@ bool cancelAnimation(Animation* animation) {
   return false;
 }
 
-/**
- * Right-continuous animation (repeat > 1):
- *  - jumps to 0 frame when the animation ends;
- *  - discards the final frame.
- *
- * 2FPS non-repeat:
- * [--------------|--------------]
- * 0              1              2[final]
- *
- * 2FPS * 2 repeats:
- * [-------|-------|-------|-------]
- * 0       1      0(2)     1      0(2)[discard]
- */
 void engineNext(void) {
   if (!gameTL.count) {
     return;
@@ -126,28 +128,35 @@ void engineNext(void) {
     animation->currentFrame++;
     animation->elapsed = 0;
 
-    // currentFrame == lastFrame
-    //   -> repeat or finish
-    if (animation->currentFrame == animation->totalFrames) {
-      // repeat animation (jump to 0 frame)
-      if (animation->repeat == ANIMATION_INFINITY ||
-          animation->nth < animation->repeat) {
-        resetFrame(animation);
-        animation->nth++;
-        continue;
-      }
+    // currentFrame < framesPerSecond
+    //  -> running
+    if (animation->currentFrame < animation->framesPerSecond) {
+      continue;
+    }
 
+    // currentFrame == framesPerSecond
+    //  -> repeat or finish
+
+    // repeating mode: jump to the first frame
+    if (animation->repeat > 1) {
+      resetFrame(animation);
+    }
+
+    // should repeat?
+    if (animation->repeat == ANIMATION_INFINITY ||
+        animation->nth < animation->repeat) {
+      animation->nth++;
+    } else {
       // finished
-      // final rendering (100% completed) for non-repeat mode
-      if (animation->repeat == 1) {
-        animation->render(animation);
-      }
+      // render the last frame
+      animation->render(animation);
 
       if (animation->complete) {
         animation->complete(animation);
       }
 
-      free(animation->shape);
+      free(animation->from);
+      free(animation->to);
       listDelete((List*)&gameTL, (Node*)node);
     }
   } while ((node = next) != NULL);

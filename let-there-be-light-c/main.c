@@ -10,7 +10,7 @@
 
 //#define RENDER_RECT
 #define RENDER_WAVE
-#define LISTEN_MOUSE_MOVE
+#define LISTEN_MOUSE_STAR
 
 #define deg2rad(x) (x / 180.0 * M_PI)
 #define UNUSED(x) (void)(x)
@@ -45,15 +45,15 @@ double easeInOutBack(double p) {
 }
 
 void renderWave(Animation* animation) {
-  Rectangle* rect = animation->shape;
+  Rectangle* rect = animation->from;
 
-  double percent = (double)animation->currentFrame / animation->totalFrames;
+  double percent = (double)animation->currentFrame / animation->frameCount;
 
   double pFix = percent < 0.5 ? (percent * 2) : (1 - (percent - 0.5) * 2);
 
   double pos = easeInOutBack(pFix);
 
-  if (animation->currentFrame == 0) {
+  if (animation->currentFrame == 1) {
     rect->color[0] = randomBetween(0.5, 1);
     rect->color[1] = randomBetween(0.5, 1);
     rect->color[2] = randomBetween(0.5, 1);
@@ -70,7 +70,7 @@ void renderWave(Animation* animation) {
 static int i = -1;
 
 void createWave(Animation* animation) {
-  double interval = (double)animation->totalFrames / RECT_COUNT;
+  double interval = (double)(animation->frameCount) / RECT_COUNT;
 
   int t = animation->currentFrame / interval;
 
@@ -79,9 +79,9 @@ void createWave(Animation* animation) {
 
     Rectangle* rect = malloc(sizeof(Rectangle));
 
-    double offset = RECT_WIDTH * (int)(animation->currentFrame / interval);
+    double offset = RECT_WIDTH * (int)((animation->currentFrame - 1) / interval);
 
-    double height = sin((double)animation->currentFrame / animation->totalFrames * M_PI) * 1.0 + 0.25;
+    double height = sin((double)animation->currentFrame / (animation->frameCount) * M_PI) * 1.0 + 0.25;
 
     rect->x1 = -1.0 + offset;
     rect->y1 = -1.0;
@@ -90,17 +90,17 @@ void createWave(Animation* animation) {
 
     Animation* a = createAnimation60FPS(1500, ANIMATION_INFINITY);
 
-    a->shape = rect;
+    a->from = rect;
     a->render = renderWave;
   }
 }
 
 void renderRect(Animation* animation) {
-  double percent = (double)animation->currentFrame / animation->totalFrames;
+  double percent = (double)animation->currentFrame / animation->frameCount;
 
   double c = percent < 0.5 ? (percent * 2) : (1 - (percent - 0.5) * 2);
 
-  printf("%2d/%2d\t%.2lf\n", animation->currentFrame, animation->totalFrames, c);
+  printf("%2d/%2d\t%.2lf\n", animation->currentFrame, animation->frameCount, c);
 
   glColor3d(0.75 + c * 0.25, c, 1 - c);
   glRectd(-1.0 + c, -0.5, c, 0.5);
@@ -109,28 +109,29 @@ void renderRect(Animation* animation) {
 const double starVertexes[5] = { 90.0, 234.0, 18.0, 162.0, 306.0 };
 
 void renderStar(Animation* animation) {
-  Star* star = animation->shape;
+  Star* star = animation->from;
 
   star->r *= 0.95;
   star->y -= 1.0/60.0;
   star->rot += 10.0;
-  star->color[3] = 1.0 - (double)animation->currentFrame / animation->totalFrames;
+  star->color[3] = 1.0 - (double)animation->currentFrame / animation->frameCount;
 
   double scaleX = (double)glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT);
 
   glColor4dv(star->color);
 
   glBegin(GL_TRIANGLE_FAN);
+    glScaled(10.0, 1.0, 1.0);
     glVertex2d(star->x, star->y);
 
     for (size_t i = 0; i <= 5; i++) {
       double rad = deg2rad(star->rot +starVertexes[i % 5]);
-      glVertex2d(star->x + star->r/scaleX * cos(rad), star->y + star->r * sin(rad));
+      glVertex2d(star->x + star->r / scaleX * cos(rad), star->y + star->r * sin(rad));
     }
   glEnd();
 }
 
-void mouseListener(int x, int y) {
+void mouseListenerStar(int x, int y) {
   double u = (double)x / glutGet(GLUT_WINDOW_WIDTH) * 2.0 - 1.0;
   double v = -(double)y / glutGet(GLUT_WINDOW_HEIGHT) * 2.0 + 1.0;
 
@@ -145,7 +146,7 @@ void mouseListener(int x, int y) {
   star->color[2] = randomBetween(0.5, 1);
 
   Animation* animation = createAnimation60FPS(2000, 1);
-  animation->shape = star;
+  animation->from = star;
   animation->render = renderStar;
 }
 
@@ -166,9 +167,9 @@ void init(void) {
   animation->render = createWave;
 #endif
 
-#ifdef LISTEN_MOUSE_MOVE
-  glutMotionFunc(mouseListener);
-  glutPassiveMotionFunc(mouseListener);
+#ifdef LISTEN_MOUSE_STAR
+  glutMotionFunc(mouseListenerStar);
+  glutPassiveMotionFunc(mouseListenerStar);
 #endif
 }
 
@@ -182,8 +183,16 @@ void update(int _) {
 
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
-  engineNext();
+  engineNextFrame();
   glutSwapBuffers();
+}
+
+void reshape(int w, int h) {
+  glViewport(0, 0, w, h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+  glMatrixMode(GL_MODELVIEW);
 }
 
 int main(int argc, char* argv[]) {
@@ -193,6 +202,7 @@ int main(int argc, char* argv[]) {
   glutInitWindowSize(800, 800);
   glutCreateWindow("Test");
   glutDisplayFunc(display);
+  glutReshapeFunc(reshape);
   init();
   update(0);
   glutMainLoop();

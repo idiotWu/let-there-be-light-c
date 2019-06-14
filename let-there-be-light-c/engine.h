@@ -34,6 +34,6 @@ Animation* createAnimation60FPS(double duration, uint16_t repeat);
 
 bool cancelAnimation(Animation* animation);
 
-void engineNext(void);
+void engineNextFrame(void);
 
 #endif

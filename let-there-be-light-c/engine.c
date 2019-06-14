@@ -39,7 +39,7 @@ static void resetFrame(Animation* animation) {
 /**
  * Right-continuous animation (repeat > 1):
  *  - jumps to the first frame when the animation ends;
- *  - increase FPS by 1 when repeating.
+ *  - renders one more frame per sencond.
  *
  * 3 frames non-repeat: (3 FPS)
  * [-------|-------]
@@ -75,7 +75,7 @@ Animation* createAnimation(uint16_t frameCount,
   TimelineNode* node = (TimelineNode*)createNode();
   node->data = animation;
 
-  listAppend((List *)&gameTL, (Node *)node);
+  listAppend((List*)&gameTL, (Node*)node);
 
   return animation;
 }
@@ -99,7 +99,7 @@ bool cancelAnimation(Animation* animation) {
   return false;
 }
 
-void engineNext(void) {
+void engineNextFrame(void) {
   if (!gameTL.count) {
     return;
   }

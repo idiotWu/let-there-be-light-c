@@ -3,9 +3,9 @@
 
 #include "util.h"
 
-static int randInitFlag = 0;
-
 double randomBetween(double lower, double upper) {
+  static int randInitFlag = 0;
+  
   // init once
   if (!randInitFlag) {
     randInitFlag = 1;

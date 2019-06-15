@@ -15,7 +15,7 @@ typedef struct Animation {
 
   uint16_t currentFrame;
   uint16_t frameCount;
-  uint16_t framesPerSecond;
+  uint16_t framesPerPeriod;
 
   uint16_t elapsed;
   uint16_t interval;

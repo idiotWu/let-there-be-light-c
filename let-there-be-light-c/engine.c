@@ -39,13 +39,13 @@ static void resetFrame(Animation* animation) {
 /**
  * Right-continuous animation (repeat > 1):
  *  - jumps to the first frame when the animation ends;
- *  - renders one more frame per sencond.
+ *  - renders one more frame per period.
  *
- * 3 frames non-repeat: (3 FPS)
+ * 3 frames non-repeat: (3 frames/period)
  * [-------|-------]
  * 1       2       3
  *
- * 3 frames * 2 repeats: (3+1 FPS)
+ * 3 frames * 2 repeats: (3+1 frames/period)
  * [----|----|----][----|----|----]
  * 1    2    3   1(4)  2    3   1(4)
  */
@@ -60,9 +60,9 @@ Animation* createAnimation(uint16_t frameCount,
   resetFrame(animation);
 
   animation->frameCount = frameCount;
-  animation->framesPerSecond = repeat == 1 ? frameCount : frameCount + 1;
+  animation->framesPerPeriod = repeat == 1 ? frameCount : frameCount + 1;
 
-  animation->interval = round(duration / ANIMATION_60_FPS / animation->framesPerSecond);
+  animation->interval = ceil(duration / ANIMATION_60_FPS / animation->framesPerPeriod);
 
   animation->nth = 1;
   animation->repeat = repeat;
@@ -128,13 +128,13 @@ void engineNextFrame(void) {
     animation->currentFrame++;
     animation->elapsed = 0;
 
-    // currentFrame < framesPerSecond
+    // currentFrame < framesPerPeriod
     //  -> running
-    if (animation->currentFrame < animation->framesPerSecond) {
+    if (animation->currentFrame < animation->framesPerPeriod) {
       continue;
     }
 
-    // currentFrame == framesPerSecond
+    // currentFrame == framesPerPeriod
     //  -> repeat or finish
 
     // repeating mode: jump to the first frame

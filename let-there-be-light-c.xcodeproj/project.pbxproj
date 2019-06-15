@@ -101,11 +101,11 @@
 				DC8A4C50227B52E500D6BCA4 /* list.h */,
 				DC8A4C2F2278819600D6BCA4 /* maze.c */,
 				DC8A4C2E2278819600D6BCA4 /* maze.h */,
+				DC8B3D9A22B3CBC700E863B3 /* texture.c */,
+				DC8B3D9922B3CBC700E863B3 /* texture.h */,
 				DC8A4C34227889ED00D6BCA4 /* tile.h */,
 				DC8A4C392278AB6B00D6BCA4 /* util.c */,
 				DC8A4C382278AB6B00D6BCA4 /* util.h */,
-				DC8B3D9A22B3CBC700E863B3 /* texture.c */,
-				DC8B3D9922B3CBC700E863B3 /* texture.h */,
 			);
 			path = "let-there-be-light-c";
 			sourceTree = "<group>";

@@ -35,21 +35,21 @@ void floodForward(FloodState* state) {
     size_t y = head->data->y;
 
     // up
-    if (y > 0 && state->tiles[y - 1][x] & TILE_OPEN) {
-      mark(x, y - 1, state);
-    }
-    // down
     if (y < MAP_SIZE - 1 && state->tiles[y + 1][x] & TILE_OPEN) {
       mark(x, y + 1, state);
     }
-
-    // left
-    if (x > 0 && state->tiles[y][x - 1] & TILE_OPEN) {
-      mark(x - 1, y, state);
+    // down
+    if (y > 0 && state->tiles[y - 1][x] & TILE_OPEN) {
+      mark(x, y - 1, state);
     }
+
     // right
     if (x < MAP_SIZE - 1 && state->tiles[y][x + 1] & TILE_OPEN) {
       mark(x + 1, y, state);
+    }
+    // left
+    if (x > 0 && state->tiles[y][x - 1] & TILE_OPEN) {
+      mark(x - 1, y, state);
     }
 
     // remove the frontier from list

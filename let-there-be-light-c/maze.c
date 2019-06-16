@@ -1,4 +1,3 @@
-// TODO: refactor to uv coordinate system
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -47,9 +46,9 @@ static Direction filterDirections(size_t x,
   }
 
   if (y == 0 || y == 1) {
-    candidates &= ~DIR_UP;
-  } else if (y == limit || y == limit - 1) {
     candidates &= ~DIR_DOWN;
+  } else if (y == limit || y == limit - 1) {
+    candidates &= ~DIR_UP;
   }
 
   return candidates;
@@ -65,21 +64,21 @@ static void updateDistance(MazeBuilder* builder) {
   switch (builder->direction) {
     case DIR_UP:
       builder->vx = 0;
-      builder->vy = -1;
+      builder->vy = 1;
       break;
 
     case DIR_DOWN:
       builder->vx = 0;
-      builder->vy = 1;
-      break;
-
-    case DIR_LEFT:
-      builder->vx = -1;
-      builder->vy = 0;
+      builder->vy = -1;
       break;
 
     case DIR_RIGHT:
       builder->vx = 1;
+      builder->vy = 0;
+      break;
+
+    case DIR_LEFT:
+      builder->vx = -1;
       builder->vy = 0;
       break;
 
@@ -139,7 +138,7 @@ static Direction chooseDirection(MazeBuilder* builder, Direction bidir) {
       return calcWeight(builder, 'x') > 0 ? DIR_RIGHT : DIR_LEFT;
 
     case DIR_VERTICAL:
-      return calcWeight(builder, 'y') > 0 ? DIR_DOWN : DIR_UP;
+      return calcWeight(builder, 'y') > 0 ? DIR_UP : DIR_DOWN;
 
     default:
       return DIR_NONE;

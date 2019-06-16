@@ -7,16 +7,17 @@
 #include "texture.h"
 #include "state.h"
 #include "list.h"
+#include "util.h"
 
 #define INFLEXION_POINT  0.1
 #define FX_DURATION      400
+
+#define RANDOM_COLOR
 
 typedef struct FxRecord {
   FloodState* state;
   FrontierList* frontiers;
 } FxRecord;
-
-static double tileColor[4] = { 0.94, 0.57, 0.30, 1.0 };
 
 static void fxRender(Animation* animation);
 static void fxComplete(Animation* animation);
@@ -44,8 +45,14 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
   FrontierList* frontiers = record->frontiers;
   FrontierNode* node = frontiers->head;
 
-  tileColor[3] = alpha;
-  glColor4dv(tileColor);
+#ifdef RANDOM_COLOR
+  glColor4d(randomBetween(0.25, 1),
+            randomBetween(0.25, 1),
+            randomBetween(0.25, 1),
+            alpha);
+#else
+  glColor4d(0.94, 0.57, 0.30, alpha);
+#endif
 
   while (node) {
     double x = node->data->x;

@@ -6,6 +6,7 @@
 #include <math.h>
 #include "glut.h"
 
+#include "config.h"
 #include "engine.h"
 #include "util.h"
 #include "texture.h"
@@ -60,7 +61,7 @@ void reshape(int w, int h) {
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+  gluOrtho2D(0.0, MAZE_SIZE, 0.0, MAZE_SIZE);
   glMatrixMode(GL_MODELVIEW);
 }
 

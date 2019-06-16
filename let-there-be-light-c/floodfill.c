@@ -35,7 +35,7 @@ void floodForward(FloodState* state) {
     size_t y = head->data->y;
 
     // up
-    if (y < MAP_SIZE - 1 && state->tiles[y + 1][x] & TILE_OPEN) {
+    if (y < MAZE_SIZE - 1 && state->tiles[y + 1][x] & TILE_OPEN) {
       mark(x, y + 1, state);
     }
     // down
@@ -44,7 +44,7 @@ void floodForward(FloodState* state) {
     }
 
     // right
-    if (x < MAP_SIZE - 1 && state->tiles[y][x + 1] & TILE_OPEN) {
+    if (x < MAZE_SIZE - 1 && state->tiles[y][x + 1] & TILE_OPEN) {
       mark(x + 1, y, state);
     }
     // left
@@ -57,7 +57,7 @@ void floodForward(FloodState* state) {
   }
 }
 
-FloodState* floodGenerate(const Tile tiles[MAP_SIZE][MAP_SIZE],
+FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
                           size_t startX,
                           size_t startY) {
   FloodState* state = calloc(1, sizeof(FloodState));
@@ -71,7 +71,7 @@ FloodState* floodGenerate(const Tile tiles[MAP_SIZE][MAP_SIZE],
   return state;
 }
 
-FloodState* floodFill(Tile tiles[MAP_SIZE][MAP_SIZE],
+FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
                       size_t x,
                       size_t y) {
   FloodState* state = floodGenerate(tiles, x, y);

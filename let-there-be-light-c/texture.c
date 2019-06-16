@@ -94,9 +94,7 @@ static GLuint initFogTexture() {
       size_t offset = (i * FOG_SIZE + j) * 4;
 
       // rgb = (0, 0, 0)
-      pixels[offset] =
-      pixels[offset + 1] =
-      pixels[offset + 2] = 0;
+      pixels[offset] = pixels[offset + 1] = pixels[offset + 2] = 0;
 
       double distance = sqrt(pow(i - radius, 2) + pow(j - radius, 2));
 

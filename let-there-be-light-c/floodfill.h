@@ -18,16 +18,16 @@ defList(FrontierList, FrontierNode);
 
 typedef struct FloodState {
   FrontierList* frontiers;
-  const Tile (*tiles)[MAP_SIZE];
-  bool visited[MAP_SIZE][MAP_SIZE];
+  const Tile (*tiles)[MAZE_SIZE];
+  bool visited[MAZE_SIZE][MAZE_SIZE];
   size_t pathLength;
 } FloodState;
 
-FloodState* floodGenerate(const Tile tiles[MAP_SIZE][MAP_SIZE],
+FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
                           size_t x,
                           size_t y);
 
-FloodState* floodFill(Tile tiles[MAP_SIZE][MAP_SIZE],
+FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
                       size_t x,
                       size_t y);
 

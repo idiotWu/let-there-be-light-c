@@ -167,9 +167,9 @@ static void moveBuilder(MazeBuilder* builder) {
 
 // ============ Builder End ============ //
 
-static void initTiles(Tile tiles[MAP_SIZE][MAP_SIZE]) {
-  for (size_t i = 0; i < MAP_SIZE; i++) {
-    for (size_t j = 0; j < MAP_SIZE; j++) {
+static void initTiles(Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
+  for (size_t i = 0; i < MAZE_SIZE; i++) {
+    for (size_t j = 0; j < MAZE_SIZE; j++) {
       tiles[i][j] = TILE_WALL;
     }
   }
@@ -188,7 +188,7 @@ static void initTiles(Tile tiles[MAP_SIZE][MAP_SIZE]) {
  */
 static void initSpawners(size_t count,
                          Spawner spawners[],
-                         Tile tiles[MAP_SIZE][MAP_SIZE]) {
+                         Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   // split each row into at least 2 blocks
   const size_t splits = (size_t)max(2, round(count / 2.0));
 
@@ -196,8 +196,8 @@ static void initSpawners(size_t count,
   const double lower = 0.1;
   const double upper = 0.9;
 
-  const double halfBlockWidth = (MAP_SIZE - 1.0) / splits / 2.0;
-  const double halfBlockHeight = (MAP_SIZE - 1.0) / 4.0;
+  const double halfBlockWidth = (MAZE_SIZE - 1.0) / splits / 2.0;
+  const double halfBlockHeight = (MAZE_SIZE - 1.0) / 4.0;
 
   for (size_t i = 0; i < count; i++) {
     // x
@@ -230,7 +230,7 @@ static void initBuilders(size_t minDistance,
                          size_t spawnerCount,
                          Spawner spawners[],
                          BuilderList* builders) {
-  size_t limit = MAP_SIZE - 1;
+  size_t limit = MAZE_SIZE - 1;
 
   for (size_t i = 0; i < spawnerCount; i++) {
     Spawner s = spawners[i];
@@ -265,7 +265,7 @@ static void initBuilders(size_t minDistance,
   }
 }
 
-static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
+static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], BuilderList* builders) {
   while (builders->count) {
     BuilderNode* node = builders->head;
 
@@ -288,11 +288,11 @@ static void generateMap(Tile tiles[MAP_SIZE][MAP_SIZE], BuilderList* builders) {
   }
 }
 
-static size_t fixMap(Tile tiles[MAP_SIZE][MAP_SIZE], Spawner* startPoint) {
+static size_t fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], Spawner* startPoint) {
   FloodState* state = floodFill(tiles, startPoint->x, startPoint->y);
 
-  for (size_t i = 0; i < MAP_SIZE; i++) {
-    for (size_t j = 0; j < MAP_SIZE; j++) {
+  for (size_t i = 0; i < MAZE_SIZE; i++) {
+    for (size_t j = 0; j < MAZE_SIZE; j++) {
       if (tiles[i][j] & TILE_OPEN && !state->visited[i][j]) {
         tiles[i][j] = TILE_WALL;
       }
@@ -309,7 +309,7 @@ static size_t fixMap(Tile tiles[MAP_SIZE][MAP_SIZE], Spawner* startPoint) {
 size_t initMaze(size_t spawnerCount,
                 size_t minDistance,
                 size_t maxDistance,
-                Tile tiles[MAP_SIZE][MAP_SIZE]) {
+                Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   Spawner* spawners = malloc(sizeof(Spawner) * spawnerCount);
   BuilderList* builders = (BuilderList*)createList();
 

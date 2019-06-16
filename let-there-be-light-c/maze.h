@@ -9,6 +9,6 @@
 size_t initMaze(size_t spawnerCount,
                 size_t minDistance,
                 size_t maxDistance,
-                Tile tiles[MAP_SIZE][MAP_SIZE]);
+                Tile tiles[MAZE_SIZE][MAZE_SIZE]);
 
 #endif

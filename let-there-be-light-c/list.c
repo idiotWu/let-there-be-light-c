@@ -97,10 +97,14 @@ void listFreeNode(Node* node) {
 
 void listDestory(List* list) {
   Node* node = list->head;
+  Node* next;
 
   while (node) {
-    listFreeNode(node);
-    node = node->next;
+    next = node->next;
+
+    listDelete(list, node);
+
+    node = next;
   }
 
   free(list);

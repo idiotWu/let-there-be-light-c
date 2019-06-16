@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include "list.h"
@@ -64,6 +65,29 @@ void listDelete(List* list, Node* node) {
   listFreeNode(node);
 
   list->count--;
+}
+
+void listCopy(List* dest, List* src, size_t dataSize) {
+  Node* snode = src->head;
+
+  while (snode) {
+    Node* dnode = createNode();
+    dnode->data = malloc(dataSize);
+
+    memcpy(dnode->data, snode->data, dataSize);
+
+    listAppend(dest, dnode);
+
+    snode = snode->next;
+  }
+}
+
+List* listClone(List* src, size_t dataSize) {
+  List* dest = createList();
+
+  listCopy(dest, src, dataSize);
+
+  return dest;
 }
 
 void listFreeNode(Node* node) {

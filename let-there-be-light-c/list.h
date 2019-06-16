@@ -54,6 +54,9 @@ void listPrepend(List* list, Node* node);
 void listInsertAfter(List* list, Node* prev, Node* node);
 void listDelete(List* list, Node* node);
 
+void listCopy(List* dest, List* src, size_t bytesPerElement);
+List* listClone(List* src, size_t dataSize);
+
 void listFreeNode(Node* node);
 void listDestory(List* list);
 

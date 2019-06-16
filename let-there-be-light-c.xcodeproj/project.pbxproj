@@ -19,6 +19,7 @@
 		DC8B3D9B22B3CBC700E863B3 /* texture.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3D9A22B3CBC700E863B3 /* texture.c */; };
 		DC8B3DA322B64B6300E863B3 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3DA222B64B6300E863B3 /* game.c */; };
 		DC8B3DA622B64F6700E863B3 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3DA522B64F6700E863B3 /* state.c */; };
+		DC8B3DA922B67DDA00E863B3 /* expr-fx.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3DA822B67DDA00E863B3 /* expr-fx.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +60,8 @@
 		DC8B3DA222B64B6300E863B3 /* game.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
 		DC8B3DA422B64F6700E863B3 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
 		DC8B3DA522B64F6700E863B3 /* state.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = state.c; sourceTree = "<group>"; };
+		DC8B3DA722B67DDA00E863B3 /* expr-fx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "expr-fx.h"; sourceTree = "<group>"; };
+		DC8B3DA822B67DDA00E863B3 /* expr-fx.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "expr-fx.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 				DC8A4C382278AB6B00D6BCA4 /* util.h */,
 				DC8B3DA422B64F6700E863B3 /* state.h */,
 				DC8B3DA522B64F6700E863B3 /* state.c */,
+				DC8B3DA722B67DDA00E863B3 /* expr-fx.h */,
+				DC8B3DA822B67DDA00E863B3 /* expr-fx.c */,
 			);
 			path = "let-there-be-light-c";
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				DC8A4C52227B52E500D6BCA4 /* list.c in Sources */,
 				DC3347C32283D3320027F173 /* floodfill.c in Sources */,
 				DC8B3DA622B64F6700E863B3 /* state.c in Sources */,
+				DC8B3DA922B67DDA00E863B3 /* expr-fx.c in Sources */,
 				DC5F74E1228F1404007A2301 /* engine.c in Sources */,
 				DC8B3D9B22B3CBC700E863B3 /* texture.c in Sources */,
 				DC8A4C332278826300D6BCA4 /* direction.c in Sources */,

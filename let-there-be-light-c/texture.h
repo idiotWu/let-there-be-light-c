@@ -34,6 +34,7 @@ typedef struct Sprite {
 
 extern Sprite* PLAYER_SPRITES;
 extern Sprite* MISC_SPRITES;
+extern Sprite* FX_EXPLODE_SPRITES;
 
 void renderSprite(Sprite* sprite,
                   uint32_t row, uint32_t col,

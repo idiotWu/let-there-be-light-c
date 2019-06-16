@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MAZE_SIZE 22
+#define MAZE_SIZE 23
 
 #define HUD_HEIGHT 2
 

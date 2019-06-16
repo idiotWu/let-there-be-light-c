@@ -7,13 +7,15 @@
 #include "util.h"
 #include "texture.h"
 
-#define IMG_PLAYER  "assets/fireball.bin"
-#define IMG_MISC    "assets/misc.bin"
+#define IMG_PLAYER      "assets/fireball.bin"
+#define IMG_MISC        "assets/misc.bin"
+#define IMG_FX_EXPLODE  "assets/explode.bin"
 
 #define FOG_SIZE    128
 
 Sprite* PLAYER_SPRITES;
 Sprite* MISC_SPRITES;
+Sprite* FX_EXPLODE_SPRITES;
 
 static GLuint FOG_TEX;
 
@@ -159,6 +161,7 @@ void renderFog(double dx, double dy,
 void initTextures(void) {
   PLAYER_SPRITES = malloc(sizeof(*PLAYER_SPRITES));
   MISC_SPRITES = malloc(sizeof(*MISC_SPRITES));
+  FX_EXPLODE_SPRITES = malloc(sizeof(*FX_EXPLODE_SPRITES));
 
   PLAYER_SPRITES->texture = createTextureFrom(IMG_PLAYER);
   PLAYER_SPRITES->rows = 4;
@@ -167,6 +170,10 @@ void initTextures(void) {
   MISC_SPRITES->texture = createTextureFrom(IMG_MISC);
   MISC_SPRITES->rows = 3;
   MISC_SPRITES->cols = 2;
+
+  FX_EXPLODE_SPRITES->texture = createTextureFrom(IMG_FX_EXPLODE);
+  FX_EXPLODE_SPRITES->rows = 1;
+  FX_EXPLODE_SPRITES->cols = 5;
 
   FOG_TEX = initFogTexture();
 }

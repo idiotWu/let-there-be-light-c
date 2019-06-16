@@ -52,9 +52,11 @@ void floodForward(FloodState* state) {
       mark(x - 1, y, state);
     }
 
-    // remove the frontier from list
+    // remove the head frontier from list
     listDelete((List*)state->frontiers, (Node*)head);
   }
+
+  state->finished = (state->frontiers->count == 0);
 }
 
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
@@ -65,6 +67,7 @@ FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
   state->frontiers = (FrontierList*)createList();
   state->tiles = tiles;
   state->pathLength = 0;
+  state->finished = false;
 
   mark(startX, startY, state);
 

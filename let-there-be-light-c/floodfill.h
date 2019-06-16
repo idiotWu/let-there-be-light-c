@@ -21,7 +21,10 @@ typedef struct FloodState {
   const Tile (*tiles)[MAZE_SIZE];
   bool visited[MAZE_SIZE][MAZE_SIZE];
   int pathLength;
+  bool finished;
 } FloodState;
+
+void floodForward(FloodState* state);
 
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
                           int x,

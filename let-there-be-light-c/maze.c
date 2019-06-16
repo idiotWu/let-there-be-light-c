@@ -193,6 +193,9 @@ static void initTiles(Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
 static void initSpawners(int count,
                          Spawner spawners[],
                          Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
+  // max odd number of index
+  const int maxIndex = floor(MAZE_SIZE / 2) * 2 - 1;
+
   // split each row into at least 2 blocks
   const int splits = max(2, round(count / 2.0));
 
@@ -200,8 +203,8 @@ static void initSpawners(int count,
   const double lower = 0.1;
   const double upper = 0.9;
 
-  const double halfBlockWidth = (MAZE_SIZE - 1.0) / splits / 2.0;
-  const double halfBlockHeight = (MAZE_SIZE - 1.0) / 4.0;
+  const double halfBlockWidth = (MAZE_SIZE - 3.0) / splits / 2.0;
+  const double halfBlockHeight = (MAZE_SIZE - 3.0) / 4.0;
 
   for (int i = 0; i < count; i++) {
     // x
@@ -218,9 +221,9 @@ static void initSpawners(int count,
       floor(halfBlockHeight * (blockRow + upper))
     );
 
-    // map into even-numbered coordinates
-    int x = halfX * 2;
-    int y = halfY * 2;
+    // map into odd-numbered coordinates
+    int x = clamp(halfX * 2 + 1, 1, maxIndex);
+    int y = clamp(halfY * 2 + 1, 1, maxIndex);
 
     Spawner s = { x, y };
 

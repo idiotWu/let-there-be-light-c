@@ -5,6 +5,15 @@
 #include "tile.h"
 #include "direction.h"
 
+typedef struct ClientRect {
+  double top;
+  double right;
+  double bottom;
+  double left;
+  double width;
+  double height;
+} ClientRect;
+
 typedef struct State {
   int level;
   double visibleRadius;
@@ -15,12 +24,8 @@ typedef struct State {
     Direction direction;
   } player;
 
-  struct {
-    double top;
-    double right;
-    double bottom;
-    double left;
-  } ortho;
+  ClientRect ortho;
+  ClientRect viewport;
 } State;
 
 extern State GameState;

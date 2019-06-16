@@ -17,5 +17,6 @@ void swap(void* a, void* b, size_t bytes);
 void shuffle(void* array, size_t length, size_t bytesPerElement);
 
 int sign(double num);
+double clamp(double val, double min, double max);
 
 #endif

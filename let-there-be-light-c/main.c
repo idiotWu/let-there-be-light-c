@@ -22,18 +22,21 @@
 #define ENABLE_CLIPPING
 
 void clipMaze() {
-  double scaleX = (double)glutGet(GLUT_WINDOW_WIDTH) / (GameState.ortho.right - GameState.ortho.left);
-  double scaleY = (double)glutGet(GLUT_WINDOW_HEIGHT) / (GameState.ortho.top - GameState.ortho.bottom);
+  const ClientRect* vp = &GameState.viewport;
+  const ClientRect* ortho = &GameState.ortho;
 
-  double offsetX = GameState.player.x - GameState.visibleRadius - GameState.ortho.left;
-  double offsetY = GameState.player.y - GameState.visibleRadius - GameState.ortho.bottom;
+  double scaleX = vp->width / ortho->width;
+  double scaleY = vp->height / ortho->height;
+
+  double offsetX = GameState.player.x - GameState.visibleRadius - ortho->left;
+  double offsetY = GameState.player.y - GameState.visibleRadius - ortho->bottom;
 
   double size = GameState.visibleRadius * 2.0 + 1.0;
 
-  glScissor(ceil(offsetX * scaleX),
-            ceil(offsetY * scaleY),
-            floor(size * scaleX),
-            floor(size * scaleY));
+  glScissor(ceil(vp->left + offsetX * scaleX),
+            ceil(vp->bottom + offsetY * scaleY),
+            floor(size * scaleX) - 1, // fix float point
+            floor(size * scaleY) - 1);
 }
 
 void renderTiles() {
@@ -162,19 +165,33 @@ void display(void) {
 }
 
 void reshape(int w, int h) {
-  glViewport(0, 0, w, h);
+  ClientRect* vp = &GameState.viewport;
+  ClientRect* ortho = &GameState.ortho;
+
+  double ratio = (double)MAZE_SIZE / (MAZE_SIZE + HUD_HEIGHT);
+  double size = clamp(min(/* w */ h * ratio, /* h */ w / ratio),
+                      0, min(w, h));
+
+  vp->width = size;
+  vp->height = size / ratio;
+  vp->left = (w - size) / 2;
+  vp->bottom = 0;
+  vp->top = vp->bottom + vp->height;
+  vp->right = vp->left + vp->width;
+
+
+  glViewport(vp->left, vp->bottom, vp->width, vp->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  GameState.ortho.top = MAZE_SIZE;
-  GameState.ortho.right = MAZE_SIZE;
-  GameState.ortho.bottom = 0;
-  GameState.ortho.left = 0;
+  ortho->top = MAZE_SIZE + HUD_HEIGHT;
+  ortho->right = MAZE_SIZE;
+  ortho->bottom = 0;
+  ortho->left = 0;
+  ortho->width = ortho->right - ortho->left;
+  ortho->height = ortho->top - ortho->bottom;
 
-  gluOrtho2D(GameState.ortho.left,
-             GameState.ortho.right,
-             GameState.ortho.bottom,
-             GameState.ortho.top);
+  gluOrtho2D(ortho->left, ortho->right, ortho->bottom, ortho->top);
 
   glMatrixMode(GL_MODELVIEW);
 }

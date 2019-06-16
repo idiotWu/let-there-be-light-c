@@ -54,3 +54,14 @@ int sign(double num) {
 
   return 0;
 }
+
+// clamps the given value between [min, max]
+double clamp(double val, double min, double max) {
+  if (val < min) {
+    return min;
+  } else if (val > max) {
+    return max;
+  }
+
+  return val;
+}

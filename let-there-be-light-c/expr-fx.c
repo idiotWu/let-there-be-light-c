@@ -8,8 +8,8 @@
 #include "state.h"
 #include "list.h"
 
-#define INFLEXION_POINT  0.15
-#define FX_DURATION      300
+#define INFLEXION_POINT  0.1
+#define FX_DURATION      400
 
 typedef struct FxRecord {
   FloodState* state;
@@ -97,7 +97,7 @@ void fxGen(void) {
                                     GameState.player.x,
                                     GameState.player.y);
 
-  Animation* animation = createAnimation(FX_EXPLODE_SPRITES->cols, FX_DURATION, 1);
+  Animation* animation = createAnimation(FX_EXPLODE_SPRITES->cols, 300, 1);
 
   Frontier* start = malloc(sizeof(Frontier));
   start->x = GameState.player.x;

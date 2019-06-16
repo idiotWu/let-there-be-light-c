@@ -17,6 +17,8 @@
 		DC8A4C3A2278AB6B00D6BCA4 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8A4C392278AB6B00D6BCA4 /* util.c */; };
 		DC8A4C52227B52E500D6BCA4 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8A4C51227B52E500D6BCA4 /* list.c */; };
 		DC8B3D9B22B3CBC700E863B3 /* texture.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3D9A22B3CBC700E863B3 /* texture.c */; };
+		DC8B3DA322B64B6300E863B3 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3DA222B64B6300E863B3 /* game.c */; };
+		DC8B3DA622B64F6700E863B3 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = DC8B3DA522B64F6700E863B3 /* state.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +55,10 @@
 		DC8A4C51227B52E500D6BCA4 /* list.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = list.c; sourceTree = "<group>"; };
 		DC8B3D9922B3CBC700E863B3 /* texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
 		DC8B3D9A22B3CBC700E863B3 /* texture.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = texture.c; sourceTree = "<group>"; };
+		DC8B3DA122B64B6300E863B3 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		DC8B3DA222B64B6300E863B3 /* game.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		DC8B3DA422B64F6700E863B3 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
+		DC8B3DA522B64F6700E863B3 /* state.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = state.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,8 @@
 				DC5F74DF228F1404007A2301 /* engine.h */,
 				DC3347C22283D3320027F173 /* floodfill.c */,
 				DC3347C12283D3320027F173 /* floodfill.h */,
+				DC8B3DA222B64B6300E863B3 /* game.c */,
+				DC8B3DA122B64B6300E863B3 /* game.h */,
 				DC8A4C2D22774BDC00D6BCA4 /* glut.h */,
 				DC8A4C51227B52E500D6BCA4 /* list.c */,
 				DC8A4C50227B52E500D6BCA4 /* list.h */,
@@ -106,6 +114,8 @@
 				DC8A4C34227889ED00D6BCA4 /* tile.h */,
 				DC8A4C392278AB6B00D6BCA4 /* util.c */,
 				DC8A4C382278AB6B00D6BCA4 /* util.h */,
+				DC8B3DA422B64F6700E863B3 /* state.h */,
+				DC8B3DA522B64F6700E863B3 /* state.c */,
 			);
 			path = "let-there-be-light-c";
 			sourceTree = "<group>";
@@ -175,8 +185,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC8B3DA322B64B6300E863B3 /* game.c in Sources */,
 				DC8A4C52227B52E500D6BCA4 /* list.c in Sources */,
 				DC3347C32283D3320027F173 /* floodfill.c in Sources */,
+				DC8B3DA622B64F6700E863B3 /* state.c in Sources */,
 				DC5F74E1228F1404007A2301 /* engine.c in Sources */,
 				DC8B3D9B22B3CBC700E863B3 /* texture.c in Sources */,
 				DC8A4C332278826300D6BCA4 /* direction.c in Sources */,

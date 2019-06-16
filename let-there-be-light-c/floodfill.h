@@ -9,8 +9,8 @@
 #include "tile.h"
 
 typedef struct Frontier {
-  size_t x;
-  size_t y;
+  int x;
+  int y;
 } Frontier;
 
 defNode(FrontierNode, Frontier);
@@ -20,16 +20,16 @@ typedef struct FloodState {
   FrontierList* frontiers;
   const Tile (*tiles)[MAZE_SIZE];
   bool visited[MAZE_SIZE][MAZE_SIZE];
-  size_t pathLength;
+  int pathLength;
 } FloodState;
 
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                          size_t x,
-                          size_t y);
+                          int x,
+                          int y);
 
 FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                      size_t x,
-                      size_t y);
+                      int x,
+                      int y);
 
 void floodDestory(FloodState* state);
 

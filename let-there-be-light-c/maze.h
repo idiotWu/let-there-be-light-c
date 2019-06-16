@@ -6,9 +6,9 @@
 #include "config.h"
 #include "tile.h"
 
-size_t initMaze(size_t spawnerCount,
-                size_t minDistance,
-                size_t maxDistance,
-                Tile tiles[MAZE_SIZE][MAZE_SIZE]);
+int initMaze(int spawnerCount,
+             int minDistance,
+             int maxDistance,
+             Tile tiles[MAZE_SIZE][MAZE_SIZE]);
 
 #endif

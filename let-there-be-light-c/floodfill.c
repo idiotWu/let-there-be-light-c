@@ -7,8 +7,8 @@
 #include "tile.h"
 #include "config.h"
 
-static void mark(size_t x,
-                 size_t y,
+static void mark(int x,
+                 int y,
                  FloodState* state) {
   if (state->visited[y][x]) {
     return;
@@ -31,8 +31,8 @@ void floodForward(FloodState* state) {
 
   while (batched--) {
     FrontierNode* head = state->frontiers->head;
-    size_t x = head->data->x;
-    size_t y = head->data->y;
+    int x = head->data->x;
+    int y = head->data->y;
 
     // up
     if (y < MAZE_SIZE - 1 && state->tiles[y + 1][x] & TILE_OPEN) {
@@ -58,8 +58,8 @@ void floodForward(FloodState* state) {
 }
 
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                          size_t startX,
-                          size_t startY) {
+                          int startX,
+                          int startY) {
   FloodState* state = calloc(1, sizeof(FloodState));
 
   state->frontiers = (FrontierList*)createList();
@@ -72,8 +72,8 @@ FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
 }
 
 FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                      size_t x,
-                      size_t y) {
+                      int x,
+                      int y) {
   FloodState* state = floodGenerate(tiles, x, y);
 
   while (state->frontiers->count) {

@@ -13,23 +13,6 @@
 
 #define UNUSED(x) (void)(x)
 
-void renderFireBall(Animation* animation) {
-  uint32_t n = animation->currentFrame - 1;
-  uint32_t row = n / 4;
-  uint32_t col = n % 4;
-
-  printf("(%u, %u)\n", row, col);
-
-  // path
-  renderSprite(MISC_SPRITES, PATH_ROW, PATH_COL, -0.25, 0.0, 0.5, 0.5);
-  // shadow
-  renderSprite(MISC_SPRITES, SHADOW_ROW, SHADOW_COL, -0.25, -0.5, 0.5, 0.5);
-  // player
-  renderSprite(PLAYER_SPRITES, row, col, -0.25, 0.0, 0.5, 0.5);
-
-  // fog
-  renderFog(-0.25, 0.0, 0.5, 0.5);
-}
 
 void init(void) {
   glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -38,9 +21,6 @@ void init(void) {
 
   initTextures();
 
-  Animation* animation = createAnimation(16, 3e3, ANIMATION_INFINITY);
-
-  animation->render = renderFireBall;
 }
 
 void update(int _) {

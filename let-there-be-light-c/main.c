@@ -174,11 +174,10 @@ void reshape(int w, int h) {
 
   vp->width = size;
   vp->height = size / ratio;
-  vp->left = (w - size) / 2;
-  vp->bottom = 0;
+  vp->left = (w - vp->width) / 2;
+  vp->bottom = (h - vp->height) / 2;
   vp->top = vp->bottom + vp->height;
   vp->right = vp->left + vp->width;
-
 
   glViewport(vp->left, vp->bottom, vp->width, vp->height);
   glMatrixMode(GL_PROJECTION);

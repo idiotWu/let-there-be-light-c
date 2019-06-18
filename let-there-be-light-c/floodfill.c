@@ -18,19 +18,20 @@ static void mark(int x,
   f->x = x;
   f->y = y;
 
-  FrontierNode* node = (FrontierNode*)createNode();
+  FrontierNode* node = createNode();
   node->data = f;
 
-  listAppend((List*)state->frontiers, (Node*)node);
+  listAppend(state->frontiers, node);
   state->visited[y][x] = true;
   state->pathLength++;
 }
 
 void floodForward(FloodState* state) {
-  size_t batched = state->frontiers->count;
+  ListIterator it = createListIterator(state->frontiers);
 
-  while (batched--) {
-    FrontierNode* head = state->frontiers->head;
+  while (!it.done) {
+    FrontierNode* head = it.next(&it);
+
     int x = head->data->x;
     int y = head->data->y;
 
@@ -53,7 +54,7 @@ void floodForward(FloodState* state) {
     }
 
     // remove the head frontier from list
-    listDelete((List*)state->frontiers, (Node*)head);
+    listDelete(state->frontiers, head);
   }
 
   state->finished = (state->frontiers->count == 0);
@@ -64,7 +65,7 @@ FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
                           int startY) {
   FloodState* state = calloc(1, sizeof(FloodState));
 
-  state->frontiers = (FrontierList*)createList();
+  state->frontiers = createList();
   state->tiles = tiles;
   state->pathLength = 0;
   state->finished = false;
@@ -87,6 +88,6 @@ FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
 }
 
 void floodDestory(FloodState* state) {
-  listDestory((List*)state->frontiers);
+  listDestory(state->frontiers);
   free(state);
 }

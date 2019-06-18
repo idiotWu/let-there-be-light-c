@@ -1,10 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <assert.h>
 
 #include "list.h"
 
-void listAppend(List* list, Node* node) {
+void listAppend(void* _list, void* _node) {
+  List* list = _list;
+  Node* node = _node;
+
   if (list->count == 0) {
     list->head = list->tail = node;
   } else {
@@ -16,7 +20,10 @@ void listAppend(List* list, Node* node) {
   list->count++;
 }
 
-void listPrepend(List* list, Node* node) {
+void listPrepend(void* _list, void* _node) {
+  List* list = _list;
+  Node* node = _node;
+  
   if (list->count == 0) {
     list->head = list->tail = node;
   } else {
@@ -28,7 +35,11 @@ void listPrepend(List* list, Node* node) {
   list->count++;
 }
 
-void listInsertAfter(List* list, Node* prev, Node* node) {
+void listInsertAfter(void* _list, void* _prev, void* _node) {
+  List* list = _list;
+  Node* prev = _prev;
+  Node* node = _node;
+
   Node* next = prev->next;
 
   prev->next = node;
@@ -40,7 +51,10 @@ void listInsertAfter(List* list, Node* prev, Node* node) {
   list->count++;
 }
 
-void listDelete(List* list, Node* node) {
+void listDelete(void* _list, void* _node) {
+  List* list = _list;
+  Node* node = _node;
+
   assert(list->count > 0);
 
   Node* prev = node->prev;
@@ -67,7 +81,10 @@ void listDelete(List* list, Node* node) {
   list->count--;
 }
 
-void listCopy(List* dest, List* src, size_t dataSize) {
+void listCopy(void* _dest, void* _src, size_t dataSize) {
+  List* dest = _dest;
+  List* src = _src;
+
   Node* snode = src->head;
 
   while (snode) {
@@ -82,7 +99,9 @@ void listCopy(List* dest, List* src, size_t dataSize) {
   }
 }
 
-List* listClone(List* src, size_t dataSize) {
+void* listClone(void* _src, size_t dataSize) {
+  List* src = _src;
+
   List* dest = createList();
 
   listCopy(dest, src, dataSize);
@@ -90,27 +109,27 @@ List* listClone(List* src, size_t dataSize) {
   return dest;
 }
 
-void listFreeNode(Node* node) {
+void listFreeNode(void* _node) {
+  Node* node = _node;
+
   free(node->data);
   free(node);
 }
 
-void listDestory(List* list) {
-  Node* node = list->head;
-  Node* next;
+void listDestory(void* _list) {
+  List* list = _list;
 
-  while (node) {
-    next = node->next;
+  ListIterator it = createListIterator(list);
 
+  while (!it.done) {
+    Node* node = it.next(&it);
     listDelete(list, node);
-
-    node = next;
   }
 
   free(list);
 }
 
-List* createList(void) {
+void* createList(void) {
   List* list = malloc(sizeof(List));
 
   list->count = 0;
@@ -119,11 +138,47 @@ List* createList(void) {
   return list;
 }
 
-Node* createNode(void) {
+void* createNode(void) {
   Node* node = malloc(sizeof(Node));
 
   node->data = NULL;
   node->prev = node->next = NULL;
 
   return node;
+}
+
+///////////// LIST ITERATOR /////////////
+
+static bool iteratorFinished(ListIterator* it) {
+  return it->nextNode == NULL || it->nextIndex >= it->initialLength;
+}
+
+static void* iterateNext(ListIterator* it) {
+  if (it->done) {
+    return NULL;
+  }
+
+  Node* currentNode = it->nextNode;
+
+  it->nextNode = currentNode->next;
+  it->nextIndex++;
+
+  it->done = iteratorFinished(it);
+
+  return currentNode;
+}
+
+ListIterator createListIterator(void* _list) {
+  List* list = _list;
+  ListIterator it;
+
+  it.list = list;
+  it.nextNode = list->head;
+  it.initialLength = list->count;
+  it.nextIndex = 0;
+  it.done = iteratorFinished(&it);
+
+  it.next = iterateNext;
+
+  return it;
 }

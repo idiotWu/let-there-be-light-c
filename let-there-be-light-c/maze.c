@@ -262,10 +262,10 @@ static void initBuilders(int minDistance,
       builder->spawnerCount = spawnerCount;
       builder->vx = builder->vy = builder->remain = 0;
 
-      BuilderNode* node = (BuilderNode*)createNode();
+      BuilderNode* node = createNode();
       node->data = builder;
 
-      listAppend((List*)builders, (Node*)node);
+      listAppend(builders, node);
 
       updateDistance(builder);
     }
@@ -274,23 +274,20 @@ static void initBuilders(int minDistance,
 
 static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], BuilderList* builders) {
   while (builders->count) {
-    BuilderNode* node = builders->head;
+    ListIterator it = createListIterator(builders);
 
-    while (node) {
-      // record `next` in case that node is deleted
-      BuilderNode* next = node->next;
+    while (!it.done) {
+      BuilderNode* node = it.next(&it);
       MazeBuilder* b = node->data;
 
       moveBuilder(b);
 
       if (tiles[b->y][b->x] & TILE_OPEN) {
         // remove collided builders
-        listDelete((List*)builders, (Node*)node);
+        listDelete(builders, node);
       } else {
         tiles[b->y][b->x] = TILE_BEAN;
       }
-
-      node = next;
     }
   }
 }
@@ -318,7 +315,7 @@ int initMaze(int spawnerCount,
              int maxDistance,
              Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   Spawner* spawners = malloc(sizeof(Spawner) * spawnerCount);
-  BuilderList* builders = (BuilderList*)createList();
+  BuilderList* builders = createList();
 
   initTiles(tiles);
   initSpawners(spawnerCount, spawners, tiles);
@@ -329,7 +326,7 @@ int initMaze(int spawnerCount,
   int pathLength = fixMap(tiles, &spawners[0]);
 
   free(spawners);
-  listDestory((List*)builders);
+  listDestory(builders);
 
   return pathLength;
 }

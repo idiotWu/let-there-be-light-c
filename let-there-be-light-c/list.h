@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <stddef.h>
+#include <stdbool.h>
 #include <assert.h>
 
 #define __HAS_ELEMENT(TYPE_A, TYPE_B, ELEMENT) \
@@ -48,19 +49,36 @@ defList(List, Node);
 //  Node* tail;
 //} List;
 
-void listAppend(List* list, Node* node);
-void listPrepend(List* list, Node* node);
+void listAppend(void* list, void* node);
+void listPrepend(void* list, void* node);
 
-void listInsertAfter(List* list, Node* prev, Node* node);
-void listDelete(List* list, Node* node);
+void listInsertAfter(void* list, void* prev, void* node);
+void listDelete(void* list, void* node);
 
-void listCopy(List* dest, List* src, size_t dataSize);
-List* listClone(List* src, size_t dataSize);
+void listCopy(void* dest, void* src, size_t dataSize);
+void* listClone(void* src, size_t dataSize);
 
-void listFreeNode(Node* node);
-void listDestory(List* list);
+void listFreeNode(void* node);
+void listDestory(void* list);
 
-List* createList(void);
-Node* createNode(void);
+void* createList(void);
+void* createNode(void);
+
+///////////// LIST ITERATOR /////////////
+
+typedef struct ListIterator {
+  List* list;
+  Node* nextNode;
+
+  size_t initialLength;
+  size_t nextIndex;
+
+  bool done;
+
+  void* (*next)(struct ListIterator*);
+} ListIterator;
+
+ListIterator createListIterator(void* list);
+
 
 #endif

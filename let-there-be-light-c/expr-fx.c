@@ -34,7 +34,7 @@ static void fxNext(FloodState* state) {
   FxRecord* record = malloc(sizeof(FxRecord));
 
   record->state = state;
-  record->frontiers = (FrontierList*)listClone((List*)state->frontiers, sizeof(Frontier));
+  record->frontiers = listClone(state->frontiers, sizeof(Frontier));
 
   Animation* animation = createAnimation60FPS(FX_DURATION, 1);
   animation->from = record;
@@ -44,9 +44,6 @@ static void fxNext(FloodState* state) {
 }
 
 static void renderRecord(FxRecord* record, double scale, double alpha) {
-  FrontierList* frontiers = record->frontiers;
-  FrontierNode* node = frontiers->head;
-
 #ifdef RANDOM_COLOR
   glColor4d(randomBetween(0.25, 1),
             randomBetween(0.25, 1),
@@ -56,7 +53,10 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
   glColor4d(0.94, 0.57, 0.30, alpha);
 #endif
 
-  while (node) {
+  ListIterator it = createListIterator(record->frontiers);
+
+   while (!it.done) {
+    FrontierNode* node = it.next(&it);
     double x = node->data->x;
     double y = node->data->y;
 
@@ -66,8 +66,6 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
       glTranslated(-(x + 0.5), -(y + 0.5), 0.0);
       glRectd(x, y, x + 1.0, y + 1.0);
     glPopMatrix();
-
-    node = node->next;
   }
 }
 
@@ -98,7 +96,7 @@ static void fxRender(Animation* animation) {
 
 static void fxComplete(Animation* animation) {
   FxRecord* record = animation->from;
-  listDestory((List*)record->frontiers);
+  listDestory(record->frontiers);
 }
 
 static void fxExplode(Animation* animation) {

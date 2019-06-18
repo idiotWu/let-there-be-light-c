@@ -74,10 +74,10 @@ Animation* createAnimation(uint16_t frameCount,
   animation->update = NULL;
   animation->complete = NULL;
 
-  TimelineNode* node = (TimelineNode*)createNode();
+  TimelineNode* node = createNode();
   node->data = animation;
 
-  listAppend((List*)&gameTL, (Node*)node);
+  listAppend(&gameTL, node);
 
   return animation;
 }
@@ -91,16 +91,10 @@ void cancelAnimation(Animation* animation) {
 }
 
 void engineNextFrame(void) {
-  if (!gameTL.count) {
-    return;
-  }
+  ListIterator it = createListIterator(&gameTL);
 
-  TimelineNode* node = gameTL.head;
-  TimelineNode* next;
-
-  do {
-    // record `next` in case that node is deleted
-    next = node->next;
+  while (!it.done) {
+    TimelineNode* node = it.next(&it);
 
     Animation* animation = node->data;
 
@@ -149,16 +143,14 @@ void engineNextFrame(void) {
       // finished
       animation->deleteAfterRender = true;
     }
-  } while ((node = next) != NULL);
+  }
 }
 
 void engineRender(void) {
-  TimelineNode* node = gameTL.head;
-  TimelineNode* next;
+  ListIterator it = createListIterator(&gameTL);
 
-  while (node) {
-    // record `next` in case that node is deleted
-    next = node->next;
+  while (!it.done) {
+    TimelineNode* node = it.next(&it);
 
     Animation* animation = node->data;
 
@@ -173,9 +165,7 @@ void engineRender(void) {
 
       free(animation->from);
       free(animation->to);
-      listDelete((List*)&gameTL, (Node*)node);
+      listDelete(&gameTL, node);
     }
-
-    node = next;
   }
 }

@@ -9,8 +9,8 @@
 #include "list.h"
 #include "util.h"
 
-#define INFLEXION_POINT  0.1
-#define FX_DURATION      400
+#define INFLEXION_POINT  0.2
+#define FX_DURATION      300
 
 #define RANDOM_COLOR
 
@@ -20,6 +20,7 @@ typedef struct FxRecord {
 } FxRecord;
 
 static void fxRender(Animation* animation);
+static void fxUpdate(Animation* animation);
 static void fxComplete(Animation* animation);
 
 static void fxNext(FloodState* state) {
@@ -38,6 +39,7 @@ static void fxNext(FloodState* state) {
   Animation* animation = createAnimation60FPS(FX_DURATION, 1);
   animation->from = record;
   animation->render = fxRender;
+  animation->update = fxUpdate;
   animation->complete = fxComplete;
 }
 
@@ -69,13 +71,19 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
   }
 }
 
-static void fxRender(Animation* animation) {
+static void fxUpdate(Animation* animation) {
   FxRecord* record = animation->from;
   uint16_t throttle = INFLEXION_POINT * animation->frameCount;
 
-  if (animation->currentFrame == throttle) {
+  if (animation->currentFrame >= throttle) {
     fxNext(record->state);
+    animation->update = NULL; // remove callback
   }
+}
+
+static void fxRender(Animation* animation) {
+  FxRecord* record = animation->from;
+  uint16_t throttle = INFLEXION_POINT * animation->frameCount;
 
   double percent;
 

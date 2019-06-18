@@ -23,7 +23,10 @@ typedef struct Animation {
   uint16_t nth;
   uint16_t repeat;
 
+  bool deleteAfterRender;
+
   void (*render)(struct Animation*);
+  void (*update)(struct Animation*);
   void (*complete)(struct Animation*);
 } Animation;
 
@@ -32,8 +35,9 @@ Animation* createAnimation(uint16_t frames,
                            uint16_t repeat);
 Animation* createAnimation60FPS(double duration, uint16_t repeat);
 
-bool cancelAnimation(Animation* animation);
+void cancelAnimation(Animation* animation);
 
 void engineNextFrame(void);
+void engineRender(void);
 
 #endif

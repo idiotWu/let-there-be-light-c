@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <math.h>
 #include "glut.h"
 
@@ -16,6 +17,8 @@
 #include "texture.h"
 #include "direction.h"
 #include "expr-fx.h"
+
+#define GAME_TITLE "光よ、あれ！"
 
 #define UNUSED(x) (void)(x)
 
@@ -148,20 +151,34 @@ void init(void) {
   buildWorld(0);
 }
 
-void update(int _) {
-  UNUSED(_);
-  glutPostRedisplay();
-  glutTimerFunc(ANIMATION_60_FPS, update, 0);
-}
-
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   renderWorld();
 
-  engineNextFrame();
+  engineRender();
 
   glutSwapBuffers();
+}
+
+void update(int _) {
+  static int lastT = 0;
+  int nowT = glutGet(GLUT_ELAPSED_TIME);
+
+  printf("elapsed: %d\n", nowT - lastT);
+
+  lastT = nowT;
+
+  glutTimerFunc(ANIMATION_60_FPS, update, _);
+
+  engineNextFrame();
+
+#ifdef __APPLE__
+  // `glutPostRedisplay()` blocks the next timer on mac
+  display();
+#else
+  glutPostRedisplay();
+#endif
 }
 
 void reshape(int w, int h) {
@@ -200,7 +217,7 @@ int main(int argc, char* argv[]) {
 
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowSize(800, 800);
-  glutCreateWindow("光よ、あれ！");
+  glutCreateWindow(GAME_TITLE);
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
   glutKeyboardFunc(keyboardHandler);

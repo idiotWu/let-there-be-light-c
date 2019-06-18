@@ -55,7 +55,7 @@ Animation* createAnimation(uint16_t frameCount,
   assert(frameCount > 0);
   assert(repeat > 0);
 
-  Animation* animation = malloc(sizeof(Animation));
+  Animation* animation = calloc(1, sizeof(Animation));
 
   resetFrame(animation);
 
@@ -66,10 +66,12 @@ Animation* createAnimation(uint16_t frameCount,
 
   animation->nth = 1;
   animation->repeat = repeat;
+  animation->deleteAfterRender = false;
 
   animation->from = NULL;
   animation->to = NULL;
   animation->render = NULL;
+  animation->update = NULL;
   animation->complete = NULL;
 
   TimelineNode* node = (TimelineNode*)createNode();
@@ -84,19 +86,8 @@ Animation* createAnimation60FPS(double duration, uint16_t repeat) {
   return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
 }
 
-bool cancelAnimation(Animation* animation) {
-  TimelineNode* node = gameTL.head;
-
-  while (node) {
-    if (node->data == animation) {
-      listDelete((List*)&gameTL, (Node*)node);
-      return true;
-    }
-
-    node = node->next;
-  }
-
-  return false;
+void cancelAnimation(Animation* animation) {
+  animation->deleteAfterRender = true;
 }
 
 void engineNextFrame(void) {
@@ -113,7 +104,10 @@ void engineNextFrame(void) {
 
     Animation* animation = node->data;
 
-    animation->render(animation);
+    // skip update
+    if (animation->deleteAfterRender) {
+      continue;
+    }
 
     animation->elapsed++;
 
@@ -127,6 +121,11 @@ void engineNextFrame(void) {
     //   -> next frame
     animation->currentFrame++;
     animation->elapsed = 0;
+
+    // invoke update callback
+    if (animation->update) {
+      animation->update(animation);
+    }
 
     // currentFrame < framesPerPeriod
     //  -> running
@@ -148,9 +147,26 @@ void engineNextFrame(void) {
       animation->nth++;
     } else {
       // finished
-      // render the last frame
-      animation->render(animation);
+      animation->deleteAfterRender = true;
+    }
+  } while ((node = next) != NULL);
+}
 
+void engineRender(void) {
+  TimelineNode* node = gameTL.head;
+  TimelineNode* next;
+
+  while (node) {
+    // record `next` in case that node is deleted
+    next = node->next;
+
+    Animation* animation = node->data;
+
+    if (animation->render) {
+      animation->render(animation);
+    }
+
+    if (animation->deleteAfterRender) {
       if (animation->complete) {
         animation->complete(animation);
       }
@@ -159,5 +175,7 @@ void engineNextFrame(void) {
       free(animation->to);
       listDelete((List*)&gameTL, (Node*)node);
     }
-  } while ((node = next) != NULL);
+
+    node = next;
+  }
 }

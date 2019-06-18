@@ -9,7 +9,7 @@
 #include "direction.h"
 
 static void processMaze(Tile tiles[MAZE_SIZE][MAZE_SIZE], int pathLength) {
-  int idx = randomInt(0, pathLength);
+  int idx = randomInt(1, pathLength);
   int openTiles = 0;
   bool startPosSet = false;
 

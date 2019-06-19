@@ -21,7 +21,7 @@ typedef struct FxRecord {
 
 static void fxRender(Animation* animation);
 static void fxUpdate(Animation* animation);
-static void fxComplete(Animation* animation);
+static void fxFinish(Animation* animation);
 
 static void fxNext(FloodState* state) {
   if (state->finished) {
@@ -40,7 +40,7 @@ static void fxNext(FloodState* state) {
   animation->from = record;
   animation->render = fxRender;
   animation->update = fxUpdate;
-  animation->complete = fxComplete;
+  animation->finish = fxFinish;
 }
 
 static void renderRecord(FxRecord* record, double scale, double alpha) {
@@ -94,7 +94,7 @@ static void fxRender(Animation* animation) {
   renderRecord(record, percent, percent);
 }
 
-static void fxComplete(Animation* animation) {
+static void fxFinish(Animation* animation) {
   FxRecord* record = animation->from;
   listDestory(record->frontiers);
 }

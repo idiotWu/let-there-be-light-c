@@ -40,7 +40,7 @@ static void fxNext(FloodState* state) {
   animation->from = record;
   animation->render = fxRender;
   animation->update = fxUpdate;
-  animation->finish = fxFinish;
+  animation->complete = fxFinish;
 }
 
 static void renderRecord(FxRecord* record, double scale, double alpha) {

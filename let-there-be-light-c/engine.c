@@ -59,13 +59,11 @@ Animation* createAnimation(uint16_t frameCount,
 
   animation->interval = ceil(duration / ANIMATION_60_FPS / animation->frameCount);
 
-  animation->deleteInNextIteration = false;
-
   animation->from = NULL;
   animation->to = NULL;
   animation->render = NULL;
   animation->update = NULL;
-  animation->finish = NULL;
+  animation->complete = NULL;
 
   TimelineNode* node = createNode();
   node->data = animation;
@@ -79,8 +77,19 @@ Animation* createAnimation60FPS(double duration, uint16_t repeat) {
   return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
 }
 
-void cancelAnimation(Animation* animation) {
-  animation->deleteInNextIteration = true;
+bool cancelAnimation(Animation* animation) {
+  TimelineNode* node = GameTL.head;
+
+  while (node) {
+    if (node->data == animation) {
+      listDelete((List*)&GameTL, (Node*)node);
+      return true;
+    }
+
+    node = node->next;
+  }
+
+  return false;
 }
 
 void engineNextFrame(void) {
@@ -90,19 +99,6 @@ void engineNextFrame(void) {
     TimelineNode* node = it.next(&it);
 
     Animation* animation = node->data;
-
-    // delete the marked animation
-    if (animation->deleteInNextIteration) {
-      if (animation->finish) {
-        animation->finish(animation);
-      }
-
-      free(animation->from);
-      free(animation->to);
-      listDelete(&GameTL, node);
-
-      continue;
-    }
 
     // elapsed < interval
     //  -> waiting
@@ -124,8 +120,15 @@ void engineNextFrame(void) {
       animation->currentFrame = 1;
     } else {
       // finished:
-      //  mark the animation as to-be-deleted
-      animation->deleteInNextIteration = true;
+      //  invoke complete callback
+      if (animation->complete) {
+        animation->complete(animation);
+      }
+
+      free(animation->from);
+      free(animation->to);
+      listDelete(&GameTL, node);
+
       continue;
     }
 

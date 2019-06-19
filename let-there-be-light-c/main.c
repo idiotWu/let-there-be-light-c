@@ -24,28 +24,41 @@
 
 #define ENABLE_CLIPPING
 
-void clipMaze() {
-  const ClientRect* vp = &GameState.viewport;
-  const ClientRect* ortho = &GameState.ortho;
-
-  double scaleX = vp->width / ortho->width;
-  double scaleY = vp->height / ortho->height;
-
-  double offsetX = GameState.player.x - GameState.visibleRadius - ortho->left;
-  double offsetY = GameState.player.y - GameState.visibleRadius - ortho->bottom;
+void drawFog(bool asStencil) {
+  double x = GameState.player.x - GameState.visibleRadius;
+  double y = GameState.player.y - GameState.visibleRadius;
 
   double size = GameState.visibleRadius * 2.0 + 1.0;
 
-  glScissor(ceil(vp->left + offsetX * scaleX),
-            ceil(vp->bottom + offsetY * scaleY),
-            floor(size * scaleX) - 1, // fix float point
-            floor(size * scaleY) - 1);
+  if (asStencil) {
+    glColor4d(0.0, 0.0, 0.0, 0.0);
+    glRectd(x, y, x + size, y + size);
+  } else {
+    renderFog(x, y, size, size);
+  }
 }
 
-void renderTiles() {
-  glEnable(GL_SCISSOR_TEST);
+void drawTiles() {
+  glEnable(GL_STENCIL_TEST);
 #ifdef ENABLE_CLIPPING
-  clipMaze();
+  // enable writing to the stencil buffer
+  glStencilMask(0xff);
+  // Clear stencil buffer
+  glClear(GL_STENCIL_BUFFER_BIT);
+  // discard pixels out of stencil area
+  glStencilOp(GL_ZERO, GL_ZERO, GL_REPLACE);
+  // all fragments should update the stencil buffer
+  glStencilFunc(GL_ALWAYS, 1, 0xff);
+
+  // draw fog as the stencil
+  drawFog(true);
+
+  // disable writing to the stencil buffer
+  glStencilMask(0);
+
+  // draw tiles
+  // only keeps pixels inside the fog area
+  glStencilFunc(GL_EQUAL, 1, 0xff);
 
   // render one more tile
   double r = GameState.visibleRadius + 1.0;
@@ -82,19 +95,10 @@ void renderTiles() {
     }
   }
 
-  glDisable(GL_SCISSOR_TEST);
+  glDisable(GL_STENCIL_TEST);
 }
 
-void addFog() {
-  double x = GameState.player.x - GameState.visibleRadius;
-  double y = GameState.player.y - GameState.visibleRadius;
-
-  double size = GameState.visibleRadius * 2.0 + 1.0;
-
-  renderFog(x, y, size, size);
-}
-
-void renderPlayer() {
+void drawPlayer() {
   int row = PLAYER_FRONT_ROW;
 
   switch (GameState.player.direction) {
@@ -125,11 +129,11 @@ void renderPlayer() {
 }
 
 void renderWorld() {
-  renderTiles();
-  renderPlayer();
+  drawTiles();
+  drawPlayer();
 
 #ifdef ENABLE_CLIPPING
-  addFog();
+  drawFog(false);
 #endif
 }
 
@@ -152,7 +156,7 @@ void init(void) {
 }
 
 void display(void) {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 
   renderWorld();
 
@@ -215,7 +219,7 @@ void reshape(int w, int h) {
 int main(int argc, char* argv[]) {
   glutInit(&argc, argv);
 
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL);
   glutInitWindowSize(800, 800);
   glutCreateWindow(GAME_TITLE);
   glutDisplayFunc(display);

@@ -18,11 +18,14 @@
 #include "direction.h"
 #include "expr-fx.h"
 
-#define GAME_TITLE "光よ、あれ！"
+#define GAME_TITLE "Let There Be Light"
+#define WIN_WIDTH  800
+#define WIN_HEIGHT 800
 
 #define UNUSED(x) (void)(x)
 
 #define ENABLE_CLIPPING
+//#define CENTERING_WINDOW
 
 void drawFog(bool asStencil) {
   double x = GameState.player.x - GameState.visibleRadius;
@@ -165,15 +168,32 @@ void display(void) {
   glutSwapBuffers();
 }
 
-void update(int _) {
-  static int lastT = 0;
-  int nowT = glutGet(GLUT_ELAPSED_TIME);
+static int frameCount = 0;
 
-  printf("elapsed: %d\n", nowT - lastT);
+void updateTitle(int fps) {
+  char tmp[128];
 
-  lastT = nowT;
+  sprintf(tmp, "%s: %2d FPS @ %d x %d",
+          GAME_TITLE,
+          fps,
+          glutGet(GLUT_WINDOW_WIDTH),
+          glutGet(GLUT_WINDOW_HEIGHT));
 
-  glutTimerFunc(ANIMATION_60_FPS, update, _);
+  glutSetWindowTitle(tmp);
+}
+
+void update(int timestamp) {
+  frameCount++;
+
+  int now = glutGet(GLUT_ELAPSED_TIME);
+
+  if (now - timestamp >= 1000) {
+    updateTitle(frameCount);
+    timestamp = now;
+    frameCount = 0;
+  }
+
+  glutTimerFunc(ANIMATION_60_FPS, update, timestamp);
 
   engineNextFrame();
 
@@ -184,6 +204,8 @@ void update(int _) {
   glutPostRedisplay();
 #endif
 }
+
+
 
 void reshape(int w, int h) {
   ClientRect* vp = &GameState.viewport;
@@ -220,13 +242,21 @@ int main(int argc, char* argv[]) {
   glutInit(&argc, argv);
 
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL);
-  glutInitWindowSize(800, 800);
+  glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
+
+#ifdef CENTERING_WINDOW
+  int x = (glutGet(GLUT_SCREEN_WIDTH) - WIN_WIDTH) / 2;
+  int y = (glutGet(GLUT_SCREEN_HEIGHT) - WIN_HEIGHT) / 2;
+  glutInitWindowPosition(x, y);
+#endif
+
   glutCreateWindow(GAME_TITLE);
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
   glutKeyboardFunc(keyboardHandler);
   init();
   update(0);
+  updateTitle(1000 / ANIMATION_60_FPS);
   glutMainLoop();
 
   return EXIT_SUCCESS;

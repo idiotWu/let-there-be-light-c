@@ -1,5 +1,3 @@
-#define _USE_MATH_DEFINES
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -17,136 +15,58 @@
 #include "texture.h"
 #include "direction.h"
 #include "expr-fx.h"
+#include "render.h"
 
 #define GAME_TITLE "Let There Be Light"
 #define WIN_WIDTH  800
 #define WIN_HEIGHT 800
+//#define CENTERING_WINDOW
 
 #define UNUSED(x) (void)(x)
 
-#define ENABLE_CLIPPING
-//#define CENTERING_WINDOW
+static int frameCount = 0;
 
-void drawFog(bool asStencil) {
-  double x = GameState.player.x - GameState.visibleRadius;
-  double y = GameState.player.y - GameState.visibleRadius;
-
-  double size = GameState.visibleRadius * 2.0 + 1.0;
-
-  if (asStencil) {
-    glColor4d(0.0, 0.0, 0.0, 0.0);
-    glRectd(x, y, x + size, y + size);
-  } else {
-    renderFog(x, y, size, size);
-  }
+void setLevel(int level) {
+  GameState.level = level;
+  buildWorld();
 }
 
-void drawTiles() {
-  glEnable(GL_STENCIL_TEST);
-#ifdef ENABLE_CLIPPING
-  // enable writing to the stencil buffer
-  glStencilMask(0xff);
-  // Clear stencil buffer
-  glClear(GL_STENCIL_BUFFER_BIT);
-  // discard pixels out of stencil area
-  glStencilOp(GL_ZERO, GL_ZERO, GL_REPLACE);
-  // all fragments should update the stencil buffer
-  glStencilFunc(GL_ALWAYS, 1, 0xff);
+// map the given key code to a direction
+Direction keyToDirection(int key) {
+  switch (key) {
+    case GLUT_KEY_UP:
+      return DIR_UP;
 
-  // draw fog as the stencil
-  drawFog(true);
+    case GLUT_KEY_RIGHT:
+      return DIR_RIGHT;
 
-  // disable writing to the stencil buffer
-  glStencilMask(0);
+    case GLUT_KEY_DOWN:
+      return DIR_DOWN;
 
-  // draw tiles
-  // only keeps pixels inside the fog area
-  glStencilFunc(GL_EQUAL, 1, 0xff);
-
-  // render one more tile
-  double r = GameState.visibleRadius + 1.0;
-
-  size_t xMin = max(floor(GameState.player.x - r), 0);
-  size_t xMax = min(ceil(GameState.player.x + r), MAZE_SIZE - 1);
-  size_t yMin = max(floor(GameState.player.y - r), 0);
-  size_t yMax = min(ceil(GameState.player.y + r), MAZE_SIZE - 1);
-
-  for (size_t y = yMin; y <= yMax; y++) {
-    for (size_t x = xMin; x <= xMax; x++) {
-#else
-  for (size_t y = 0; y < MAZE_SIZE; y++) {
-    for (size_t x = 0; x < MAZE_SIZE; x++) {
-#endif
-      Tile tile = GameState.map[y][x];
-
-      // path
-      if (tile & TILE_OPEN) {
-        renderSprite(MISC_SPRITES, PATH_ROW, PATH_COL, x, y, 1,  1);
-      }
-
-      // other items
-      int row, col;
-
-      if (tile == TILE_SHADOW) {
-        row = SHADOW_ROW;
-        col = SHADOW_COL;
-      } else {
-        continue;
-      }
-
-      renderSprite(MISC_SPRITES, row, col, x, y, 1, 1);
-    }
-  }
-
-  glDisable(GL_STENCIL_TEST);
-}
-
-void drawPlayer() {
-  int row = PLAYER_FRONT_ROW;
-
-  switch (GameState.player.direction) {
-    case DIR_UP:
-      row = PLAYER_BACK_ROW;
-      break;
-
-    case DIR_DOWN:
-      row = PLAYER_FRONT_ROW;
-      break;
-
-    case DIR_LEFT:
-      row = PLAYER_LEFT_ROW;
-      break;
-
-    case DIR_RIGHT:
-      row = PLAYER_RIGHT_ROW;
-      break;
+    case GLUT_KEY_LEFT:
+      return DIR_LEFT;
 
     default:
-      break;
+      return DIR_NONE;
   }
-
-  renderSprite(PLAYER_SPRITES,
-               row, 0,
-               GameState.player.x - 0.1, GameState.player.y + 0.3,
-               1.2, 1.2);
 }
 
-void renderWorld() {
-  drawTiles();
-  drawPlayer();
-
-#ifdef ENABLE_CLIPPING
-  drawFog(false);
-#endif
+void setDirection(Direction key) {
+  GameState.keyPressed |= key; // set the specific bit
 }
 
-void keyboardHandler(unsigned char key, int x, int y) {
-  UNUSED(x);
-  UNUSED(y);
+void clearDirection(Direction key) {
+  GameState.keyPressed &= ~key; // clear the specific bit
+}
 
-  if (key == ' ') {
-    fxGen();
-  }
+void keydownHandler(int key, int x, int y) {
+  UNUSED(x); UNUSED(y);
+  setDirection(keyToDirection(key));
+}
+
+void keyupHandler(int key, int x, int y) {
+  UNUSED(x); UNUSED(y);
+  clearDirection(keyToDirection(key));
 }
 
 void init(void) {
@@ -154,21 +74,21 @@ void init(void) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
+  GameState.visibleRadius = 4.0;
+
   initTextures();
-  buildWorld(0);
+  initGame();
+  setLevel(0);
 }
 
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
 
   renderWorld();
-
   engineRender();
 
   glutSwapBuffers();
 }
-
-static int frameCount = 0;
 
 void updateTitle(int fps) {
   char tmp[128];
@@ -183,6 +103,7 @@ void updateTitle(int fps) {
 }
 
 void update(int timestamp) {
+  // count FPS
   frameCount++;
 
   int now = glutGet(GLUT_ELAPSED_TIME);
@@ -195,6 +116,7 @@ void update(int timestamp) {
 
   glutTimerFunc(ANIMATION_60_FPS, update, timestamp);
 
+  updateGame();
   engineNextFrame();
 
 #ifdef __APPLE__
@@ -205,8 +127,7 @@ void update(int timestamp) {
 #endif
 }
 
-
-
+// resize viewport to center of current window
 void reshape(int w, int h) {
   ClientRect* vp = &GameState.viewport;
   ClientRect* ortho = &GameState.ortho;
@@ -242,21 +163,27 @@ int main(int argc, char* argv[]) {
   glutInit(&argc, argv);
 
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL);
+
   glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
 
 #ifdef CENTERING_WINDOW
-  int x = (glutGet(GLUT_SCREEN_WIDTH) - WIN_WIDTH) / 2;
-  int y = (glutGet(GLUT_SCREEN_HEIGHT) - WIN_HEIGHT) / 2;
-  glutInitWindowPosition(x, y);
+  int winX = (glutGet(GLUT_SCREEN_WIDTH) - WIN_WIDTH) / 2;
+  int winY = (glutGet(GLUT_SCREEN_HEIGHT) - WIN_HEIGHT) / 2;
+  glutInitWindowPosition(winX, winY);
 #endif
 
   glutCreateWindow(GAME_TITLE);
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
-  glutKeyboardFunc(keyboardHandler);
+
+  // keyboard handlers
+  glutSpecialFunc(keydownHandler);
+  glutSpecialUpFunc(keyupHandler);
+
   init();
-  update(0);
+  update(glutGet(GLUT_ELAPSED_TIME));
   updateTitle(1000 / ANIMATION_60_FPS);
+
   glutMainLoop();
 
   return EXIT_SUCCESS;

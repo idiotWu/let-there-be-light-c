@@ -5,14 +5,14 @@
 #include "expr-fx.h"
 #include "floodfill.h"
 #include "texture.h"
+#include "tile.h"
+#include "config.h"
 #include "state.h"
 #include "list.h"
 #include "util.h"
 
-#define INFLEXION_POINT  0.2
-#define FX_DURATION      300
-
-#define RANDOM_COLOR
+#define INFLEXION_POINT  0.1
+#define FX_DURATION      600
 
 typedef struct FxRecord {
   FloodState* state;
@@ -43,28 +43,38 @@ static void fxNext(FloodState* state) {
   animation->complete = fxFinish;
 }
 
-static void renderRecord(FxRecord* record, double scale, double alpha) {
-#ifdef RANDOM_COLOR
-  glColor4d(randomBetween(0.25, 1),
-            randomBetween(0.25, 1),
-            randomBetween(0.25, 1),
-            alpha);
-#else
-  glColor4d(0.94, 0.57, 0.30, alpha);
-#endif
-
+static void renderRecord(FxRecord* record, double scale) {
   ListIterator it = createListIterator(record->frontiers);
 
-   while (!it.done) {
+  while (!it.done) {
     FrontierNode* node = it.next(&it);
-    double x = node->data->x;
-    double y = node->data->y;
+    int x = node->data->x;
+    int y = node->data->y;
+
+    int row, col;
+
+    switch (GameState.maze[y][x]) {
+      case TILE_COIN:
+        row = COIN_ROW;
+        col = COIN_COL;
+        break;
+
+      case TILE_KERNEL:
+        row = FIRE_ROW;
+        col = FIRE_COL;
+        break;
+
+      default:
+        row = COIN_DARK_ROW;
+        col = COIN_DARK_COL;
+        break;
+    }
 
     glPushMatrix();
       glTranslated(x + 0.5, y + 0.5, 0.0);
       glScaled(scale, scale, 1.0);
       glTranslated(-(x + 0.5), -(y + 0.5), 0.0);
-      glRectd(x, y, x + 1.0, y + 1.0);
+      renderSprite(MISC_SPRITES, row, col, x, y, 1, 1);
     glPopMatrix();
   }
 }
@@ -91,7 +101,7 @@ static void fxRender(Animation* animation) {
     percent = 1.0 - (double)(animation->currentFrame - throttle) / (animation->frameCount - throttle);
   }
 
-  renderRecord(record, percent, percent);
+  renderRecord(record, percent);
 }
 
 static void fxFinish(Animation* animation) {
@@ -105,16 +115,14 @@ static void fxExplode(Animation* animation) {
   renderSprite(FX_EXPLODE_SPRITES, 0, animation->currentFrame - 1, start->x - 0.5, start->y - 0.5, 2.0, 2.0);
 }
 
-void fxGen(void) {
-  FloodState* state = floodGenerate(GameState.map,
-                                    GameState.player.x,
-                                    GameState.player.y);
+void fxGen(int x, int y) {
+  FloodState* state = floodGenerate(GameState.maze, x, y);
 
   Animation* animation = createAnimation(FX_EXPLODE_SPRITES->cols, 300, 1);
 
   Frontier* start = malloc(sizeof(Frontier));
-  start->x = GameState.player.x;
-  start->y = GameState.player.y;
+  start->x = x;
+  start->y = y;
 
   animation->from = start;
   animation->render = fxExplode;

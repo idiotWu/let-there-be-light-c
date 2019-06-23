@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+#define UNUSED(x) (void)(x)
+
 #ifndef min
   #define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
@@ -10,6 +12,18 @@
 #ifndef max
   #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
+
+typedef union vec2i {
+  int x;
+  int y;
+  int asArray[2];
+} vec2i;
+
+typedef union vec2d {
+  double x;
+  double y;
+  double asArray[2];
+} vec2d;
 
 double randomBetween(double min, double max);
 int randomInt(int lower, int upper);

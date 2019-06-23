@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC016EDF22BE95CA002F09AF /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = DC016EDE22BE95CA002F09AF /* render.c */; };
 		DC3347C32283D3320027F173 /* floodfill.c in Sources */ = {isa = PBXBuildFile; fileRef = DC3347C22283D3320027F173 /* floodfill.c */; };
 		DC5F74E1228F1404007A2301 /* engine.c in Sources */ = {isa = PBXBuildFile; fileRef = DC5F74E0228F1404007A2301 /* engine.c */; };
 		DC77734F225A168C00F8EA1B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DC77734E225A168C00F8EA1B /* main.c */; };
@@ -35,6 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC016EDD22BE95CA002F09AF /* render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = render.h; sourceTree = "<group>"; };
+		DC016EDE22BE95CA002F09AF /* render.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = render.c; sourceTree = "<group>"; };
 		DC33479C227F27CF0027F173 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		DC3347C12283D3320027F173 /* floodfill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = floodfill.h; sourceTree = "<group>"; };
 		DC3347C22283D3320027F173 /* floodfill.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = floodfill.c; sourceTree = "<group>"; };
@@ -114,6 +117,8 @@
 				DC8A4C50227B52E500D6BCA4 /* list.h */,
 				DC8A4C2F2278819600D6BCA4 /* maze.c */,
 				DC8A4C2E2278819600D6BCA4 /* maze.h */,
+				DC016EDE22BE95CA002F09AF /* render.c */,
+				DC016EDD22BE95CA002F09AF /* render.h */,
 				DC8B3DA522B64F6700E863B3 /* state.c */,
 				DC8B3DA422B64F6700E863B3 /* state.h */,
 				DC8B3D9A22B3CBC700E863B3 /* texture.c */,
@@ -191,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC8B3DA322B64B6300E863B3 /* game.c in Sources */,
+				DC016EDF22BE95CA002F09AF /* render.c in Sources */,
 				DC8A4C52227B52E500D6BCA4 /* list.c in Sources */,
 				DC3347C32283D3320027F173 /* floodfill.c in Sources */,
 				DC8B3DA622B64F6700E863B3 /* state.c in Sources */,

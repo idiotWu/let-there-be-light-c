@@ -12,11 +12,6 @@
 #include "direction.h"
 #include "floodfill.h"
 
-typedef struct Spawner {
-  int x;
-  int y;
-} Spawner;
-
 typedef struct MazeBuilder {
   int x;
   int y;
@@ -31,7 +26,7 @@ typedef struct MazeBuilder {
   int maxDistance;
 
   Direction direction;
-  Spawner* spawners;
+  vec2i* spawners;
   int spawnerIndex;
   int spawnerCount;
 } MazeBuilder;
@@ -191,7 +186,7 @@ static void initTiles(Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
  *                    +------+-...-+---+---+---+
  */
 static void initSpawners(int count,
-                         Spawner spawners[],
+                         vec2i spawners[],
                          Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   // max odd number of index
   const int maxIndex = floor(MAZE_SIZE / 2) * 2 - 1;
@@ -222,25 +217,25 @@ static void initSpawners(int count,
     );
 
     // map into odd-numbered coordinates
-    int x = clamp(halfX * 2 + 1, 1, maxIndex);
-    int y = clamp(halfY * 2 + 1, 1, maxIndex);
+    vec2i s;
 
-    Spawner s = { x, y };
+    s.x = clamp(halfX * 2 + 1, 1, maxIndex);
+    s.y = clamp(halfY * 2 + 1, 1, maxIndex);
 
     spawners[i] = s;
-    tiles[y][x] = TILE_KERNEL;
+    tiles[s.y][s.x] = TILE_KERNEL;
   }
 }
 
 static void initBuilders(int minDistance,
                          int maxDistance,
                          int spawnerCount,
-                         Spawner spawners[],
+                         vec2i spawners[],
                          BuilderList* builders) {
   int limit = MAZE_SIZE - 1;
 
   for (int i = 0; i < spawnerCount; i++) {
-    Spawner s = spawners[i];
+    vec2i s = spawners[i];
 
     Direction directions[4];
     int dirCount = extractDirections(filterDirections(s.x, s.y, limit, DIR_ALL), directions);
@@ -286,13 +281,13 @@ static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], BuilderList* builders)
         // remove collided builders
         listDelete(builders, node);
       } else {
-        tiles[b->y][b->x] = TILE_BEAN;
+        tiles[b->y][b->x] = TILE_COIN;
       }
     }
   }
 }
 
-static int fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], Spawner* startPoint) {
+static int fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], vec2i* startPoint) {
   FloodState* state = floodFill(tiles, startPoint->x, startPoint->y);
 
   for (size_t i = 0; i < MAZE_SIZE; i++) {
@@ -314,7 +309,7 @@ int initMaze(int spawnerCount,
              int minDistance,
              int maxDistance,
              Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
-  Spawner* spawners = malloc(sizeof(Spawner) * spawnerCount);
+  vec2i* spawners = malloc(sizeof(vec2i) * spawnerCount);
   BuilderList* builders = createList();
 
   initTiles(tiles);

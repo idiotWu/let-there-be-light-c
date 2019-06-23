@@ -4,6 +4,9 @@
 #include "tile.h"
 #include "config.h"
 
-void buildWorld(int level);
+void initGame(void);
+void buildWorld(void);
+void updateGame(void);
+void expandVision(double radius, double duration);
 
 #endif

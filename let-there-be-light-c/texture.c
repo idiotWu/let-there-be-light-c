@@ -4,20 +4,27 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <assert.h>
+#include <string.h>
 #include <math.h>
 
 #include "util.h"
 #include "texture.h"
 
+#define IMG_FONT        "assets/font-16x16.bin"
 #define IMG_PLAYER      "assets/fireball.bin"
 #define IMG_MISC        "assets/misc.bin"
 #define IMG_FX_EXPLODE  "assets/explode.bin"
+#define IMG_ENERGY_BAR  "assets/energy-bar.bin"
 
-#define FOG_SIZE    128
+#define ENERGY_BAR_FILL_OFFSET (12.0 / 256.0)
+
+#define FOG_SIZE 128
 
 Sprite* PLAYER_SPRITES;
 Sprite* MISC_SPRITES;
 Sprite* FX_EXPLODE_SPRITES;
+Sprite* FONT_SPRITES;
+Sprite* ENERGY_BAR_SPRITES;
 
 static GLuint FOG_TEX;
 
@@ -36,7 +43,7 @@ static uint32_t readDimension(FILE* fp, uint64_t offset) {
     fread(&byte, 1, 1, fp);
 
     // little-endian
-    dimension += (byte << i);
+    dimension += (byte << (i * 8));
   }
 
   return dimension;
@@ -150,32 +157,80 @@ void renderSprite(Sprite* sprite,
 
   mapTexture(sprite->texture,
              sx, sy, sw, sh,
-             dx, dy, dh, dw);
+             dx, dy, dw, dh);
 }
 
 void renderFog(double dx, double dy,
                double dw, double dh) {
   mapTexture(FOG_TEX,
              0.0, 0.0, 1.0, 1.0,
-             dx, dy, dh, dw);
+             dx, dy, dw, dh);
+}
+
+void renderEnergyBar(double percent,
+                     double dx, double dy,
+                     double dw, double dh) {
+  double sw = 1.0 / ENERGY_BAR_SPRITES->cols;
+  double sh = 1.0 / ENERGY_BAR_SPRITES->rows;
+
+  int row = (int)ceil(percent * (ENERGY_BAR_SPRITES->rows - 1));
+  double fillWidth = (1.0 - ENERGY_BAR_FILL_OFFSET * 2.0) * percent;
+
+  // background
+  mapTexture(ENERGY_BAR_SPRITES->texture, 0.0, 0.0, sw, sh, dx, dy, dw, dh);
+
+  // fill
+  mapTexture(ENERGY_BAR_SPRITES->texture,
+             sw * ENERGY_BAR_FILL_OFFSET, row * sh,
+             sw * fillWidth, sh,
+             dx + dw * ENERGY_BAR_FILL_OFFSET, dy,
+             dw * fillWidth, dh);
+}
+
+void renderText(const char* str,
+                double x, double y,
+                double fontSize) {
+  glPushMatrix();
+  glTranslated(x, y, 0.0);
+
+  for (size_t i = 0; i < strlen(str); i++) {
+    int offset = str[i] - ' ';
+
+    renderSprite(FONT_SPRITES,
+                 offset / FONT_SPRITES->cols,
+                 offset % FONT_SPRITES->cols,
+                 i * fontSize, 0, fontSize, fontSize);
+  }
+
+  glPopMatrix();
 }
 
 void initTextures(void) {
-  PLAYER_SPRITES = malloc(sizeof(*PLAYER_SPRITES));
-  MISC_SPRITES = malloc(sizeof(*MISC_SPRITES));
-  FX_EXPLODE_SPRITES = malloc(sizeof(*FX_EXPLODE_SPRITES));
+  PLAYER_SPRITES = malloc(sizeof(Sprite));
+  MISC_SPRITES = malloc(sizeof(Sprite));
+  FX_EXPLODE_SPRITES = malloc(sizeof(Sprite));
+  FONT_SPRITES = malloc(sizeof(Sprite));
+  ENERGY_BAR_SPRITES = malloc(sizeof(Sprite));
 
   PLAYER_SPRITES->texture = createTextureFrom(IMG_PLAYER);
   PLAYER_SPRITES->rows = 4;
   PLAYER_SPRITES->cols = 4;
 
   MISC_SPRITES->texture = createTextureFrom(IMG_MISC);
-  MISC_SPRITES->rows = 3;
+  MISC_SPRITES->rows = 4;
   MISC_SPRITES->cols = 2;
 
   FX_EXPLODE_SPRITES->texture = createTextureFrom(IMG_FX_EXPLODE);
   FX_EXPLODE_SPRITES->rows = 1;
   FX_EXPLODE_SPRITES->cols = 5;
+
+  FONT_SPRITES->texture = createTextureFrom(IMG_FONT);
+  FONT_SPRITES->rows = 8;
+  FONT_SPRITES->cols = 15;
+
+  ENERGY_BAR_SPRITES->texture = createTextureFrom(IMG_ENERGY_BAR);
+  ENERGY_BAR_SPRITES->rows = 5;
+  ENERGY_BAR_SPRITES->cols = 1;
 
   FOG_TEX = initFogTexture();
 }

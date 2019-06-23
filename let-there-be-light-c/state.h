@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <stdbool.h>
+
 #include "config.h"
 #include "tile.h"
 #include "direction.h"
@@ -16,11 +18,19 @@ typedef struct ClientRect {
 
 typedef struct State {
   int level;
+  int remainItem;
+
+  Tile maze[MAZE_SIZE][MAZE_SIZE];
+
+  bool idle;
+  bool cleared;
+  Direction keyPressed;
+
   double visibleRadius;
-  Tile map[MAZE_SIZE][MAZE_SIZE];
   struct {
     double x;
     double y;
+    int state;
     Direction direction;
   } player;
 

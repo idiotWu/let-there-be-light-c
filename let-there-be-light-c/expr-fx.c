@@ -46,7 +46,8 @@ static void fxNext(FloodState* state) {
 static void renderRecord(FxRecord* record, double scale, double alpha) {
   ListIterator it = createListIterator(record->frontiers);
 
-  setTextureAlpha(alpha);
+  setTexParam(GL_MODULATE);
+  glColor4d(alpha, alpha, alpha, alpha);
   
   while (!it.done) {
     FrontierNode* node = it.next(&it);
@@ -83,7 +84,7 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
     glPopMatrix();
   }
 
-  setTextureAlpha(1.0);
+  restoreDefaultTexParam();
 }
 
 static void fxUpdate(Animation* animation) {

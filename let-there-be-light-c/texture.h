@@ -45,7 +45,8 @@ extern Sprite* FX_EXPLODE_SPRITES;
 extern Sprite* FONT_SPRITES;
 extern Sprite* ENERGY_BAR_SPRITES;
 
-void setTextureAlpha(double alpha);
+void setTexParam(GLfloat param);
+void restoreDefaultTexParam(void);
 
 void renderSprite(Sprite* sprite,
                   uint32_t row, uint32_t col,

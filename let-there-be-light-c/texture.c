@@ -28,7 +28,7 @@ Sprite* ENERGY_BAR_SPRITES;
 
 static GLuint FOG_TEX;
 
-static double TEX_ALPHA = 1.0;
+static GLfloat TEX_PARAM = GL_REPLACE;
 
 /**
  * Hex View <image.bin>:
@@ -128,9 +128,7 @@ static void mapTexture(GLuint texName,
                        double dx, double dy,
                        double dw, double dh) {
   glEnable(GL_TEXTURE_2D);
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-  glColor4d(TEX_ALPHA, TEX_ALPHA, TEX_ALPHA, TEX_ALPHA);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, TEX_PARAM);
 
   glBindTexture(GL_TEXTURE_2D, texName);
   glBegin(GL_QUADS);
@@ -150,8 +148,12 @@ static void mapTexture(GLuint texName,
   glDisable(GL_TEXTURE_2D);
 }
 
-void setTextureAlpha(double alpha) {
-  TEX_ALPHA = alpha;
+void setTexParam(GLfloat param) {
+  TEX_PARAM = param;
+}
+
+void restoreDefaultTexParam(void) {
+  TEX_PARAM = GL_REPLACE;
 }
 
 void renderSprite(Sprite* sprite,

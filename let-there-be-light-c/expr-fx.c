@@ -43,13 +43,18 @@ static void fxNext(FloodState* state) {
   animation->complete = fxFinish;
 }
 
-static void renderRecord(FxRecord* record, double scale) {
+static void renderRecord(FxRecord* record, double scale, double alpha) {
   ListIterator it = createListIterator(record->frontiers);
 
+  setTextureAlpha(alpha);
+  
   while (!it.done) {
     FrontierNode* node = it.next(&it);
     int x = node->data->x;
     int y = node->data->y;
+
+    double ox = x + 0.5;
+    double oy = y + 0.5;
 
     int row, col;
 
@@ -71,12 +76,14 @@ static void renderRecord(FxRecord* record, double scale) {
     }
 
     glPushMatrix();
-      glTranslated(x + 0.5, y + 0.5, 0.0);
+      glTranslated(ox, oy, 0.0);
       glScaled(scale, scale, 1.0);
-      glTranslated(-(x + 0.5), -(y + 0.5), 0.0);
+      glTranslated(-ox, -oy, 0.0);
       renderSprite(MISC_SPRITES, row, col, x, y, 1, 1);
     glPopMatrix();
   }
+
+  setTextureAlpha(1.0);
 }
 
 static void fxUpdate(Animation* animation) {
@@ -101,7 +108,7 @@ static void fxRender(Animation* animation) {
     percent = 1.0 - (double)(animation->currentFrame - throttle) / (animation->frameCount - throttle);
   }
 
-  renderRecord(record, percent);
+  renderRecord(record, percent, percent);
 }
 
 static void fxFinish(Animation* animation) {

@@ -28,6 +28,8 @@ Sprite* ENERGY_BAR_SPRITES;
 
 static GLuint FOG_TEX;
 
+static double TEX_ALPHA = 1.0;
+
 /**
  * Hex View <image.bin>:
  *   [0a 0b 0c 0d][1a 1b 1c 1d][ff ff ff ff ...]
@@ -126,7 +128,9 @@ static void mapTexture(GLuint texName,
                        double dx, double dy,
                        double dw, double dh) {
   glEnable(GL_TEXTURE_2D);
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+  glColor4d(TEX_ALPHA, TEX_ALPHA, TEX_ALPHA, TEX_ALPHA);
 
   glBindTexture(GL_TEXTURE_2D, texName);
   glBegin(GL_QUADS);
@@ -144,6 +148,10 @@ static void mapTexture(GLuint texName,
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
+}
+
+void setTextureAlpha(double alpha) {
+  TEX_ALPHA = alpha;
 }
 
 void renderSprite(Sprite* sprite,

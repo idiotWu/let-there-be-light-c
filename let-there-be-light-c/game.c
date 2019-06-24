@@ -45,7 +45,7 @@ static void initItems(void) {
 
         // clear items randomly
         if (randomBetween(0, 1) >= itemDesity) {
-          tiles[y][x] = TILE_PATH;
+          clearBit(&tiles[y][x], TILE_ITEM);
         } else {
           GameState.remainItem++;
         }
@@ -248,6 +248,7 @@ static void spoilTilesUpdate(Animation* animation) {
     Frontier* f = node->data;
 
     setBit(&GameState.maze[f->y][f->x], TILE_SPOILED);
+    fxExplodeGen(FX_ICE_SPLIT_ROW, f->x, f->y);
   }
 }
 
@@ -468,7 +469,6 @@ static void updateItems(void) {
     }
 
     clearBit(tile, TILE_ITEM);
-    setBit(tile, TILE_PATH);
     GameState.remainItem--;
   }
 }

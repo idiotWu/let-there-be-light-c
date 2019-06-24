@@ -223,7 +223,7 @@ static void initSpawners(int count,
     s.y = clamp(halfY * 2 + 1, 1, maxIndex);
 
     spawners[i] = s;
-    tiles[s.y][s.x] = TILE_KERNEL;
+    tiles[s.y][s.x] = TILE_KERNEL | TILE_PATH;
   }
 }
 
@@ -281,7 +281,7 @@ static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], BuilderList* builders)
         // remove collided builders
         listDelete(builders, node);
       } else {
-        tiles[b->y][b->x] = TILE_COIN;
+        tiles[b->y][b->x] = TILE_COIN | TILE_PATH;
       }
     }
   }

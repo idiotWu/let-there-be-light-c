@@ -9,9 +9,17 @@
 #define ANIMATION_ONCE        1
 #define ANIMATION_INFINITY    UINT16_MAX
 
+typedef enum AnimationCleanFlag {
+  ANIMATION_CLEAN_NONE   = 0,
+  ANIMATION_CLEAN_TARGET = 1 << 0,
+  ANIMATION_CLEAN_FROM   = 1 << 1,
+  ANIMATION_CLEAN_DELTA  = 1 << 2,
+} AnimationCleanFlag;
+
 typedef struct Animation {
+  void* target;
   void* from;
-  void* to;
+  void* delta;
 
   uint16_t currentFrame;
   uint16_t frameCount;
@@ -21,6 +29,8 @@ typedef struct Animation {
 
   uint16_t nth;
   uint16_t repeat;
+
+  AnimationCleanFlag cleanFlag;
 
   void (*render)(struct Animation*);
   void (*update)(struct Animation*);

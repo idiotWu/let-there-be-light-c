@@ -27,6 +27,12 @@ static void mark(int x,
 }
 
 void floodForward(FloodState* state) {
+  if (state->finished) {
+    return;
+  }
+
+  state->depth++;
+
   ListIterator it = createListIterator(state->frontiers);
 
   while (!it.done) {
@@ -68,6 +74,7 @@ FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
   state->frontiers = createList();
   state->tiles = tiles;
   state->pathLength = 0;
+  state->depth = 0;
   state->finished = false;
 
   mark(startX, startY, state);

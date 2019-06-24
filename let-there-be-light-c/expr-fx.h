@@ -4,6 +4,7 @@
 #include "tile.h"
 #include "config.h"
 
-void fxGen(int x, int y);
+void fxExplodeGen(int spriteRow, int x, int y);
+void fxFloodGen(int x, int y);
 
 #endif

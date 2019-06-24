@@ -59,11 +59,14 @@ Animation* createAnimation(uint16_t frameCount,
 
   animation->interval = ceil(duration / ANIMATION_60_FPS / animation->frameCount);
 
+  animation->target = NULL;
   animation->from = NULL;
-  animation->to = NULL;
+  animation->delta = NULL;
   animation->render = NULL;
   animation->update = NULL;
   animation->complete = NULL;
+
+  animation->cleanFlag = ANIMATION_CLEAN_FROM | ANIMATION_CLEAN_DELTA;
 
   TimelineNode* node = createNode();
   node->data = animation;
@@ -78,6 +81,10 @@ Animation* createAnimation60FPS(double duration, uint16_t repeat) {
 }
 
 bool cancelAnimation(Animation* animation) {
+  if (animation == NULL) {
+    return false;
+  }
+  
   TimelineNode* node = GameTL.head;
 
   while (node) {
@@ -90,6 +97,20 @@ bool cancelAnimation(Animation* animation) {
   }
 
   return false;
+}
+
+static void cleanAnimation(Animation* animation) {
+  if (animation->cleanFlag & ANIMATION_CLEAN_TARGET) {
+    free(animation->target);
+  }
+
+  if (animation->cleanFlag & ANIMATION_CLEAN_FROM) {
+    free(animation->from);
+  }
+
+  if (animation->cleanFlag & ANIMATION_CLEAN_DELTA) {
+    free(animation->delta);
+  }
 }
 
 void engineNextFrame(void) {
@@ -125,8 +146,7 @@ void engineNextFrame(void) {
         animation->complete(animation);
       }
 
-      free(animation->from);
-      free(animation->to);
+      cleanAnimation(animation);
       listDelete(&GameTL, node);
 
       continue;

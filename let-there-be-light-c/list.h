@@ -59,6 +59,7 @@ void listCopy(void* dest, void* src, size_t dataSize);
 void* listClone(void* src, size_t dataSize);
 
 void listFreeNode(void* node);
+void listClear(void* _list);
 void listDestory(void* list);
 
 void* createList(void);

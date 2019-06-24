@@ -10,19 +10,23 @@
 #include "util.h"
 #include "texture.h"
 
-#define IMG_FONT        "assets/font-16x16.bin"
-#define IMG_PLAYER      "assets/fireball.bin"
-#define IMG_MISC        "assets/misc.bin"
-#define IMG_FX_EXPLODE  "assets/explode.bin"
-#define IMG_ENERGY_BAR  "assets/energy-bar.bin"
+#define IMG_FONT            "assets/font-16x16.bin"
+#define IMG_PLAYER          "assets/fireball.bin"
+#define IMG_PLAYER_SPOILED  "assets/fireball-green.bin"
+#define IMG_ENEMY           "assets/enemy.bin"
+#define IMG_MISC            "assets/misc.bin"
+#define IMG_FX              "assets/fx.bin"
+#define IMG_ENERGY_BAR      "assets/energy-bar.bin"
 
 #define ENERGY_BAR_FILL_OFFSET (12.0 / 256.0)
 
 #define FOG_SIZE 128
 
 Sprite* PLAYER_SPRITES;
+Sprite* PLAYER_SPRITES_SPOILED;
+Sprite* ENEMY_SPRITES;
 Sprite* MISC_SPRITES;
-Sprite* FX_EXPLODE_SPRITES;
+Sprite* FX_SPRITES;
 Sprite* FONT_SPRITES;
 Sprite* ENERGY_BAR_SPRITES;
 
@@ -217,8 +221,10 @@ void renderText(const char* str,
 
 void initTextures(void) {
   PLAYER_SPRITES = malloc(sizeof(Sprite));
+  PLAYER_SPRITES_SPOILED = malloc(sizeof(Sprite));
+  ENEMY_SPRITES = malloc(sizeof(Sprite));
   MISC_SPRITES = malloc(sizeof(Sprite));
-  FX_EXPLODE_SPRITES = malloc(sizeof(Sprite));
+  FX_SPRITES = malloc(sizeof(Sprite));
   FONT_SPRITES = malloc(sizeof(Sprite));
   ENERGY_BAR_SPRITES = malloc(sizeof(Sprite));
 
@@ -226,13 +232,22 @@ void initTextures(void) {
   PLAYER_SPRITES->rows = 4;
   PLAYER_SPRITES->cols = 4;
 
+  PLAYER_SPRITES_SPOILED->texture = createTextureFrom(IMG_PLAYER_SPOILED);
+  PLAYER_SPRITES_SPOILED->rows = 4;
+  PLAYER_SPRITES_SPOILED->cols = 4;
+
+
+  ENEMY_SPRITES->texture = createTextureFrom(IMG_ENEMY);
+  ENEMY_SPRITES->rows = 4;
+  ENEMY_SPRITES->cols = 4;
+
   MISC_SPRITES->texture = createTextureFrom(IMG_MISC);
   MISC_SPRITES->rows = 4;
   MISC_SPRITES->cols = 2;
 
-  FX_EXPLODE_SPRITES->texture = createTextureFrom(IMG_FX_EXPLODE);
-  FX_EXPLODE_SPRITES->rows = 1;
-  FX_EXPLODE_SPRITES->cols = 5;
+  FX_SPRITES->texture = createTextureFrom(IMG_FX);
+  FX_SPRITES->rows = 5;
+  FX_SPRITES->cols = 5;
 
   FONT_SPRITES->texture = createTextureFrom(IMG_FONT);
   FONT_SPRITES->rows = 8;

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #include "util.h"
 
@@ -64,4 +65,20 @@ double clamp(double val, double min, double max) {
   }
 
   return val;
+}
+
+double distance(double x1, double y1, double x2, double y2) {
+  return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+// set the specific bit
+void setBit(void* _target, int mask) {
+  int* target = _target;
+  *target |= mask;
+}
+
+// clear the specific bit
+void clearBit(void* _target, int mask) {
+  int* target = _target;
+  *target &= ~mask;
 }

@@ -9,11 +9,12 @@
 #include "direction.h"
 #include "tile.h"
 #include "util.h"
+#include "list.h"
 #include "engine.h"
 #include "texture.h"
 
-#define PLAYER_SPRITE_SCALE     1.2
-#define PLSYER_SPRITE_BASELINE  0.3
+#define CHARACTER_SPRITE_SCALE     1.2
+#define CHARACTER_SPRITE_BASELINE  0.3
 
 #define ENERGY_BAR_WIDTH        (MAZE_SIZE / 4.0)
 
@@ -53,19 +54,28 @@ static void renderTiles(void) {
 
       // path
       if (tile & TILE_OPEN) {
-        renderSprite(MISC_SPRITES, PATH_ROW, PATH_COL, x, y, 1,  1);
+        int row, col;
+        if (tile & TILE_SPOILED) {
+          row = FROZEN_PATH_ROW;
+          col = FROZEN_PATH_COL;
+        } else {
+          row = PATH_ROW;
+          col = PATH_COL;
+        }
+
+        renderSprite(MISC_SPRITES, row, col, x, y, 1,  1);
       }
 
       // other items
       int row, col;
 
-      if (tile == TILE_SHADOW) {
+      if (tile & TILE_SHADOW) {
         row = SHADOW_ROW;
         col = SHADOW_COL;
-      } else if(tile == TILE_COIN) {
+      } else if(tile & TILE_COIN) {
         row = COIN_ROW;
         col = COIN_COL;
-      } else if (tile == TILE_KERNEL) {
+      } else if (tile & TILE_KERNEL) {
         row = FIRE_ROW;
         col = FIRE_COL;
       } else {
@@ -77,37 +87,54 @@ static void renderTiles(void) {
   }
 }
 
-static void renderPlayer(void) {
-  int row = PLAYER_FRONT_ROW;
+static void renderCharacter(Sprite* sprite, int col,
+                            double x, double y, Direction direction) {
+  int row = CHARACTER_FRONT_ROW;
 
-  switch (GameState.player.direction) {
+  switch (direction) {
     case DIR_UP:
-      row = PLAYER_BACK_ROW;
+      row = CHARACTER_BACK_ROW;
       break;
 
     case DIR_DOWN:
-      row = PLAYER_FRONT_ROW;
+      row = CHARACTER_FRONT_ROW;
       break;
 
     case DIR_LEFT:
-      row = PLAYER_LEFT_ROW;
+      row = CHARACTER_LEFT_ROW;
       break;
 
     case DIR_RIGHT:
-      row = PLAYER_RIGHT_ROW;
+      row = CHARACTER_RIGHT_ROW;
       break;
 
     default:
       break;
   }
 
-  double offsetX = (1.0 - PLAYER_SPRITE_SCALE) / 2.0;
-  double offsetY = PLSYER_SPRITE_BASELINE + offsetX;
+  double offsetX = (1.0 - CHARACTER_SPRITE_SCALE) / 2.0;
+  double offsetY = CHARACTER_SPRITE_BASELINE + offsetX;
 
-  renderSprite(PLAYER_SPRITES,
-               row, GameState.player.state,
-               GameState.player.x + offsetX, GameState.player.y + offsetY,
-               PLAYER_SPRITE_SCALE, PLAYER_SPRITE_SCALE);
+  renderSprite(sprite, row, col,
+               x + offsetX, y + offsetY,
+               CHARACTER_SPRITE_SCALE, CHARACTER_SPRITE_SCALE);
+}
+
+static void renderPlayer(void) {
+  Player* player = &GameState.player;
+
+  renderCharacter(player->spoiled ? PLAYER_SPRITES_SPOILED : PLAYER_SPRITES, player->spriteState, player->x, player->y, player->direction);
+}
+
+static void renderEnemies(void) {
+  ListIterator it = createListIterator(GameState.enemies);
+
+  while (!it.done) {
+    EnemyNode* node = it.next(&it);
+    Enemy* enemy = node->data;
+
+    renderCharacter(ENEMY_SPRITES, enemy->spriteState, enemy->x, enemy->y, enemy->direction);
+  }
 }
 
 static void renderHUD(void) {
@@ -117,11 +144,21 @@ static void renderHUD(void) {
   size_t length;
 
   // energy bar
+  setTexParam(GL_MODULATE);
+
+  if (GameState.player.spoiled) {
+    glColor4d(0.0, 0.5, 1.0, 1.0);
+  } else {
+    glColor4d(1.0, 1.0, 1.0, 1.0);
+  }
+
   sprintf(buffer, "E");
   length = strlen(buffer);
   renderText(buffer, 0, 0, 1);
 
   renderEnergyBar(clamp(GameState.visibleRadius / MAX_VISIBLE_RADIUS, 0.0, 1.0), length, 0, ENERGY_BAR_WIDTH, 1);
+
+  restoreDefaultTexParam();
 
   // remain item count
   sprintf(buffer, "%03d", GameState.remainItem);
@@ -143,6 +180,7 @@ void renderWorld(void) {
 
   renderTiles();
   renderPlayer();
+  renderEnemies();
 
   glDisable(GL_STENCIL_TEST);
   renderFog(worldX, worldY, worldSize, worldSize);

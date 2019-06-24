@@ -116,7 +116,7 @@ void listFreeNode(void* _node) {
   free(node);
 }
 
-void listDestory(void* _list) {
+void listClear(void* _list) {
   List* list = _list;
 
   ListIterator it = createListIterator(list);
@@ -125,8 +125,11 @@ void listDestory(void* _list) {
     Node* node = it.next(&it);
     listDelete(list, node);
   }
+}
 
-  free(list);
+void listDestory(void* _list) {
+  listClear(_list);
+  free(_list);
 }
 
 void* createList(void) {

@@ -52,11 +52,11 @@ Direction keyToDirection(int key) {
 }
 
 void setDirection(Direction key) {
-  GameState.keyPressed |= key; // set the specific bit
+  setBit(&GameState.keyPressed, key);
 }
 
 void clearDirection(Direction key) {
-  GameState.keyPressed &= ~key; // clear the specific bit
+  clearBit(&GameState.keyPressed, key);
 }
 
 void keydownHandler(int key, int x, int y) {
@@ -74,8 +74,7 @@ void init(void) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
-  GameState.visibleRadius = 4.0;
-
+  initGameState();
   initTextures();
   initGame();
   setLevel(0);

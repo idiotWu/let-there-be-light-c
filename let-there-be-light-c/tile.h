@@ -8,6 +8,8 @@ typedef enum Tile {
   TILE_COIN   = 1 << 3,
   TILE_KERNEL = 1 << 4,
 
+  TILE_SPOILED = 1 << 5,
+
   TILE_CLOSED = TILE_WALL | TILE_SHADOW,
   TILE_OPEN   = TILE_PATH | TILE_COIN | TILE_KERNEL,
 

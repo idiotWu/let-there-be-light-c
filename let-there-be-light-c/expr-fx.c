@@ -11,19 +11,65 @@
 #include "list.h"
 #include "util.h"
 
-#define INFLEXION_POINT  0.1
-#define FX_DURATION      600
+#define FX_EXPLODE_DURATION       300
+#define FX_EXPLODE_SCALE          1.2
+#define FX_FLOOD_DURADION         600
+#define FX_FLOOD_INFLEXION_POINT  0.1
 
-typedef struct FxRecord {
+// ============ Explode Begin ============ //
+
+static void fxExplodeRender(Animation* animation) {
+  int* row = animation->target;
+  vec2i* start = animation->from;
+
+  double offset = (1.0 - FX_EXPLODE_SCALE) / 2.0;
+
+  renderSprite(FX_SPRITES, *row,
+               animation->currentFrame - 1,
+               start->x + offset, start->y + offset, // centering
+               FX_EXPLODE_SCALE, FX_EXPLODE_SCALE);
+}
+
+void fxExplodeGen(int spriteRow, int x, int y) {
+  Animation* animation = createAnimation(FX_SPRITES->cols, FX_EXPLODE_DURATION, 1);
+
+  vec2i* start = malloc(sizeof(vec2i));
+  start->x = x;
+  start->y = y;
+
+  int* row = malloc(sizeof(int));
+  *row = spriteRow;
+
+  animation->target = row;
+  animation->from = start;
+  animation->cleanFlag = ANIMATION_CLEAN_TARGET | ANIMATION_CLEAN_FROM;
+
+  animation->render = fxExplodeRender;
+}
+
+// ============ Explode End ============ //
+
+// ============ Flood Begin ============ //
+
+typedef struct FxFloodRecord {
   FloodState* state;
   FrontierList* frontiers;
-} FxRecord;
+} FxFloodRecord;
 
-static void fxRender(Animation* animation);
-static void fxUpdate(Animation* animation);
-static void fxFinish(Animation* animation);
+static void fxFloodRender(Animation* animation);
+static void fxFloodUpdate(Animation* animation);
+static void fxFloodFinish(Animation* animation);
 
-static void fxNext(FloodState* state) {
+static void clearSpoiledTile(int x, int y) {
+  Tile* tile = &GameState.maze[y][x];
+
+  if (*tile & TILE_SPOILED) {
+    clearBit(tile, TILE_SPOILED);
+    fxExplodeGen(FX_SMOKE_ROW, x + 0.5, y + 0.5);
+  }
+}
+
+static void fxFloodNext(FloodState* state) {
   if (state->finished) {
     floodDestory(state);
     return;
@@ -31,21 +77,22 @@ static void fxNext(FloodState* state) {
 
   floodForward(state);
 
-  FxRecord* record = malloc(sizeof(FxRecord));
+  FxFloodRecord* record = malloc(sizeof(FxFloodRecord));
 
   record->state = state;
   record->frontiers = listClone(state->frontiers, sizeof(Frontier));
 
-  Animation* animation = createAnimation60FPS(FX_DURATION, 1);
-  animation->from = record;
-  animation->render = fxRender;
-  animation->update = fxUpdate;
-  animation->complete = fxFinish;
+  Animation* animation = createAnimation60FPS(FX_FLOOD_DURADION, 1);
+  animation->target = record;
+  animation->render = fxFloodRender;
+  animation->update = fxFloodUpdate;
+  animation->complete = fxFloodFinish;
 }
 
-static void renderRecord(FxRecord* record, double scale, double alpha) {
+static void renderFrontiers(FxFloodRecord* record, double scale, double alpha) {
   ListIterator it = createListIterator(record->frontiers);
 
+  // enable alpha blend
   setTexParam(GL_MODULATE);
   glColor4d(alpha, alpha, alpha, alpha);
   
@@ -56,6 +103,8 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
 
     double ox = x + 0.5;
     double oy = y + 0.5;
+
+    clearSpoiledTile(x, y);
 
     int row, col;
 
@@ -87,19 +136,19 @@ static void renderRecord(FxRecord* record, double scale, double alpha) {
   restoreDefaultTexParam();
 }
 
-static void fxUpdate(Animation* animation) {
-  FxRecord* record = animation->from;
-  uint16_t throttle = INFLEXION_POINT * animation->frameCount;
+static void fxFloodUpdate(Animation* animation) {
+  FxFloodRecord* record = animation->target;
+  uint16_t throttle = FX_FLOOD_INFLEXION_POINT * animation->frameCount;
 
   if (animation->currentFrame >= throttle) {
-    fxNext(record->state);
+    fxFloodNext(record->state);
     animation->update = NULL; // remove callback
   }
 }
 
-static void fxRender(Animation* animation) {
-  FxRecord* record = animation->from;
-  uint16_t throttle = INFLEXION_POINT * animation->frameCount;
+static void fxFloodRender(Animation* animation) {
+  FxFloodRecord* record = animation->target;
+  uint16_t throttle = FX_FLOOD_INFLEXION_POINT * animation->frameCount;
 
   double percent;
 
@@ -109,31 +158,22 @@ static void fxRender(Animation* animation) {
     percent = 1.0 - (double)(animation->currentFrame - throttle) / (animation->frameCount - throttle);
   }
 
-  renderRecord(record, percent, percent);
+  renderFrontiers(record, percent, percent);
 }
 
-static void fxFinish(Animation* animation) {
-  FxRecord* record = animation->from;
+static void fxFloodFinish(Animation* animation) {
+  FxFloodRecord* record = animation->target;
   listDestory(record->frontiers);
 }
 
-static void fxExplode(Animation* animation) {
-  Frontier* start = animation->from;
-
-  renderSprite(FX_EXPLODE_SPRITES, 0, animation->currentFrame - 1, start->x - 0.5, start->y - 0.5, 2.0, 2.0);
-}
-
-void fxGen(int x, int y) {
+void fxFloodGen(int x, int y) {
   FloodState* state = floodGenerate(GameState.maze, x, y);
 
-  Animation* animation = createAnimation(FX_EXPLODE_SPRITES->cols, 300, 1);
+  fxExplodeGen(FX_EXPLODE_ROW, x, y);
 
-  Frontier* start = malloc(sizeof(Frontier));
-  start->x = x;
-  start->y = y;
+  fxFloodNext(state);
 
-  animation->from = start;
-  animation->render = fxExplode;
-
-  fxNext(state);
+  clearSpoiledTile(x, y);
 }
+
+// ============ Flood End ============ //

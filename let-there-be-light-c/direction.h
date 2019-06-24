@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "util.h"
+
 typedef enum Direction {
   DIR_NONE  = 0,      /* 0000 */
   DIR_UP    = 1 << 0, /* 0001 */
@@ -18,5 +20,7 @@ typedef enum Direction {
 
 bool isSingleDirection(Direction dir);
 int extractDirections(Direction dir, Direction res[4]);
+vec2i directionToDelta(Direction dir);
+Direction deltaToDirection(vec2i delta);
 
 #endif

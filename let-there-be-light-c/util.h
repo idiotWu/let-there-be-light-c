@@ -31,4 +31,9 @@ void shuffle(void* array, size_t length, size_t bytesPerElement);
 int sign(double num);
 double clamp(double val, double min, double max);
 
+double distance(double x1, double y1, double x2, double y2);
+
+void setBit(void* target, int mask);
+void clearBit(void* target, int mask);
+
 #endif

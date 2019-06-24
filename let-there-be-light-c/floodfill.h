@@ -8,6 +8,8 @@
 #include "list.h"
 #include "tile.h"
 
+#define FLOOD_DEPTH_UNVISITED  -1
+
 typedef struct Frontier {
   int x;
   int y;
@@ -19,9 +21,9 @@ defList(FrontierList, FrontierNode);
 typedef struct FloodState {
   FrontierList* frontiers;
   const Tile (*tiles)[MAZE_SIZE];
-  bool visited[MAZE_SIZE][MAZE_SIZE];
+  int depthMap[MAZE_SIZE][MAZE_SIZE];
   int pathLength;
-  int depth;
+  int currentDepth;
   bool finished;
 } FloodState;
 

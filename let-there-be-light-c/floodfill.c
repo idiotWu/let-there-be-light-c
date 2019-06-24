@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "floodfill.h"
 #include "list.h"
@@ -10,7 +11,7 @@
 static void mark(int x,
                  int y,
                  FloodState* state) {
-  if (state->visited[y][x]) {
+  if (state->depthMap[y][x] != FLOOD_DEPTH_UNVISITED) {
     return;
   }
 
@@ -22,7 +23,7 @@ static void mark(int x,
   node->data = f;
 
   listAppend(state->frontiers, node);
-  state->visited[y][x] = true;
+  state->depthMap[y][x] = state->currentDepth;
   state->pathLength++;
 }
 
@@ -31,7 +32,7 @@ void floodForward(FloodState* state) {
     return;
   }
 
-  state->depth++;
+  state->currentDepth++;
 
   ListIterator it = createListIterator(state->frontiers);
 
@@ -69,13 +70,15 @@ void floodForward(FloodState* state) {
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
                           int startX,
                           int startY) {
-  FloodState* state = calloc(1, sizeof(FloodState));
+  FloodState* state = malloc(sizeof(FloodState));
 
   state->frontiers = createList();
   state->tiles = tiles;
   state->pathLength = 0;
-  state->depth = 0;
+  state->currentDepth = 0;
   state->finished = false;
+
+  memset(state->depthMap, FLOOD_DEPTH_UNVISITED, sizeof(state->depthMap));
 
   mark(startX, startY, state);
 

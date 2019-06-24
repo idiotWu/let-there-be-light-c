@@ -292,7 +292,8 @@ static int fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], vec2i* startPoint) {
 
   for (size_t i = 0; i < MAZE_SIZE; i++) {
     for (size_t j = 0; j < MAZE_SIZE; j++) {
-      if (tiles[i][j] & TILE_OPEN && !state->visited[i][j]) {
+      if (tiles[i][j] & TILE_OPEN &&
+          state->depthMap[i][j] == FLOOD_DEPTH_UNVISITED) {
         tiles[i][j] = TILE_WALL;
       }
     }

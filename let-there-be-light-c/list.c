@@ -109,6 +109,23 @@ void* listClone(void* _src, size_t dataSize) {
   return dest;
 }
 
+bool listFindDelete(void* _list, void* data) {
+  List* list = _list;
+
+  ListIterator it = createListIterator(list);
+
+  while (!it.done) {
+    Node* node = it.next(&it);
+
+    if (node->data == data) {
+      listDelete(list, node);
+      return true;
+    }
+  }
+
+  return false;
+}
+
 void listFreeNode(void* _node) {
   Node* node = _node;
 

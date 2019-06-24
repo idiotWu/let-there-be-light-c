@@ -53,6 +53,7 @@ typedef struct State {
   int remainItem;
 
   Tile maze[MAZE_SIZE][MAZE_SIZE];
+  int stepsFromPlayer[MAZE_SIZE][MAZE_SIZE];
   vec2i* openTiles;
   int pathLength;
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 #include "glut.h"
 
 #include "game.h"
@@ -91,6 +92,22 @@ static void processMaze(void) {
 
 // ============ Player Begin ============ //
 
+static void updateStepsFromPlayer(void) {
+  FloodState* state = floodFill(GameState.maze, GameState.player.x, GameState.player.y);
+
+  memcpy(GameState.stepsFromPlayer, state->depthMap, sizeof(state->depthMap));
+
+  floodDestory(state);
+
+//  for (int i = MAZE_SIZE - 1; i >= 0; i--) {
+//    for (int j = 0; j < MAZE_SIZE; j++) {
+//      printf("%2d ", GameState.stepsFromPlayer[i][j]);
+//    }
+//    printf("\n");
+//  }
+
+}
+
 // update callback
 static void movePlayerUpdate(Animation* animation) {
   vec2i* fromPos = animation->from;
@@ -106,6 +123,7 @@ static void movePlayerUpdate(Animation* animation) {
 static void movePlayerComplete(Animation* animation) {
   UNUSED(animation);
   GameState.player.idle = true;
+  updateStepsFromPlayer();
 }
 
 // move player by delta
@@ -186,65 +204,21 @@ static void spawnEnemy(Animation* animation) {
 
 // flood-fill path finding
 static vec2i getEnemyDelta(Enemy* enemy) {
-  int depthMap[MAZE_SIZE][MAZE_SIZE] = { 0 };
-  FloodState* state = floodGenerate(GameState.maze, enemy->x, enemy->y);
+  int x = enemy->x;
+  int y = enemy->y;
+  int minSteps = GameState.stepsFromPlayer[y][x] - 1;
 
-  bool reached = false;
+  vec2i delta = { 0, 0 };
 
-  int dx = GameState.player.x;
-  int dy = GameState.player.y;
-
-  while (!reached && !state->finished) {
-    floodForward(state);
-
-    ListIterator it = createListIterator(state->frontiers);
-
-    while (!it.done) {
-      FrontierNode* node = it.next(&it);
-      Frontier* f = node->data;
-
-      depthMap[f->y][f->x] = state->depth;
-
-      if (f->x == dx && f->y == dy) {
-        reached = true;
-        break;
-      }
-    }
+  if (GameState.stepsFromPlayer[y][x - 1] == minSteps) {
+    delta.x = -1;
+  } else if (GameState.stepsFromPlayer[y][x + 1] == minSteps) {
+    delta.x = 1;
+  } else if (GameState.stepsFromPlayer[y - 1][x] == minSteps) {
+    delta.y = -1;
+  } else if (GameState.stepsFromPlayer[y + 1][x] == minSteps) {
+    delta.y = 1;
   }
-
-//  for (int i = MAZE_SIZE - 1; i >= 0; i--) {
-//    for (int j = 0; j < MAZE_SIZE; j++) {
-//      printf("%2d ", weight[i][j]);
-//    }
-//    printf("\n");
-//  }
-
-  int depth = state->depth;
-
-  while (depth != 1) {
-    depth--;
-
-    if (depthMap[dy][dx - 1] == depth) {
-      dx -= 1;
-    } else if (depthMap[dy][dx + 1] == depth) {
-      dx += 1;
-    } else if (depthMap[dy - 1][dx] == depth) {
-      dy -= 1;
-    } else if (depthMap[dy + 1][dx] == depth) {
-      dy += 1;
-    }
-
-//    printf("%2d: (%2d, %2d)\n", currentWeight, dx, dy);
-  }
-
-  floodDestory(state);
-
-  vec2i delta = {
-    dx - enemy->x,
-    dy - enemy->y
-  };
-
-  assert(abs(delta.x) + abs(delta.y) == 1);
 
   return delta;
 }
@@ -299,6 +273,8 @@ static void spoilTiles(int x, int y) {
 static void enemyExplode(Enemy* enemy) {
   fxExplodeGen(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
   spoilTiles(enemy->x, enemy->y);
+  // TODO: optimize
+  listFindDelete(GameState.enemies, enemy);
 }
 
 // move enemy update callback
@@ -317,6 +293,12 @@ static void moveEnemyUpdate(Animation* animation) {
 
   enemy->x = fromPos->x + delta->x * percent;
   enemy->y = fromPos->y + delta->y * percent;
+
+  if (distance(enemy->x, enemy->y,
+               GameState.player.x, GameState.player.y) <= 0.5) {
+    enemyExplode(enemy);
+    cancelAnimation(animation);
+  }
 }
 
 // move enemy complete callback
@@ -324,6 +306,10 @@ static void moveEnemyComplete(Animation* animation) {
   Enemy* enemy = animation->target;
   enemy->remainSteps--;
   enemy->idle = true;
+
+  if (--enemy->remainSteps == 0) {
+    enemyExplode(enemy);
+  }
 }
 
 static void moveEnemy(Enemy* enemy) {
@@ -355,14 +341,6 @@ static void moveEnemy(Enemy* enemy) {
   animation->complete = moveEnemyComplete;
 }
 
-static bool shouldExplodeEnemy(Enemy* enemy) {
-  if (enemy->remainSteps == 0) {
-    return true;
-  }
-
-  return (int)enemy->x == (int)GameState.player.x && (int)enemy->y == (int)GameState.player.y;
-}
-
 static void updateAllEnemies(void) {
   Player* player = &GameState.player;
   ListIterator it = createListIterator(GameState.enemies);
@@ -370,12 +348,6 @@ static void updateAllEnemies(void) {
   while (!it.done) {
     EnemyNode* node = it.next(&it);
     Enemy* enemy = node->data;
-
-    if (enemy->idle && shouldExplodeEnemy(enemy)) {
-      enemyExplode(enemy);
-      listDelete(GameState.enemies, node);
-      continue;
-    }
 
     if (!enemy->activated) {
       double r = distance(player->x, player->y, enemy->x, enemy->y);
@@ -544,6 +516,8 @@ void buildWorld(void) {
   GameState.openTiles = malloc(pathLength * sizeof(*GameState.openTiles));
 
   processMaze();
+
+  updateStepsFromPlayer();
 }
 
 void updateGame(void) {

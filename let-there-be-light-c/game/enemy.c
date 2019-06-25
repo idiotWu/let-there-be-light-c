@@ -170,7 +170,7 @@ void activateEnemies(void) {
 
     double r = distance(player->x, player->y, enemy->x, enemy->y);
 
-    if (r <= GameState.visibleRadius) {
+    if (r <= 1.0 || r <= GameState.visibleRadius) {
       enemy->activated = true;
 
       fxExplodeGen(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);

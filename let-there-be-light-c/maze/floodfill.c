@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "floodfill.h"
-#include "list.h"
-#include "tile.h"
 #include "config.h"
+
+#include "tile.h"
+#include "floodfill.h"
+#include "util/list.h"
 
 static void mark(int x,
                  int y,

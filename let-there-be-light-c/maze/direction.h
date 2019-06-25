@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "util.h"
+#include "util/util.h"
 
 typedef enum Direction {
   DIR_NONE  = 0,      /* 0000 */

@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #include "config.h"
+
 #include "tile.h"
 
 int initMaze(int spawnerCount,

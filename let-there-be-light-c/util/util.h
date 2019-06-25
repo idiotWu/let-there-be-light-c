@@ -13,6 +13,10 @@
   #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
 
+#define setBits(target, mask) (target |= mask)
+
+#define clearBits(target, mask) (target &= ~mask)
+
 typedef struct vec2i {
   int x;
   int y;
@@ -32,8 +36,5 @@ int sign(double num);
 double clamp(double val, double min, double max);
 
 double distance(double x1, double y1, double x2, double y2);
-
-void setBit(void* target, int mask);
-void clearBit(void* target, int mask);
 
 #endif

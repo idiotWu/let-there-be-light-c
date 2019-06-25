@@ -6,9 +6,10 @@
 #include <assert.h>
 #include <string.h>
 #include <math.h>
+#include "glut.h"
 
-#include "util.h"
 #include "texture.h"
+#include "util/util.h"
 
 #define IMG_FONT            "assets/font-16x16.bin"
 #define IMG_PLAYER          "assets/fireball.bin"

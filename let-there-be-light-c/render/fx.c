@@ -1,15 +1,16 @@
 #include <stdlib.h>
 #include "glut.h"
 
-#include "engine.h"
-#include "expr-fx.h"
-#include "floodfill.h"
-#include "texture.h"
-#include "tile.h"
 #include "config.h"
-#include "state.h"
-#include "list.h"
-#include "util.h"
+
+#include "fx.h"
+#include "engine.h"
+#include "texture.h"
+#include "maze/tile.h"
+#include "maze/floodfill.h"
+#include "game/state.h"
+#include "util/list.h"
+#include "util/util.h"
 
 #define FX_EXPLODE_DURATION       300
 #define FX_EXPLODE_SCALE          1.2
@@ -61,10 +62,8 @@ static void fxFloodUpdate(Animation* animation);
 static void fxFloodFinish(Animation* animation);
 
 static void clearSpoiledTile(int x, int y) {
-  Tile* tile = &GameState.maze[y][x];
-
-  if (*tile & TILE_SPOILED) {
-    clearBit(tile, TILE_SPOILED);
+  if (GameState.maze[y][x] & TILE_SPOILED) {
+    clearBits(GameState.maze[y][x], TILE_SPOILED);
     fxExplodeGen(FX_SMOKE_ROW, x + 0.5, y + 0.5);
   }
 }
@@ -108,21 +107,17 @@ static void renderFrontiers(FxFloodRecord* record, double scale, double alpha) {
 
     int row, col;
 
-    switch (GameState.maze[y][x]) {
-      case TILE_COIN:
-        row = COIN_ROW;
-        col = COIN_COL;
-        break;
+    Tile tile = GameState.maze[y][x];
 
-      case TILE_KERNEL:
-        row = FIRE_ROW;
-        col = FIRE_COL;
-        break;
-
-      default:
-        row = COIN_DARK_ROW;
-        col = COIN_DARK_COL;
-        break;
+    if (tile & TILE_COIN) {
+      row = COIN_ROW;
+      col = COIN_COL;
+    } else if (tile & TILE_KERNEL) {
+      row = FIRE_ROW;
+      col = FIRE_COL;
+    } else {
+      row = COIN_DARK_ROW;
+      col = COIN_DARK_COL;
     }
 
     glPushMatrix();

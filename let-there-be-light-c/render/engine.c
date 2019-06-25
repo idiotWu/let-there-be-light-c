@@ -23,7 +23,7 @@
 #include <math.h>
 
 #include "engine.h"
-#include "list.h"
+#include "util/list.h"
 
 defNode(TimelineNode, Animation);
 defList(Timeline, TimelineNode);
@@ -40,9 +40,9 @@ static Timeline GameTL;
  *    begin <---|---|---><---|---|---> end
  *            1   2   3    1   2   3
  */
-Animation* createAnimation(uint16_t frameCount,
+Animation* createAnimation(int frameCount,
                            double duration,
-                           uint16_t repeat) {
+                           int repeat) {
   assert(frameCount > 0);
   assert(repeat > 0);
 
@@ -76,7 +76,7 @@ Animation* createAnimation(uint16_t frameCount,
   return animation;
 }
 
-Animation* createAnimation60FPS(double duration, uint16_t repeat) {
+Animation* createAnimation60FPS(double duration, int repeat) {
   return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
 }
 

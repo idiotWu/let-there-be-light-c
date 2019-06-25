@@ -5,13 +5,14 @@
 #include <math.h>
 #include <assert.h>
 
+#include "config.h"
+
 #include "maze.h"
 #include "tile.h"
-#include "util.h"
-#include "list.h"
-#include "config.h"
 #include "direction.h"
 #include "floodfill.h"
+#include "util/list.h"
+#include "util/util.h"
 
 typedef struct MazeBuilder {
   int x;

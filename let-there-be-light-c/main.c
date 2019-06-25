@@ -5,24 +5,22 @@
 #include <math.h>
 #include "glut.h"
 
-#include "tile.h"
-#include "maze.h"
-#include "state.h"
-#include "game.h"
 #include "config.h"
-#include "engine.h"
-#include "util.h"
-#include "texture.h"
-#include "direction.h"
-#include "expr-fx.h"
-#include "render.h"
+#include "util/util.h"
+#include "maze/tile.h"
+#include "maze/maze.h"
+#include "game/state.h"
+#include "game/game.h"
+#include "render/fx.h"
+#include "render/render.h"
+#include "render/engine.h"
+#include "render/texture.h"
+#include "maze/direction.h"
 
 #define GAME_TITLE "Let There Be Light"
 #define WIN_WIDTH  800
 #define WIN_HEIGHT 800
 //#define CENTERING_WINDOW
-
-#define UNUSED(x) (void)(x)
 
 static int frameCount = 0;
 
@@ -51,22 +49,14 @@ Direction keyToDirection(int key) {
   }
 }
 
-void setDirection(Direction key) {
-  setBit(&GameState.keyPressed, key);
-}
-
-void clearDirection(Direction key) {
-  clearBit(&GameState.keyPressed, key);
-}
-
 void keydownHandler(int key, int x, int y) {
   UNUSED(x); UNUSED(y);
-  setDirection(keyToDirection(key));
+  setBits(GameState.keyPressed, keyToDirection(key));
 }
 
 void keyupHandler(int key, int x, int y) {
   UNUSED(x); UNUSED(y);
-  clearDirection(keyToDirection(key));
+  clearBits(GameState.keyPressed, keyToDirection(key));
 }
 
 void init(void) {

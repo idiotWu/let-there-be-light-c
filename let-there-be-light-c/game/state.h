@@ -4,10 +4,11 @@
 #include <stdbool.h>
 
 #include "config.h"
-#include "tile.h"
-#include "util.h"
-#include "list.h"
-#include "direction.h"
+
+#include "util/util.h"
+#include "util/list.h"
+#include "maze/tile.h"
+#include "maze/direction.h"
 
 typedef enum Scene {
   SCENE_TITLE,

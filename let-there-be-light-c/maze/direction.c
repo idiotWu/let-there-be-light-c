@@ -1,7 +1,7 @@
 #include <stdbool.h>
 
 #include "direction.h"
-#include "util.h"
+#include "util/util.h"
 
 bool isSingleDirection(Direction dir) {
   return (dir & dir - 1) == 0;

@@ -1,9 +1,10 @@
 #include <stdbool.h>
 
-#include "state.h"
 #include "config.h"
-#include "list.h"
-#include "direction.h"
+
+#include "state.h"
+#include "util/list.h"
+#include "maze/direction.h"
 
 State GameState;
 

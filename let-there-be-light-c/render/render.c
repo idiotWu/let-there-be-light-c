@@ -4,14 +4,15 @@
 #include "glut.h"
 
 #include "config.h"
+
 #include "render.h"
-#include "state.h"
-#include "direction.h"
-#include "tile.h"
-#include "util.h"
-#include "list.h"
 #include "engine.h"
 #include "texture.h"
+#include "game/state.h"
+#include "maze/direction.h"
+#include "maze/tile.h"
+#include "util/list.h"
+#include "util/util.h"
 
 #define CHARACTER_SPRITE_SCALE     1.2
 #define CHARACTER_SPRITE_BASELINE  0.3
@@ -145,8 +146,10 @@ static void renderHUD(void) {
 
   // energy bar
   setTexParam(GL_MODULATE);
+  glPushMatrix();
 
   if (GameState.player.spoiled) {
+    glTranslated(randomBetween(-0.2, 0.2), randomBetween(-0.2, 0.2), 0);
     glColor4d(0.0, 0.5, 1.0, 1.0);
   } else {
     glColor4d(1.0, 1.0, 1.0, 1.0);
@@ -158,6 +161,7 @@ static void renderHUD(void) {
 
   renderEnergyBar(clamp(GameState.visibleRadius / MAX_VISIBLE_RADIUS, 0.0, 1.0), length, 0, ENERGY_BAR_WIDTH, 1);
 
+  glPopMatrix();
   restoreDefaultTexParam();
 
   // remain item count

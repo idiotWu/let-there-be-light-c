@@ -5,17 +5,19 @@
 #include <string.h>
 #include "glut.h"
 
-#include "game.h"
-#include "maze.h"
-#include "tile.h"
-#include "util.h"
-#include "state.h"
 #include "config.h"
-#include "engine.h"
-#include "texture.h"
-#include "floodfill.h"
-#include "direction.h"
-#include "expr-fx.h"
+
+#include "game.h"
+#include "state.h"
+
+#include "util/util.h"
+#include "maze/maze.h"
+#include "maze/tile.h"
+#include "maze/floodfill.h"
+#include "maze/direction.h"
+#include "render/fx.h"
+#include "render/engine.h"
+#include "render/texture.h"
 
 // ============ Maze Initialization Begin ============ //
 
@@ -45,7 +47,7 @@ static void initItems(void) {
 
         // clear items randomly
         if (randomBetween(0, 1) >= itemDesity) {
-          clearBit(&tiles[y][x], TILE_ITEM);
+          clearBits(tiles[y][x], TILE_ITEM);
         } else {
           GameState.remainItem++;
         }
@@ -181,7 +183,7 @@ static void spawnEnemy(Animation* animation) {
     return;
   }
 
-  if (GameState.maze[pos.y][pos.x] == TILE_KERNEL) {
+  if (GameState.maze[pos.y][pos.x] & TILE_KERNEL) {
     return;
   }
 
@@ -247,7 +249,7 @@ static void spoilTilesUpdate(Animation* animation) {
     FrontierNode* node = it.next(&it);
     Frontier* f = node->data;
 
-    setBit(&GameState.maze[f->y][f->x], TILE_SPOILED);
+    setBits(GameState.maze[f->y][f->x], TILE_SPOILED);
     fxExplodeGen(FX_ICE_SPLIT_ROW, f->x, f->y);
   }
 }
@@ -258,7 +260,7 @@ static void spoilTilesComplete(Animation* animation) {
 }
 
 static void spoilTiles(int x, int y) {
-  setBit(&GameState.maze[y][x], TILE_SPOILED);
+  setBits(GameState.maze[y][x], TILE_SPOILED);
 
   Animation* animation = createAnimation(ENEMY_EXPLODE_RADIUS, 300, 1);
 
@@ -459,16 +461,16 @@ static void updateItems(void) {
   int x = GameState.player.x;
   int y = GameState.player.y;
 
-  Tile* tile = &GameState.maze[y][x];
+  Tile tile = GameState.maze[y][x];
 
-  if (*tile & TILE_ITEM) {
+  if (tile & TILE_ITEM) {
     // pick up item
-    if (*tile & TILE_KERNEL) {
+    if (tile & TILE_KERNEL) {
       fxFloodGen(x, y);
       expandVision(min(GameState.visibleRadius + 1.0, MAX_VISIBLE_RADIUS), 500);
     }
 
-    clearBit(tile, TILE_ITEM);
+    clearBits(GameState.maze[y][x], TILE_ITEM);
     GameState.remainItem--;
   }
 }

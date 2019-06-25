@@ -5,8 +5,9 @@
 #include <stddef.h>
 
 #include "config.h"
-#include "list.h"
+
 #include "tile.h"
+#include "util/list.h"
 
 #define FLOOD_DEPTH_UNVISITED  -1
 

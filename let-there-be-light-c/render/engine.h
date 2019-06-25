@@ -21,14 +21,14 @@ typedef struct Animation {
   void* from;
   void* delta;
 
-  uint16_t currentFrame;
-  uint16_t frameCount;
+  int currentFrame;
+  int frameCount;
 
-  uint16_t elapsed;
-  uint16_t interval;
+  int elapsed;
+  int interval;
 
-  uint16_t nth;
-  uint16_t repeat;
+  int nth;
+  int repeat;
 
   AnimationCleanFlag cleanFlag;
 
@@ -37,10 +37,10 @@ typedef struct Animation {
   void (*complete)(struct Animation*);
 } Animation;
 
-Animation* createAnimation(uint16_t frames,
+Animation* createAnimation(int frames,
                            double duration,
-                           uint16_t repeat);
-Animation* createAnimation60FPS(double duration, uint16_t repeat);
+                           int repeat);
+Animation* createAnimation60FPS(double duration, int repeat);
 
 bool cancelAnimation(Animation* animation);
 

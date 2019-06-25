@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <assert.h>
 
@@ -60,30 +61,10 @@ static void updateDistance(MazeBuilder* builder) {
 
   assert(distance != 0);
 
-  switch (builder->direction) {
-    case DIR_UP:
-      builder->vx = 0;
-      builder->vy = 1;
-      break;
+  vec2i velocity = directionToDelta(builder->direction);
 
-    case DIR_DOWN:
-      builder->vx = 0;
-      builder->vy = -1;
-      break;
-
-    case DIR_RIGHT:
-      builder->vx = 1;
-      builder->vy = 0;
-      break;
-
-    case DIR_LEFT:
-      builder->vx = -1;
-      builder->vy = 0;
-      break;
-
-    default:
-      break;
-  }
+  builder->vx = velocity.x;
+  builder->vy = velocity.y;
 
   // clamp distance
   if (builder->vx == 1) {
@@ -165,14 +146,6 @@ static void moveBuilder(MazeBuilder* builder) {
 }
 
 // ============ Builder End ============ //
-
-static void initTiles(Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
-  for (size_t i = 0; i < MAZE_SIZE; i++) {
-    for (size_t j = 0; j < MAZE_SIZE; j++) {
-      tiles[i][j] = TILE_WALL;
-    }
-  }
-}
 
 /**
  * Splits map into 2 rows * n blocks and pick a random tile from each block
@@ -313,7 +286,8 @@ int initMaze(int spawnerCount,
   vec2i* spawners = malloc(sizeof(vec2i) * spawnerCount);
   BuilderList* builders = createList();
 
-  initTiles(tiles);
+  memset(tiles, TILE_WALL, sizeof(tiles[0][0]) * MAZE_SIZE * MAZE_SIZE);
+
   initSpawners(spawnerCount, spawners, tiles);
   initBuilders(minDistance, maxDistance, spawnerCount, spawners, builders);
 

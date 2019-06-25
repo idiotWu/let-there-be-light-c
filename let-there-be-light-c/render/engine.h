@@ -30,6 +30,7 @@ typedef struct Animation {
   int nth;
   int repeat;
 
+  bool deleteInNextIteration;
   AnimationCleanFlag cleanFlag;
 
   void (*render)(struct Animation*);
@@ -42,7 +43,7 @@ Animation* createAnimation(int frames,
                            int repeat);
 Animation* createAnimation60FPS(double duration, int repeat);
 
-bool cancelAnimation(Animation* animation);
+void cancelAnimation(Animation* animation);
 
 void engineNextFrame(void);
 void engineRender(void);

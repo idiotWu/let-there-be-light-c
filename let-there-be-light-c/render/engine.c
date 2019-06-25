@@ -66,6 +66,7 @@ Animation* createAnimation(int frameCount,
   animation->update = NULL;
   animation->complete = NULL;
 
+  animation->deleteInNextIteration = false;
   animation->cleanFlag = ANIMATION_CLEAN_FROM | ANIMATION_CLEAN_DELTA;
 
   TimelineNode* node = createNode();
@@ -80,23 +81,12 @@ Animation* createAnimation60FPS(double duration, int repeat) {
   return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
 }
 
-bool cancelAnimation(Animation* animation) {
+void cancelAnimation(Animation* animation) {
   if (animation == NULL) {
-    return false;
-  }
-  
-  TimelineNode* node = GameTL.head;
-
-  while (node) {
-    if (node->data == animation) {
-      listDelete((List*)&GameTL, (Node*)node);
-      return true;
-    }
-
-    node = node->next;
+    return;
   }
 
-  return false;
+  animation->deleteInNextIteration = true;
 }
 
 static void cleanAnimation(Animation* animation) {
@@ -120,6 +110,13 @@ void engineNextFrame(void) {
     TimelineNode* node = it.next(&it);
 
     Animation* animation = node->data;
+
+    // remove marked animation
+    if (animation->deleteInNextIteration) {
+      cleanAnimation(animation);
+      listDelete(&GameTL, node);
+      continue;
+    }
 
     // elapsed < interval
     //  -> waiting

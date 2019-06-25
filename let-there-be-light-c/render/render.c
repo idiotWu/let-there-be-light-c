@@ -133,8 +133,17 @@ static void renderEnemies(void) {
   while (!it.done) {
     EnemyNode* node = it.next(&it);
     Enemy* enemy = node->data;
+    double ox = enemy->x + 0.5;
+    double oy = enemy->y + 0.5;
+    double scale = min(1.0, (double)enemy->remainSteps / ENEMY_MAX_STEPS + 0.2);
+
+    glPushMatrix();
+    glTranslated(ox, oy, 0.0);
+    glScaled(scale, scale, 1.0);
+    glTranslated(-ox, -oy, 0.0);
 
     renderCharacter(ENEMY_SPRITES, enemy->spriteState, enemy->x, enemy->y, enemy->direction);
+    glPopMatrix();
   }
 }
 

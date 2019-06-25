@@ -301,3 +301,31 @@ int initMaze(int spawnerCount,
 
   return pathLength;
 }
+
+// check if the given position is path
+bool isPath(Tile tiles[MAZE_SIZE][MAZE_SIZE],
+            int x, int y) {
+  if (x < 0 || x >= MAZE_SIZE ||
+      y < 0 || y >= MAZE_SIZE) {
+    return false;
+  }
+
+  return tiles[y][x] & TILE_OPEN;
+}
+
+Direction getAvailableDirection(Tile tiles[MAZE_SIZE][MAZE_SIZE],
+                                int x, int y) {
+  Direction direction = DIR_NONE;
+
+  if (isPath(tiles, x, y - 1)) {
+    direction = DIR_DOWN;
+  } else if (isPath(tiles, x, y + 1)) {
+    direction = DIR_UP;
+  } else if (isPath(tiles, x - 1, y)) {
+    direction = DIR_LEFT;
+  } else if (isPath(tiles, x + 1, y)) {
+    direction = DIR_RIGHT;
+  }
+
+  return direction;
+}

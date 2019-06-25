@@ -9,6 +9,8 @@
 
 #include "game.h"
 #include "state.h"
+#include "player.h"
+#include "enemy.h"
 
 #include "util/util.h"
 #include "maze/maze.h"
@@ -20,16 +22,6 @@
 #include "render/texture.h"
 
 // ============ Maze Initialization Begin ============ //
-
-// check if the next position is path
-static bool isPath(int nextX, int nextY) {
-  if (nextX < 0 || nextX >= MAZE_SIZE ||
-      nextY < 0 || nextY >= MAZE_SIZE) {
-    return false;
-  }
-
-  return GameState.maze[nextY][nextX] & TILE_OPEN;
-}
 
 static void initItems(void) {
   Tile (*tiles)[MAZE_SIZE] = GameState.maze;
@@ -65,311 +57,11 @@ static void initStartPos(void) {
 
   GameState.player.x = startPos.x;
   GameState.player.y = startPos.y;
+
+  GameState.player.direction = getAvailableDirection(GameState.maze, startPos.x, startPos.y);
 }
 
-static Direction getAvailableDirection(int x, int y) {
-  Direction direction = DIR_NONE;
-
-  if (isPath(x, y - 1)) {
-    direction = DIR_DOWN;
-  } else if (isPath(x, y + 1)) {
-    direction = DIR_UP;
-  } else if (isPath(x - 1, y)) {
-    direction = DIR_LEFT;
-  } else if (isPath(x + 1, y)) {
-    direction = DIR_RIGHT;
-  }
-
-  return direction;
-}
-
-static void processMaze(void) {
-  initItems();
-  initStartPos();
-
-  GameState.player.direction = getAvailableDirection(GameState.player.x, GameState.player.y);
-}
-
-// ============ Maze Initialization End ============ //
-
-// ============ Player Begin ============ //
-
-static void updateStepsFromPlayer(void) {
-  FloodState* state = floodFill(GameState.maze, GameState.player.x, GameState.player.y);
-
-  memcpy(GameState.stepsFromPlayer, state->depthMap, sizeof(state->depthMap));
-
-  floodDestory(state);
-
-//  for (int i = MAZE_SIZE - 1; i >= 0; i--) {
-//    for (int j = 0; j < MAZE_SIZE; j++) {
-//      printf("%2d ", GameState.stepsFromPlayer[i][j]);
-//    }
-//    printf("\n");
-//  }
-
-}
-
-// update callback
-static void movePlayerUpdate(Animation* animation) {
-  vec2i* fromPos = animation->from;
-  vec2i* delta = animation->delta;
-
-  double percent = (double)animation->currentFrame / animation->frameCount;
-
-  GameState.player.x = fromPos->x + delta->x * percent;
-  GameState.player.y = fromPos->y + delta->y * percent;
-}
-
-// complete callback
-static void movePlayerComplete(Animation* animation) {
-  UNUSED(animation);
-  GameState.player.idle = true;
-  updateStepsFromPlayer();
-}
-
-// move player by delta
-static void movePlayer(int deltaX, int deltaY) {
-  // ensure single direction
-  if (deltaX && deltaY) {
-    deltaY = 0;
-  }
-
-  if (deltaX > 0) {
-    GameState.player.direction = DIR_RIGHT;
-  } else if (deltaX < 0) {
-    GameState.player.direction = DIR_LEFT;
-  }
-
-  if (deltaY > 0) {
-    GameState.player.direction = DIR_UP;
-  } else if (deltaY < 0) {
-    GameState.player.direction = DIR_DOWN;
-  }
-
-  vec2i* fromPos = malloc(sizeof(vec2i));
-  vec2i* delta = malloc(sizeof(vec2i));
-
-  fromPos->x = GameState.player.x;
-  fromPos->y = GameState.player.y;
-
-  delta->x = deltaX;
-  delta->y = deltaY;
-
-  Animation* moveAnimation = createAnimation60FPS(CHARACTER_MOVE_ANIMATION_DURATION, 1);
-
-  moveAnimation->from = fromPos;
-  moveAnimation->delta = delta;
-  moveAnimation->update = movePlayerUpdate;
-  moveAnimation->complete = movePlayerComplete;
-}
-
-// ============ Player End ============ //
-
-// ============ Enemy Begin ============ //
-static void spawnEnemy(Animation* animation) {
-  UNUSED(animation);
-
-  if (GameState.paused) {
-    return;
-  }
-
-  int idx = randomInt(0, GameState.pathLength - 1);
-
-  vec2i pos = GameState.openTiles[idx];
-
-  if (pos.x == (int)GameState.player.x &&
-      pos.y == (int)GameState.player.y) {
-    return;
-  }
-
-  if (GameState.maze[pos.y][pos.x] & TILE_KERNEL) {
-    return;
-  }
-
-  Enemy* enemy = calloc(1, sizeof(Enemy));
-  enemy->x = pos.x;
-  enemy->y = pos.y;
-  enemy->spriteState = ENEMY_INACTIVE_COL;
-  enemy->idle = true;
-  enemy->activated = false;
-  enemy->direction = getAvailableDirection(pos.x, pos.y);
-  enemy->remainSteps = randomInt(ENEMY_MIN_STEPS, ENEMY_MAX_STEPS);
-
-  EnemyNode* node = createNode();
-  node->data = enemy;
-
-  listAppend(GameState.enemies, node);
-
-  fxExplodeGen(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
-}
-
-// flood-fill path finding
-static vec2i getEnemyDelta(Enemy* enemy) {
-  int x = enemy->x;
-  int y = enemy->y;
-  int minSteps = GameState.stepsFromPlayer[y][x] - 1;
-
-  vec2i delta = { 0, 0 };
-
-  if (GameState.stepsFromPlayer[y][x - 1] == minSteps) {
-    delta.x = -1;
-  } else if (GameState.stepsFromPlayer[y][x + 1] == minSteps) {
-    delta.x = 1;
-  } else if (GameState.stepsFromPlayer[y - 1][x] == minSteps) {
-    delta.y = -1;
-  } else if (GameState.stepsFromPlayer[y + 1][x] == minSteps) {
-    delta.y = 1;
-  }
-
-  return delta;
-}
-
-static void clearEnemy(void) {
-  ListIterator it = createListIterator(GameState.enemies);
-
-  while (!it.done) {
-    EnemyNode* node = it.next(&it);
-    Enemy* enemy = node->data;
-
-    fxExplodeGen(FX_SMOKE_ROW, enemy->x, enemy->y);
-
-    listDelete(GameState.enemies, node);
-  }
-}
-
-static void spoilTilesUpdate(Animation* animation) {
-  FloodState* state = animation->from;
-
-  floodForward(state);
-
-  ListIterator it = createListIterator(state->frontiers);
-
-  while (!it.done) {
-    FrontierNode* node = it.next(&it);
-    Frontier* f = node->data;
-
-    setBits(GameState.maze[f->y][f->x], TILE_SPOILED);
-    fxExplodeGen(FX_ICE_SPLIT_ROW, f->x, f->y);
-  }
-}
-
-static void spoilTilesComplete(Animation* animation) {
-  FloodState* state = animation->from;
-  floodDestory(state);
-}
-
-static void spoilTiles(int x, int y) {
-  setBits(GameState.maze[y][x], TILE_SPOILED);
-
-  Animation* animation = createAnimation(ENEMY_EXPLODE_RADIUS, 300, 1);
-
-  FloodState* state = floodGenerate(GameState.maze, x, y);
-
-  animation->from = state;
-  animation->cleanFlag = ANIMATION_CLEAN_NONE;
-
-  animation->update = spoilTilesUpdate;
-  animation->complete = spoilTilesComplete;
-}
-
-static void enemyExplode(Enemy* enemy) {
-  fxExplodeGen(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
-  spoilTiles(enemy->x, enemy->y);
-  // TODO: optimize
-  listFindDelete(GameState.enemies, enemy);
-}
-
-// move enemy update callback
-static void moveEnemyUpdate(Animation* animation) {
-  // in case enemy are cleared
-  if (!GameState.enemies->count) {
-    cancelAnimation(animation);
-    return;
-  }
-
-  Enemy* enemy = animation->target;
-  vec2i* fromPos = animation->from;
-  vec2i* delta = animation->delta;
-
-  double percent = (double)animation->currentFrame / animation->frameCount;
-
-  enemy->x = fromPos->x + delta->x * percent;
-  enemy->y = fromPos->y + delta->y * percent;
-
-  if (distance(enemy->x, enemy->y,
-               GameState.player.x, GameState.player.y) <= 0.5) {
-    enemyExplode(enemy);
-    cancelAnimation(animation);
-  }
-}
-
-// move enemy complete callback
-static void moveEnemyComplete(Animation* animation) {
-  Enemy* enemy = animation->target;
-  enemy->remainSteps--;
-  enemy->idle = true;
-
-  if (--enemy->remainSteps == 0) {
-    enemyExplode(enemy);
-  }
-}
-
-static void moveEnemy(Enemy* enemy) {
-  if (!enemy->activated || !enemy->idle) {
-    return;
-  }
-
-  enemy->idle = false;
-
-  vec2i delta = getEnemyDelta(enemy);
-  enemy->direction = deltaToDirection(delta);
-
-  Animation* animation = createAnimation60FPS(CHARACTER_MOVE_ANIMATION_DURATION * ENEMY_SLOW_DOWN, 1);
-
-  vec2i* fromPos = malloc(sizeof(vec2i));
-  vec2i* d = malloc(sizeof(vec2i));
-
-  fromPos->x = enemy->x;
-  fromPos->y = enemy->y;
-
-  d->x = delta.x;
-  d->y = delta.y;
-
-  animation->target = enemy;
-  animation->from = fromPos;
-  animation->delta = d;
-
-  animation->update = moveEnemyUpdate;
-  animation->complete = moveEnemyComplete;
-}
-
-static void updateAllEnemies(void) {
-  Player* player = &GameState.player;
-  ListIterator it = createListIterator(GameState.enemies);
-
-  while (!it.done) {
-    EnemyNode* node = it.next(&it);
-    Enemy* enemy = node->data;
-
-    if (!enemy->activated) {
-      double r = distance(player->x, player->y, enemy->x, enemy->y);
-
-      if (r <= GameState.visibleRadius) {
-        enemy->activated = true;
-        fxExplodeGen(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
-      }
-    }
-
-    if (enemy->activated && enemy->idle) {
-      moveEnemy(enemy);
-    }
-  }
-}
-
-// ============ Enemy End ============ //
-
-// ============ State Update Begin ============ //
+// ============ State Updater Begin ============ //
 
 // forward player's state
 static void updatePlayerState(Animation* animation) {
@@ -382,7 +74,7 @@ static void updatePlayerState(Animation* animation) {
 }
 
 static void updateEnemyState(Animation* animation) {
-//  UNUSED(animation);
+  // TODO: slow down enemy
   if (animation->currentFrame % 2 != 0) {
     return;
   }
@@ -406,7 +98,7 @@ static void updateCharacterState(Animation* animation) {
   updateEnemyState(animation);
 }
 
-// ============ State Update End ============ //
+// ============ Keyboard Handler ============ //
 
 // handle pressed arrow keys
 static void readKeyboard(void) {
@@ -435,10 +127,10 @@ static void readKeyboard(void) {
     deltaY--;
   }
 
-  if (!isPath(x + deltaX, y)) {
+  if (!isPath(GameState.maze, x + deltaX, y)) {
     deltaX = 0;
   }
-  if (!isPath(x, y + deltaY)) {
+  if (!isPath(GameState.maze, x, y + deltaY)) {
     deltaY = 0;
   }
 
@@ -446,15 +138,6 @@ static void readKeyboard(void) {
     GameState.player.idle = false;
     movePlayer(deltaX, deltaY);
   }
-}
-
-static void expandVisionUpdate(Animation* animation) {
-  double* fromRadius = animation->from;
-  double* deltaRadius = animation->delta;
-
-  double percent = (double)animation->currentFrame / animation->frameCount;
-
-  GameState.visibleRadius = *fromRadius + *deltaRadius * percent;
 }
 
 static void updateItems(void) {
@@ -475,6 +158,17 @@ static void updateItems(void) {
   }
 }
 
+// ============ Visible Radius ============ //
+
+static void expandVisionUpdate(Animation* animation) {
+  double* fromRadius = animation->from;
+  double* deltaRadius = animation->delta;
+
+  double percent = (double)animation->currentFrame / animation->frameCount;
+
+  GameState.visibleRadius = *fromRadius + *deltaRadius * percent;
+}
+
 void expandVision(double radius, double duration) {
   double* fromRadius = malloc(sizeof(double));
   double* deltaRadius = malloc(sizeof(double));
@@ -489,15 +183,13 @@ void expandVision(double radius, double duration) {
   animation->render = expandVisionUpdate;
 }
 
+// ============ TODO REFACTOR ============ //
+
 void initGame(void) {
   // update character state
   Animation* characterStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION, ANIMATION_INFINITY);
 
   characterStateUpdater->update = updateCharacterState;
-
-  // spawn enemy
-  Animation* enemySpawner = createAnimation(1, ENEMY_SPAWN_INTERVEL, ANIMATION_INFINITY);
-  enemySpawner->update = spawnEnemy;
 }
 
 void buildWorld(void) {
@@ -517,8 +209,10 @@ void buildWorld(void) {
   GameState.pathLength = pathLength;
   GameState.openTiles = malloc(pathLength * sizeof(*GameState.openTiles));
 
-  processMaze();
+  initItems();
+  initStartPos();
 
+  launchEnemySpawner();
   updateStepsFromPlayer();
 }
 
@@ -538,13 +232,13 @@ void updateGame(void) {
     readKeyboard();
   }
 
-  updateAllEnemies();
+  activateEnemies();
 
   if (GameState.remainItem == 0) {
     GameState.paused = true;
     player->spoiled = false;
     expandVision(MAZE_SIZE * 10, 3000);
-    clearEnemy();
+    clearEnemies();
     fxFloodGen(player->x, player->y);
   }
 }

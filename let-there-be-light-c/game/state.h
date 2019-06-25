@@ -5,6 +5,9 @@
 
 #include "config.h"
 
+#include "player.h"
+#include "enemy.h"
+
 #include "util/util.h"
 #include "util/list.h"
 #include "maze/tile.h"
@@ -24,28 +27,6 @@ typedef struct ClientRect {
   double width;
   double height;
 } ClientRect;
-
-typedef struct Player {
-  double x;
-  double y;
-  bool idle;
-  bool spoiled;
-  int spriteState;
-  Direction direction;
-} Player;
-
-typedef struct Enemy {
-  double x;
-  double y;
-  bool idle;
-  int spriteState;
-  bool activated;
-  int remainSteps;
-  Direction direction;
-} Enemy;
-
-defNode(EnemyNode, Enemy);
-defList(EnemyList, EnemyNode);
 
 typedef struct State {
   Scene currentScene;

@@ -175,7 +175,8 @@ void activateEnemies(void) {
 
       fxExplodeGen(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
 
-      moveEnemy(node);
+//      moveEnemy(node);
+      delay(200, (DelayCallback)moveEnemy, node);
     }
   }
 }

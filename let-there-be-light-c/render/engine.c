@@ -28,6 +28,11 @@
 defNode(TimelineNode, Animation);
 defList(Timeline, TimelineNode);
 
+typedef struct Delay {
+  DelayCallback callback;
+  void* data;
+} Delay;
+
 static Timeline GameTL;
 
 /**
@@ -168,4 +173,23 @@ void engineRender(void) {
       animation->render(animation);
     }
   }
+}
+
+static void invokeDelay(Animation* animation) {
+  Delay* delay = animation->target;
+
+  delay->callback(delay->data);
+}
+
+void delay(double duration, DelayCallback callback, void* data) {
+  Delay* delay = malloc(sizeof(Delay));
+
+  delay->callback = callback;
+  delay->data = data;
+
+  Animation* animation = createAnimation(1, duration, 1);
+
+  animation->target = delay;
+  animation->cleanFlag = ANIMATION_CLEAN_TARGET;
+  animation->complete = invokeDelay;
 }

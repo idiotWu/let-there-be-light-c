@@ -38,6 +38,8 @@ typedef struct Animation {
   void (*complete)(struct Animation*);
 } Animation;
 
+typedef void (*DelayCallback)(void *);
+
 Animation* createAnimation(int frames,
                            double duration,
                            int repeat);
@@ -47,5 +49,7 @@ void cancelAnimation(Animation* animation);
 
 void engineNextFrame(void);
 void engineRender(void);
+
+void delay(double duration, DelayCallback callback, void* data);
 
 #endif

@@ -17,7 +17,79 @@
 #define FX_FLOOD_DURADION         600
 #define FX_FLOOD_INFLEXION_POINT  0.1
 
-// ============ Explode Begin ============ //
+// ============ Door Effect ============ //
+
+static void drawTriangle(vec2d vertexes[3]) {
+  glBegin(GL_POLYGON);
+  for (size_t i = 0; i < 3; i++) {
+    glVertex2d(vertexes[i].x, vertexes[i].y);
+  }
+  glEnd();
+}
+
+static void fxDoorCloseRender(Animation* animation) {
+  double percent = (double)animation->currentFrame / animation->frameCount;
+
+  double width = GameState.ortho.width;
+  double height = GameState.ortho.height;
+
+  vec2d above[3] = {
+    { 0.0, height },
+    { width * percent, height },
+    { 0.0, height * (1.0 - percent) },
+  };
+
+  vec2d below[3] = {
+    { width, 0.0 },
+    { width, height * percent},
+    { width * (1.0 - percent), 0.0 },
+  };
+
+  glColor3d(1.0, 1.0, 1.0);
+  drawTriangle(above);
+  drawTriangle(below);
+}
+
+static void fxDoorOpenRender(Animation* animation) {
+  double percent = (double)animation->currentFrame / animation->frameCount;
+
+  double width = MAZE_SIZE;
+  double height = MAZE_SIZE + HUD_HEIGHT;
+
+  vec2d above[3] = {
+    { 0.0, height },
+    { width * (1.0 - percent), height },
+    { 0.0, height * percent },
+  };
+
+  vec2d below[3] = {
+    { width, 0.0 },
+    { width, height * (1.0 - percent) },
+    { width * percent, 0.0 },
+  };
+
+  glColor3d(1.0, 1.0, 1.0);
+  drawTriangle(above);
+  drawTriangle(below);
+}
+
+Animation* fxDoorOpen(double duration) {
+  Animation* animation = createAnimation60FPS(duration, 1);
+
+  animation->render = fxDoorOpenRender;
+
+  return animation;
+}
+
+Animation* fxDoorClose(double duration) {
+  Animation* animation = createAnimation60FPS(duration, 1);
+
+  animation->render = fxDoorCloseRender;
+
+  return animation;
+}
+
+// ============ Explode Effect ============ //
 
 static void fxExplodeRender(Animation* animation) {
   int* row = animation->target;
@@ -31,7 +103,7 @@ static void fxExplodeRender(Animation* animation) {
                FX_EXPLODE_SCALE, FX_EXPLODE_SCALE);
 }
 
-void fxExplodeGen(int spriteRow, int x, int y) {
+Animation* fxExplode(int spriteRow, int x, int y) {
   Animation* animation = createAnimation(FX_SPRITES->cols, FX_EXPLODE_DURATION, 1);
 
   vec2i* start = malloc(sizeof(vec2i));
@@ -46,11 +118,11 @@ void fxExplodeGen(int spriteRow, int x, int y) {
   animation->cleanFlag = ANIMATION_CLEAN_TARGET | ANIMATION_CLEAN_FROM;
 
   animation->render = fxExplodeRender;
+
+  return animation;
 }
 
-// ============ Explode End ============ //
-
-// ============ Flood Begin ============ //
+// ============ Flood Effect ============ //
 
 typedef struct FxFloodRecord {
   FloodState* state;
@@ -64,7 +136,7 @@ static void fxFloodFinish(Animation* animation);
 static void clearSpoiledTile(int x, int y) {
   if (GameState.maze[y][x] & TILE_SPOILED) {
     clearBits(GameState.maze[y][x], TILE_SPOILED);
-    fxExplodeGen(FX_SMOKE_ROW, x + 0.5, y + 0.5);
+    fxExplode(FX_SMOKE_ROW, x + 0.5, y + 0.5);
   }
 }
 
@@ -161,14 +233,12 @@ static void fxFloodFinish(Animation* animation) {
   listDestory(record->frontiers);
 }
 
-void fxFloodGen(int x, int y) {
+void fxFlood(int x, int y) {
   FloodState* state = floodGenerate(GameState.maze, x, y);
 
-  fxExplodeGen(FX_EXPLODE_ROW, x, y);
+  fxExplode(FX_EXPLODE_ROW, x, y);
 
   fxFloodNext(state);
 
   clearSpoiledTile(x, y);
 }
-
-// ============ Flood End ============ //

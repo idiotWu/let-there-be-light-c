@@ -50,6 +50,6 @@ void cancelAnimation(Animation* animation);
 void engineNextFrame(void);
 void engineRender(void);
 
-void delay(double duration, DelayCallback callback, void* data);
+Animation* delay(double duration, DelayCallback callback, void* data);
 
 #endif

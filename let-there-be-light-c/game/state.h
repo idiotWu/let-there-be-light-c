@@ -14,8 +14,9 @@
 #include "maze/direction.h"
 
 typedef enum Scene {
+  SCENE_NONE,
   SCENE_TITLE,
-  SCENE_TRANSITION,
+  SCENE_STAGE_TITLE,
   SCENE_GAME_STAGE,
 } Scene;
 
@@ -43,6 +44,7 @@ typedef struct State {
   Direction keyPressed;
 
   double visibleRadius;
+  double lastVisibleRadius;
   Player player;
   EnemyList* enemies;
 

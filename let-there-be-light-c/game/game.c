@@ -149,7 +149,7 @@ static void updateItems(void) {
   if (tile & TILE_ITEM) {
     // pick up item
     if (tile & TILE_KERNEL) {
-      fxFloodGen(x, y);
+      fxFlood(x, y);
       expandVision(min(GameState.visibleRadius + 1.0, MAX_VISIBLE_RADIUS), 500);
     }
 
@@ -183,6 +183,34 @@ void expandVision(double radius, double duration) {
   animation->render = expandVisionUpdate;
 }
 
+// ============ Set Level ============ //
+
+static void enterNextLevel(void* _) {
+  UNUSED(_);
+
+  buildWorld();
+
+  GameState.paused = false;
+  GameState.currentScene = SCENE_GAME_STAGE;
+
+  fxDoorOpen(300);
+}
+
+static void showLevelTile(Animation* _) {
+  UNUSED(_);
+  GameState.currentScene = SCENE_STAGE_TITLE;
+
+  delay(1000, enterNextLevel, NULL);
+}
+
+void nextLevel(int level) {
+  GameState.level = level;
+  GameState.paused = true;
+
+  Animation* animation = fxDoorClose(300);
+  animation->complete = showLevelTile;
+}
+
 // ============ TODO REFACTOR ============ //
 
 void initGame(void) {
@@ -208,12 +236,18 @@ void buildWorld(void) {
   free(GameState.openTiles);
   GameState.pathLength = pathLength;
   GameState.openTiles = malloc(pathLength * sizeof(*GameState.openTiles));
+  GameState.visibleRadius = INITIAL_VISIBLE_RADIUS + GameState.lastVisibleRadius / 2.0;
 
   initItems();
   initStartPos();
 
   launchEnemySpawner();
   updateStepsFromPlayer();
+}
+
+static void gameClear(void* _) {
+  UNUSED(_);
+  nextLevel(GameState.level + 1);
 }
 
 void updateGame(void) {
@@ -235,10 +269,14 @@ void updateGame(void) {
   activateEnemies();
 
   if (GameState.remainItem == 0) {
-    GameState.paused = true;
     player->spoiled = false;
+    GameState.paused = true;
+    GameState.lastVisibleRadius = GameState.visibleRadius;
+    
     expandVision(MAZE_SIZE * 10, 3000);
     clearEnemies();
-    fxFloodGen(player->x, player->y);
+    fxFlood(player->x, player->y);
+
+    delay(5000, gameClear, NULL);
   }
 }

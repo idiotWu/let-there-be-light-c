@@ -24,11 +24,6 @@
 
 static int frameCount = 0;
 
-void setLevel(int level) {
-  GameState.level = level;
-  buildWorld();
-}
-
 // map the given key code to a direction
 Direction keyToDirection(int key) {
   switch (key) {
@@ -67,13 +62,25 @@ void init(void) {
   initGameState();
   initTextures();
   initGame();
-  setLevel(0);
+  nextLevel(0);
 }
 
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
 
-  renderWorld();
+  switch (GameState.currentScene) {
+    case SCENE_STAGE_TITLE:
+      renderStageTitle();
+      break;
+
+    case SCENE_GAME_STAGE:
+      renderWorld();
+      break;
+
+    default:
+      break;
+  }
+
   engineRender();
 
   glutSwapBuffers();

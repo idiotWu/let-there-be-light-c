@@ -182,6 +182,41 @@ static void renderHUD(void) {
   glPopMatrix();
 }
 
+void renderStageTitle(void) {
+  double width = GameState.ortho.width;
+  double height = GameState.ortho.height;
+
+  char title[128];
+  sprintf(title, "WORLD %d-%d", GameState.level / LEVEL_INTERVAL + 1, GameState.level % LEVEL_INTERVAL + 1);
+
+  size_t length = strlen(title);
+
+  glColor3d(1.0, 1.0, 1.0);
+  glRectd(0.0, 0.0, width, height);
+
+  setTexParam(GL_MODULATE);
+  glColor3d(0.0, 0.0, 0.0);
+  renderText(title, (width - length) / 2.0, (height - 1.0) / 2.0, 1.0);
+  restoreDefaultTexParam();
+}
+
+void renderGameTitle(void) {
+  double width = GameState.ortho.width;
+  double height = GameState.ortho.height;
+
+  char* hint = "PRESS ANY KEY";
+
+  size_t length = strlen(hint);
+
+  glColor3d(1.0, 1.0, 1.0);
+  glRectd(0.0, 0.0, width, height);
+
+  setTexParam(GL_MODULATE);
+  glColor3d(0.0, 0.0, 0.0);
+  renderText(hint, (width - length) / 2.0, (height - 1.0) / 2.0, 1.0);
+  restoreDefaultTexParam();
+}
+
 void renderWorld(void) {
   // visible world
   double worldX = GameState.player.x - GameState.visibleRadius + 0.5;

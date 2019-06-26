@@ -10,7 +10,7 @@ State GameState;
 
 void initGameState(void) {
   // TODO: replace next
-  GameState.currentScene = SCENE_GAME_STAGE;
+  GameState.currentScene = SCENE_NONE;
 
   GameState.level = 0;
   GameState.remainItem = 0;
@@ -21,7 +21,8 @@ void initGameState(void) {
   GameState.paused = false;
   GameState.keyPressed = DIR_NONE;
 
-  GameState.visibleRadius = INITIAL_VISIBLE_RADIUS;
+  GameState.visibleRadius = 0.0;
+  GameState.lastVisibleRadius = 0.0;
   GameState.player.idle = true;
   GameState.player.spoiled = false;
   GameState.player.spriteState = 0;

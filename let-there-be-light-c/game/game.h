@@ -8,6 +8,7 @@
 void initGame(void);
 void buildWorld(void);
 void updateGame(void);
+void nextLevel(int level);
 void expandVision(double radius, double duration);
 
 #endif

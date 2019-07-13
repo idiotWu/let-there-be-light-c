@@ -8,20 +8,19 @@
 #include "tile.h"
 #include "floodfill.h"
 #include "util/list.h"
+#include "util/util.h"
 
-static void mark(int x,
-                 int y,
-                 FloodState* state) {
+static void mark(int x, int y, FloodState* state) {
   if (state->depthMap[y][x] != FLOOD_DEPTH_UNVISITED) {
     return;
   }
 
-  Frontier* f = malloc(sizeof(Frontier));
-  f->x = x;
-  f->y = y;
+  vec2i* frontier = malloc(sizeof(vec2i));
+  frontier->x = x;
+  frontier->y = y;
 
-  FrontierNode* node = createNode();
-  node->data = f;
+  Node* node = createNode();
+  node->data = frontier;
 
   listAppend(state->frontiers, node);
   state->depthMap[y][x] = state->currentDepth;
@@ -38,10 +37,11 @@ void floodForward(FloodState* state) {
   ListIterator it = createListIterator(state->frontiers);
 
   while (!it.done) {
-    FrontierNode* head = it.next(&it);
+    Node* head = it.next(&it);
+    vec2i* frontier = head->data;
 
-    int x = head->data->x;
-    int y = head->data->y;
+    int x = frontier->x;
+    int y = frontier->y;
 
     // up
     if (y < MAZE_SIZE - 1 && state->tiles[y + 1][x] & TILE_OPEN) {

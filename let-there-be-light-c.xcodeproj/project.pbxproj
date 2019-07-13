@@ -86,6 +86,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC31F76522CF826900BDF29C /* scene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = scene;
+			sourceTree = "<group>";
+		};
 		DC68FA2A22C2500F0036515E /* maze */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +171,7 @@
 				DC77734E225A168C00F8EA1B /* main.c */,
 				DC33479C227F27CF0027F173 /* config.h */,
 				DC8A4C2D22774BDC00D6BCA4 /* glut.h */,
+				DC31F76522CF826900BDF29C /* scene */,
 				DC68FA2C22C251500036515E /* game */,
 				DC68FA2A22C2500F0036515E /* maze */,
 				DC68FA2D22C252B00036515E /* render */,

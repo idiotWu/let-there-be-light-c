@@ -5,67 +5,35 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define __HAS_ELEMENT(TYPE_A, TYPE_B, ELEMENT) \
-  assert(offsetof(TYPE_A, ELEMENT) == offsetof(TYPE_B, ELEMENT))
+typedef struct Node {
+  void* data;
+  struct Node* prev;
+  struct Node* next;
+} Node;
 
-// duck typing check
-#define SAFE_DUCK_LIST(DuckList) do {\
-  __HAS_ELEMENT(DuckList, List, count);\
-  __HAS_ELEMENT(DuckList, List, head);\
-  __HAS_ELEMENT(DuckList, List, tail);\
-} while(0)
+typedef struct List {
+  size_t count;
+  Node* head;
+  Node* tail;
+} List;
 
-#define SAFE_DUCK_NODE(DuckNode) do {\
-  __HAS_ELEMENT(DuckNode, Node, data);\
-  __HAS_ELEMENT(DuckNode, Node, prev);\
-  __HAS_ELEMENT(DuckNode, Node, next);\
-} while(0)
+void listAppend(List* list, Node* node);
+void listPrepend(List* list, Node* node);
 
-#define defNode(NAME, DATA_TYPE) \
-  typedef struct NAME {\
-    DATA_TYPE* data;\
-    struct NAME* prev;\
-    struct NAME* next;\
-  } NAME
+void listInsertAfter(List* list, Node* prev, Node* node);
+void listDelete(List* list, Node* node);
 
-#define defList(NAME, NODE_TYPE) \
-  typedef struct NAME {\
-    size_t count;\
-    NODE_TYPE* head;\
-    NODE_TYPE* tail;\
-  } NAME
+void listCopy(List* dest, List* src, size_t dataSize);
+List* listClone(List* src, size_t dataSize);
 
-defNode(Node, void);
-//typedef struct Node {
-//  void* data;
-//  struct Node* prev;
-//  struct Node* next;
-//} Node;
+bool listFindDelete(List* list, void* data);
 
-defList(List, Node);
-//typedef struct List {
-//  size_t count;
-//  Node* head;
-//  Node* tail;
-//} List;
+void listFreeNode(Node* node);
+void listClear(List* list);
+void listDestory(List* list);
 
-void listAppend(void* list, void* node);
-void listPrepend(void* list, void* node);
-
-void listInsertAfter(void* list, void* prev, void* node);
-void listDelete(void* list, void* node);
-
-void listCopy(void* dest, void* src, size_t dataSize);
-void* listClone(void* src, size_t dataSize);
-
-bool listFindDelete(void* list, void* data);
-
-void listFreeNode(void* node);
-void listClear(void* _list);
-void listDestory(void* list);
-
-void* createList(void);
-void* createNode(void);
+List* createList(void);
+Node* createNode(void);
 
 ///////////// LIST ITERATOR /////////////
 
@@ -78,10 +46,10 @@ typedef struct ListIterator {
 
   bool done;
 
-  void* (*next)(struct ListIterator*);
+  Node* (*next)(struct ListIterator*);
 } ListIterator;
 
-ListIterator createListIterator(void* list);
+ListIterator createListIterator(List* list);
 
 
 #endif

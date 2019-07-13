@@ -11,16 +11,8 @@
 
 #define FLOOD_DEPTH_UNVISITED  -1
 
-typedef struct Frontier {
-  int x;
-  int y;
-} Frontier;
-
-defNode(FrontierNode, Frontier);
-defList(FrontierList, FrontierNode);
-
 typedef struct FloodState {
-  FrontierList* frontiers;
+  List* frontiers;
   const Tile (*tiles)[MAZE_SIZE];
   int depthMap[MAZE_SIZE][MAZE_SIZE];
   int pathLength;
@@ -31,12 +23,10 @@ typedef struct FloodState {
 void floodForward(FloodState* state);
 
 FloodState* floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                          int x,
-                          int y);
+                          int x, int y);
 
 FloodState* floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE],
-                      int x,
-                      int y);
+                      int x, int y);
 
 void floodDestory(FloodState* state);
 

@@ -126,7 +126,7 @@ Animation* fxExplode(int spriteRow, int x, int y) {
 
 typedef struct FxFloodRecord {
   FloodState* state;
-  FrontierList* frontiers;
+  List* frontiers;
 } FxFloodRecord;
 
 static void fxFloodRender(Animation* animation);
@@ -151,7 +151,7 @@ static void fxFloodNext(FloodState* state) {
   FxFloodRecord* record = malloc(sizeof(FxFloodRecord));
 
   record->state = state;
-  record->frontiers = listClone(state->frontiers, sizeof(Frontier));
+  record->frontiers = listClone(state->frontiers, sizeof(vec2i));
 
   Animation* animation = createAnimation60FPS(FX_FLOOD_DURADION, 1);
   animation->target = record;
@@ -168,9 +168,10 @@ static void renderFrontiers(FxFloodRecord* record, double scale, double alpha) {
   glColor4d(alpha, alpha, alpha, alpha);
   
   while (!it.done) {
-    FrontierNode* node = it.next(&it);
-    int x = node->data->x;
-    int y = node->data->y;
+    Node* node = it.next(&it);
+    vec2i* frontier = node->data;
+    int x = frontier->x;
+    int y = frontier->y;
 
     double ox = x + 0.5;
     double oy = y + 0.5;

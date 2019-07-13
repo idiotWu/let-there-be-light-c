@@ -20,9 +20,6 @@ typedef struct Enemy {
   Animation* movingAnimation;
 } Enemy;
 
-defNode(EnemyNode, Enemy);
-defList(EnemyList, EnemyNode);
-
 void activateEnemies(void);
 
 void launchEnemySpawner(void);

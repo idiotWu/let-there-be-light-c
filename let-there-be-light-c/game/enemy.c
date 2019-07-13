@@ -23,11 +23,11 @@ static void spoilTilesUpdate(Animation* animation) {
   ListIterator it = createListIterator(state->frontiers);
 
   while (!it.done) {
-    FrontierNode* node = it.next(&it);
-    Frontier* f = node->data;
+    Node* node = it.next(&it);
+    vec2i* frontier = node->data;
 
-    setBits(GameState.maze[f->y][f->x], TILE_SPOILED);
-    fxExplode(FX_ICE_SPLIT_ROW, f->x, f->y);
+    setBits(GameState.maze[frontier->y][frontier->x], TILE_SPOILED);
+    fxExplode(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
   }
 }
 
@@ -50,7 +50,7 @@ static void spoilTiles(int x, int y, int radius) {
   animation->complete = spoilTilesComplete;
 }
 
-static void enemyExplode(EnemyNode* node) {
+static void enemyExplode(Node* node) {
   Enemy* enemy = node->data;
   int radius = max(1, (double)enemy->remainSteps / ENEMY_MAX_STEPS * ENEMY_EXPLODE_RADIUS);
 
@@ -65,7 +65,7 @@ static void enemyExplode(EnemyNode* node) {
 
 // ============ Spawn Enemy ============ //
 
-static void moveEnemy(EnemyNode* node);
+static void moveEnemy(Node* node);
 
 // flood-fill path finding
 static vec2i getEnemyDelta(Enemy* enemy) {
@@ -94,7 +94,7 @@ static vec2i getEnemyDelta(Enemy* enemy) {
 
 // move enemy update callback
 static void moveEnemyUpdate(Animation* animation) {
-  EnemyNode* node = animation->target;
+  Node* node = animation->target;
   Enemy* enemy = node->data;
   vec2i* fromPos = animation->from;
   vec2i* delta = animation->delta;
@@ -113,7 +113,7 @@ static void moveEnemyUpdate(Animation* animation) {
 
 // move enemy complete callback
 static void moveEnemyComplete(Animation* animation) {
-  EnemyNode* node = animation->target;
+  Node* node = animation->target;
   Enemy* enemy = node->data;
   enemy->remainSteps--;
 
@@ -124,7 +124,7 @@ static void moveEnemyComplete(Animation* animation) {
   }
 }
 
-static void moveEnemy(EnemyNode* node) {
+static void moveEnemy(Node* node) {
   Enemy* enemy = node->data;
 
   if (!enemy->activated) {
@@ -161,7 +161,7 @@ void activateEnemies(void) {
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {
-    EnemyNode* node = it.next(&it);
+    Node* node = it.next(&it);
     Enemy* enemy = node->data;
 
     if (enemy->activated) {
@@ -208,7 +208,7 @@ static void createEnemy(Animation* animation) {
   enemy->direction = getAvailableDirection(GameState.maze, pos.x, pos.y);
   enemy->remainSteps = randomInt(ENEMY_MIN_STEPS, ENEMY_MAX_STEPS);
 
-  EnemyNode* node = createNode();
+  Node* node = createNode();
   node->data = enemy;
 
   listAppend(GameState.enemies, node);
@@ -235,7 +235,7 @@ void clearEnemies(void) {
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {
-    EnemyNode* node = it.next(&it);
+    Node* node = it.next(&it);
     Enemy* enemy = node->data;
 
     cancelAnimation(enemy->movingAnimation);

@@ -46,7 +46,7 @@ typedef struct State {
   double visibleRadius;
   double lastVisibleRadius;
   Player player;
-  EnemyList* enemies;
+  List* enemies;
 
   ClientRect ortho;
   ClientRect viewport;

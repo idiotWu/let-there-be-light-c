@@ -82,7 +82,7 @@ static void updateEnemyState(Animation* animation) {
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {
-    EnemyNode* node = it.next(&it);
+    Node* node = it.next(&it);
     Enemy* enemy = node->data;
 
     if (enemy->activated) {

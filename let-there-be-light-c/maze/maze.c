@@ -33,13 +33,7 @@ typedef struct MazeBuilder {
   int spawnerCount;
 } MazeBuilder;
 
-defNode(BuilderNode, MazeBuilder);
-defList(BuilderList, BuilderNode);
-
-static Direction filterDirections(int x,
-                                  int y,
-                                  int limit,
-                                  Direction candidates) {
+static Direction filterDirections(int x, int y, int limit, Direction candidates) {
   if (x == 0 || x == 1 /* odd numbers of distance are not allowed */) {
     candidates &= ~DIR_LEFT; // clear the specific bit
   } else if (x == limit || x == limit - 1) {
@@ -205,7 +199,7 @@ static void initBuilders(int minDistance,
                          int maxDistance,
                          int spawnerCount,
                          vec2i spawners[],
-                         BuilderList* builders) {
+                         List* builders) {
   int limit = MAZE_SIZE - 1;
 
   for (int i = 0; i < spawnerCount; i++) {
@@ -231,7 +225,7 @@ static void initBuilders(int minDistance,
       builder->spawnerCount = spawnerCount;
       builder->vx = builder->vy = builder->remain = 0;
 
-      BuilderNode* node = createNode();
+      Node* node = createNode();
       node->data = builder;
 
       listAppend(builders, node);
@@ -241,12 +235,12 @@ static void initBuilders(int minDistance,
   }
 }
 
-static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], BuilderList* builders) {
+static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], List* builders) {
   while (builders->count) {
     ListIterator it = createListIterator(builders);
 
     while (!it.done) {
-      BuilderNode* node = it.next(&it);
+      Node* node = it.next(&it);
       MazeBuilder* b = node->data;
 
       moveBuilder(b);
@@ -285,7 +279,7 @@ int initMaze(int spawnerCount,
              int maxDistance,
              Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   vec2i* spawners = malloc(sizeof(vec2i) * spawnerCount);
-  BuilderList* builders = createList();
+  List* builders = createList();
 
   memset(tiles, TILE_WALL, sizeof(tiles[0][0]) * MAZE_SIZE * MAZE_SIZE);
 

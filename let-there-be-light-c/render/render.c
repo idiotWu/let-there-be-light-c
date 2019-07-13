@@ -131,7 +131,7 @@ static void renderEnemies(void) {
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {
-    EnemyNode* node = it.next(&it);
+    Node* node = it.next(&it);
     Enemy* enemy = node->data;
     double ox = enemy->x + 0.5;
     double oy = enemy->y + 0.5;

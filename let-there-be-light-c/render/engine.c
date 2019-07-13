@@ -25,15 +25,12 @@
 #include "engine.h"
 #include "util/list.h"
 
-defNode(TimelineNode, Animation);
-defList(Timeline, TimelineNode);
-
 typedef struct Delay {
   DelayCallback callback;
   void* data;
 } Delay;
 
-static Timeline GameTL;
+static List GameTL;
 
 /**
  * Animation Model:
@@ -74,7 +71,7 @@ Animation* createAnimation(int frameCount,
   animation->deleteInNextIteration = false;
   animation->cleanFlag = ANIMATION_CLEAN_FROM | ANIMATION_CLEAN_DELTA;
 
-  TimelineNode* node = createNode();
+  Node* node = createNode();
   node->data = animation;
 
   listAppend(&GameTL, node);
@@ -112,7 +109,7 @@ void engineNextFrame(void) {
   ListIterator it = createListIterator(&GameTL);
 
   while (!it.done) {
-    TimelineNode* node = it.next(&it);
+    Node* node = it.next(&it);
 
     Animation* animation = node->data;
 
@@ -165,7 +162,7 @@ void engineRender(void) {
   ListIterator it = createListIterator(&GameTL);
 
   while (!it.done) {
-    TimelineNode* node = it.next(&it);
+    Node* node = it.next(&it);
 
     Animation* animation = node->data;
 

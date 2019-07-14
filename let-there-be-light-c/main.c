@@ -6,15 +6,14 @@
 #include "glut.h"
 
 #include "config.h"
+#include "state.h"
+
 #include "util/util.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
-#include "game/state.h"
-#include "game/game.h"
-#include "render/fx.h"
-#include "render/render.h"
-#include "render/engine.h"
-#include "render/texture.h"
+#include "engine/fx.h"
+#include "engine/engine.h"
+#include "engine/texture.h"
 #include "maze/direction.h"
 
 #define GAME_TITLE "Let There Be Light"
@@ -24,62 +23,19 @@
 
 static int frameCount = 0;
 
-// map the given key code to a direction
-Direction keyToDirection(int key) {
-  switch (key) {
-    case GLUT_KEY_UP:
-      return DIR_UP;
-
-    case GLUT_KEY_RIGHT:
-      return DIR_RIGHT;
-
-    case GLUT_KEY_DOWN:
-      return DIR_DOWN;
-
-    case GLUT_KEY_LEFT:
-      return DIR_LEFT;
-
-    default:
-      return DIR_NONE;
-  }
-}
-
-void keydownHandler(int key, int x, int y) {
-  UNUSED(x); UNUSED(y);
-  setBits(GameState.keyPressed, keyToDirection(key));
-}
-
-void keyupHandler(int key, int x, int y) {
-  UNUSED(x); UNUSED(y);
-  clearBits(GameState.keyPressed, keyToDirection(key));
-}
-
 void init(void) {
   glClearColor(0.0, 0.0, 0.0, 0.0);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
 
+  loadTextures();
   initGameState();
-  initTextures();
-  initGame();
-  nextLevel(0);
 }
 
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
 
-  switch (GameState.currentScene) {
-    case SCENE_STAGE_TITLE:
-      renderStageTitle();
-      break;
-
-    case SCENE_GAME_STAGE:
-      renderWorld();
-      break;
-
-    default:
-      break;
-  }
+  GameState.scene->render();
 
   engineRender();
 
@@ -112,7 +68,7 @@ void update(int timestamp) {
 
   glutTimerFunc(ANIMATION_60_FPS, update, timestamp);
 
-  updateGame();
+  GameState.scene->update();
   engineNextFrame();
 
 #ifdef __APPLE__
@@ -171,10 +127,6 @@ int main(int argc, char* argv[]) {
   glutCreateWindow(GAME_TITLE);
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
-
-  // keyboard handlers
-  glutSpecialFunc(keydownHandler);
-  glutSpecialUpFunc(keyupHandler);
 
   init();
   update(glutGet(GLUT_ELAPSED_TIME));

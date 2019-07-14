@@ -37,4 +37,6 @@ double clamp(double val, double min, double max);
 
 double distance(double x1, double y1, double x2, double y2);
 
+void noop(void);
+
 #endif

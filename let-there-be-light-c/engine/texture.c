@@ -220,7 +220,7 @@ void renderText(const char* str,
   glPopMatrix();
 }
 
-void initTextures(void) {
+void loadTextures(void) {
   PLAYER_SPRITES = malloc(sizeof(Sprite));
   PLAYER_SPRITES_SPOILED = malloc(sizeof(Sprite));
   ENEMY_SPRITES = malloc(sizeof(Sprite));

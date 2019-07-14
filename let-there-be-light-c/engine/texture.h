@@ -73,6 +73,6 @@ void renderText(const char* str,
                 double x, double y,
                 double fontSize);
 
-void initTextures(void);
+void loadTextures(void);
 
 #endif

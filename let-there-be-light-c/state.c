@@ -5,13 +5,12 @@
 #include "state.h"
 #include "util/list.h"
 #include "maze/direction.h"
+#include "scene/scene.h"
+#include "scene/game/game.h"
 
 State GameState;
 
 void initGameState(void) {
-  // TODO: replace next
-  GameState.currentScene = SCENE_NONE;
-
   GameState.level = 0;
   GameState.remainItem = 0;
 
@@ -19,7 +18,6 @@ void initGameState(void) {
   GameState.pathLength = 0;
 
   GameState.paused = false;
-  GameState.keyPressed = DIR_NONE;
 
   GameState.visibleRadius = 0.0;
   GameState.lastVisibleRadius = 0.0;
@@ -28,4 +26,7 @@ void initGameState(void) {
   GameState.player.spriteState = 0;
   
   GameState.enemies = createList();
+
+  // TODO: replace next
+  switchScene(gameScene);
 }

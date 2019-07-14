@@ -17,4 +17,7 @@ typedef struct Player {
 void movePlayer(int deltaX, int deltaY);
 void updateStepsFromPlayer(void);
 
+void initPlayer(void);
+void destroyPlayer(void);
+
 #endif

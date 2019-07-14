@@ -4,20 +4,21 @@
 #include "glut.h"
 
 #include "config.h"
+#include "state.h"
 
 #include "render.h"
-#include "engine.h"
-#include "texture.h"
-#include "game/state.h"
+
+#include "engine/engine.h"
+#include "engine/texture.h"
 #include "maze/direction.h"
 #include "maze/tile.h"
 #include "util/list.h"
 #include "util/util.h"
 
-#define CHARACTER_SPRITE_SCALE     1.2
-#define CHARACTER_SPRITE_BASELINE  0.3
+#define CHARACTER_SPRITE_SCALE      1.2
+#define CHARACTER_SPRITE_BASELINE   0.3
 
-#define ENERGY_BAR_WIDTH        (MAZE_SIZE / 4.0)
+#define ENERGY_BAR_WIDTH            (MAZE_SIZE / 4.0)
 
 static void clipRect(double x, double y, double width, double height) {
   // enable writing to the stencil buffer
@@ -182,42 +183,7 @@ static void renderHUD(void) {
   glPopMatrix();
 }
 
-void renderStageTitle(void) {
-  double width = GameState.ortho.width;
-  double height = GameState.ortho.height;
-
-  char title[128];
-  sprintf(title, "WORLD %d-%d", GameState.level / LEVEL_INTERVAL + 1, GameState.level % LEVEL_INTERVAL + 1);
-
-  size_t length = strlen(title);
-
-  glColor3d(1.0, 1.0, 1.0);
-  glRectd(0.0, 0.0, width, height);
-
-  setTexParam(GL_MODULATE);
-  glColor3d(0.0, 0.0, 0.0);
-  renderText(title, (width - length) / 2.0, (height - 1.0) / 2.0, 1.0);
-  restoreDefaultTexParam();
-}
-
-void renderGameTitle(void) {
-  double width = GameState.ortho.width;
-  double height = GameState.ortho.height;
-
-  char* hint = "PRESS ANY KEY";
-
-  size_t length = strlen(hint);
-
-  glColor3d(1.0, 1.0, 1.0);
-  glRectd(0.0, 0.0, width, height);
-
-  setTexParam(GL_MODULATE);
-  glColor3d(0.0, 0.0, 0.0);
-  renderText(hint, (width - length) / 2.0, (height - 1.0) / 2.0, 1.0);
-  restoreDefaultTexParam();
-}
-
-void renderWorld(void) {
+void renderGame(void) {
   // visible world
   double worldX = GameState.player.x - GameState.visibleRadius + 0.5;
   double worldY = GameState.player.y - GameState.visibleRadius + 0.5;
@@ -235,3 +201,4 @@ void renderWorld(void) {
 
   renderHUD();
 }
+

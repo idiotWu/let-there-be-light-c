@@ -6,20 +6,37 @@
 #include "glut.h"
 
 #include "config.h"
+#include "state.h"
 
 #include "game.h"
-#include "state.h"
-#include "player.h"
 #include "enemy.h"
+#include "player.h"
+#include "render.h"
+#include "keyboard.h"
 
+#include "scene/level-title/level-title.h"
+#include "scene/scene.h"
 #include "util/util.h"
 #include "maze/maze.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"
 #include "maze/direction.h"
-#include "render/fx.h"
-#include "render/engine.h"
-#include "render/texture.h"
+#include "engine/fx.h"
+#include "engine/engine.h"
+#include "engine/texture.h"
+
+static void initGame(void);
+static void updateGame(void);
+static void leaveGame(void);
+
+static Scene game = {
+  .init = initGame,
+  .update = updateGame,
+  .render = renderGame,
+  .destroy = leaveGame,
+};
+
+Scene* gameScene = &game;
 
 // ============ Maze Initialization Begin ============ //
 
@@ -50,59 +67,36 @@ static void initItems(void) {
   }
 }
 
-static void initStartPos(void) {
-  int startIndex = randomInt(0, GameState.pathLength - 1);
+// ============ Visible Radius ============ //
 
-  vec2i startPos = GameState.openTiles[startIndex];
+static void expandVisionUpdate(Animation* animation) {
+  double* fromRadius = animation->from;
+  double* deltaRadius = animation->delta;
 
-  GameState.player.x = startPos.x;
-  GameState.player.y = startPos.y;
+  double percent = (double)animation->currentFrame / animation->frameCount;
 
-  GameState.player.direction = getAvailableDirection(GameState.maze, startPos.x, startPos.y);
+  GameState.visibleRadius = *fromRadius + *deltaRadius * percent;
 }
 
-// ============ State Updater Begin ============ //
+static void expandVision(double radius, double duration) {
+  double* fromRadius = malloc(sizeof(double));
+  double* deltaRadius = malloc(sizeof(double));
 
-// forward player's state
-static void updatePlayerState(Animation* animation) {
-  // slows down when player is idle (i.e. play is not moving)
-  if (GameState.player.idle && animation->currentFrame != 1) {
-    return;
-  }
+  *fromRadius = GameState.visibleRadius;
+  *deltaRadius = radius - GameState.visibleRadius;
 
-  GameState.player.spriteState = (GameState.player.spriteState + 1) % PLAYER_SPRITES->cols;
-}
+  Animation* animation = createAnimation60FPS(duration, 1);
 
-static void updateEnemyState(Animation* animation) {
-  // TODO: slow down enemy
-  if (animation->currentFrame % 2 != 0) {
-    return;
-  }
-
-  ListIterator it = createListIterator(GameState.enemies);
-
-  while (!it.done) {
-    Node* node = it.next(&it);
-    Enemy* enemy = node->data;
-
-    if (enemy->activated) {
-      enemy->spriteState = (enemy->spriteState + 1) % ENEMY_SPRITES->cols;
-    } else {
-      enemy->spriteState = ENEMY_INACTIVE_COL;
-    }
-  }
-}
-
-static void updateCharacterState(Animation* animation) {
-  updatePlayerState(animation);
-  updateEnemyState(animation);
+  animation->from = fromRadius;
+  animation->delta = deltaRadius;
+  animation->render = expandVisionUpdate;
 }
 
 // ============ Keyboard Handler ============ //
 
 // handle pressed arrow keys
 static void readKeyboard(void) {
-  Direction moveDir = GameState.keyPressed;
+  Direction moveDir = getPressedKeys();
 
   if (moveDir == DIR_NONE) {
     return;
@@ -158,47 +152,21 @@ static void updateItems(void) {
   }
 }
 
-// ============ Visible Radius ============ //
-
-static void expandVisionUpdate(Animation* animation) {
-  double* fromRadius = animation->from;
-  double* deltaRadius = animation->delta;
-
-  double percent = (double)animation->currentFrame / animation->frameCount;
-
-  GameState.visibleRadius = *fromRadius + *deltaRadius * percent;
-}
-
-void expandVision(double radius, double duration) {
-  double* fromRadius = malloc(sizeof(double));
-  double* deltaRadius = malloc(sizeof(double));
-
-  *fromRadius = GameState.visibleRadius;
-  *deltaRadius = radius - GameState.visibleRadius;
-
-  Animation* animation = createAnimation60FPS(duration, 1);
-
-  animation->from = fromRadius;
-  animation->delta = deltaRadius;
-  animation->render = expandVisionUpdate;
-}
-
 // ============ Set Level ============ //
 
 static void enterNextLevel(void* _) {
   UNUSED(_);
 
-  buildWorld();
-
+  switchScene(gameScene);
   GameState.paused = false;
-  GameState.currentScene = SCENE_GAME_STAGE;
 
   fxDoorOpen(300);
 }
 
 static void showLevelTile(Animation* _) {
   UNUSED(_);
-  GameState.currentScene = SCENE_STAGE_TITLE;
+
+  switchScene(levelTitleScene);
 
   delay(1000, enterNextLevel, NULL);
 }
@@ -213,14 +181,7 @@ void nextLevel(int level) {
 
 // ============ TODO REFACTOR ============ //
 
-void initGame(void) {
-  // update character state
-  Animation* characterStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION, ANIMATION_INFINITY);
-
-  characterStateUpdater->update = updateCharacterState;
-}
-
-void buildWorld(void) {
+static void initGame(void) {
   int spawnerCount = MIN_SPAWNER_COUNT + GameState.level / LEVEL_INTERVAL;
   int minDistance = 2 * (LEVEL_INTERVAL - GameState.level % LEVEL_INTERVAL); // 2, 4, 6, ...
   int maxDistance = minDistance * 2;
@@ -239,10 +200,10 @@ void buildWorld(void) {
   GameState.visibleRadius = INITIAL_VISIBLE_RADIUS + GameState.lastVisibleRadius / 2.0;
 
   initItems();
-  initStartPos();
+  initPlayer();
+  initEnemy();
 
-  launchEnemySpawner();
-  updateStepsFromPlayer();
+  bindGameKeyboardHandlers();
 }
 
 static void gameClear(void* _) {
@@ -250,7 +211,7 @@ static void gameClear(void* _) {
   nextLevel(GameState.level + 1);
 }
 
-void updateGame(void) {
+static void updateGame(void) {
   if (GameState.paused) {
     return;
   }
@@ -272,11 +233,17 @@ void updateGame(void) {
     player->spoiled = false;
     GameState.paused = true;
     GameState.lastVisibleRadius = GameState.visibleRadius;
-    
+
     expandVision(MAZE_SIZE * 10, 3000);
-    clearEnemies();
+    destroyEnemy();
     fxFlood(player->x, player->y);
 
     delay(5000, gameClear, NULL);
   }
+}
+
+static void leaveGame(void) {
+  destroyPlayer();
+  destroyEnemy();
+  removeGameKeyboardHandlers();
 }

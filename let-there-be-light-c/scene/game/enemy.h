@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "util/list.h"
-#include "render/engine.h"
+#include "engine/engine.h"
 #include "maze/direction.h"
 
 typedef struct Enemy {
@@ -22,9 +22,7 @@ typedef struct Enemy {
 
 void activateEnemies(void);
 
-void launchEnemySpawner(void);
-void destroyEnemySpawner(void);
-
-void clearEnemies(void);
+void initEnemy(void);
+void destroyEnemy(void);
 
 #endif

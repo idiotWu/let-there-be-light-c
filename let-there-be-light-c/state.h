@@ -8,17 +8,10 @@
 #include "player.h"
 #include "enemy.h"
 
+#include "scene/scene.h"
 #include "util/util.h"
 #include "util/list.h"
 #include "maze/tile.h"
-#include "maze/direction.h"
-
-typedef enum Scene {
-  SCENE_NONE,
-  SCENE_TITLE,
-  SCENE_STAGE_TITLE,
-  SCENE_GAME_STAGE,
-} Scene;
 
 typedef struct ClientRect {
   double top;
@@ -30,7 +23,7 @@ typedef struct ClientRect {
 } ClientRect;
 
 typedef struct State {
-  Scene currentScene;
+  Scene* scene;
   
   int level;
   int remainItem;
@@ -41,7 +34,6 @@ typedef struct State {
   int pathLength;
 
   bool paused;
-  Direction keyPressed;
 
   double visibleRadius;
   double lastVisibleRadius;

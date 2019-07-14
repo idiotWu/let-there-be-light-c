@@ -2,13 +2,13 @@
 #include "glut.h"
 
 #include "config.h"
+#include "state.h"
 
 #include "fx.h"
 #include "engine.h"
 #include "texture.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"
-#include "game/state.h"
 #include "util/list.h"
 #include "util/util.h"
 

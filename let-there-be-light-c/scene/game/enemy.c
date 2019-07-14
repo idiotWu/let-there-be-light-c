@@ -3,15 +3,17 @@
 #include "enemy.h"
 #include "state.h"
 
-#include "render/fx.h"
-#include "render/engine.h"
-#include "render/texture.h"
+#include "engine/fx.h"
+#include "engine/engine.h"
+#include "engine/texture.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
 #include "maze/floodfill.h"
 #include "util/util.h"
+#include "util/list.h"
 
 static Animation* enemySpawner = NULL;
+static Animation* enemyIdleStateUpdater;
 
 // ============ Explode & Spoil ============ //
 
@@ -216,22 +218,43 @@ static void createEnemy(Animation* animation) {
   fxExplode(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
 }
 
-void launchEnemySpawner(void) {
-  // cleanning
-  destroyEnemySpawner();
+static void updateEnemyState(Animation* animation) {
+  UNUSED(animation);
 
+  ListIterator it = createListIterator(GameState.enemies);
+
+  while (!it.done) {
+    Node* node = it.next(&it);
+    Enemy* enemy = node->data;
+
+    if (enemy->activated) {
+      enemy->spriteState = (enemy->spriteState + 1) % ENEMY_SPRITES->cols;
+    } else {
+      enemy->spriteState = ENEMY_INACTIVE_COL;
+    }
+  }
+}
+
+// ============ Misc ============ //
+
+void initEnemy(void) {
   // TODO: adjust speed
   enemySpawner = createAnimation(1, ENEMY_SPAWN_INTERVEL, ANIMATION_INFINITY);
 
   enemySpawner->update = createEnemy;
+
+  // TODO: slow down enemy
+  enemyIdleStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION * 2, ANIMATION_INFINITY);
+
+  enemyIdleStateUpdater->update = updateEnemyState;
 }
 
-void destroyEnemySpawner(void) {
+void destroyEnemy(void) {
   cancelAnimation(enemySpawner);
-  enemySpawner = NULL;
-}
+  cancelAnimation(enemyIdleStateUpdater);
 
-void clearEnemies(void) {
+  enemySpawner = enemyIdleStateUpdater = NULL;
+
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {

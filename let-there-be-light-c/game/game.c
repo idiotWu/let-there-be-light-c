@@ -27,7 +27,7 @@ static void initItems(void) {
   Tile (*tiles)[MAZE_SIZE] = GameState.maze;
 
   // item desity: (0.5, 1]
-  double itemDesity = 1.0 - (GameState.level % LEVEL_INTERVAL) / LEVEL_INTERVAL * 0.5;
+  double itemDesity = 1.0 - (double)(GameState.level % LEVEL_INTERVAL) / LEVEL_INTERVAL * 0.5;
 
   int openCount = 0;
 

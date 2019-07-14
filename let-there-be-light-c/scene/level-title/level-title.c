@@ -11,6 +11,8 @@
 #include "util/util.h"
 #include "engine/texture.h"
 
+#define FONT_SIZE 1.2
+
 static void renderLevelTitle(void);
 
 static Scene levelTitle = {
@@ -36,6 +38,6 @@ static void renderLevelTitle(void) {
 
   setTexParam(GL_MODULATE);
   glColor3d(0.0, 0.0, 0.0);
-  renderText(title, (width - length) / 2.0, (height - 1.0) / 2.0, 1.0);
+  renderText(title, (width - length * FONT_SIZE) / 2.0, (height - FONT_SIZE) / 2.0, FONT_SIZE);
   restoreDefaultTexParam();
 }

@@ -23,6 +23,6 @@ typedef struct Enemy {
 void activateEnemies(void);
 
 void initEnemy(void);
-void destroyEnemy(void);
+void destroyEnemy(bool shouldExpload);
 
 #endif

@@ -169,7 +169,9 @@ static void renderHUD(void) {
   length = strlen(buffer);
   renderText(buffer, 0, 0, 1);
 
-  renderEnergyBar(clamp(GameState.visibleRadius / MAX_VISIBLE_RADIUS, 0.0, 1.0), length, 0, ENERGY_BAR_WIDTH, 1);
+  renderEnergyBar(clamp(GameState.visibleRadius / MAX_VISIBLE_RADIUS, 0.0, 1.0),
+                  length + 0.25, 0,
+                  ENERGY_BAR_WIDTH, 1);
 
   glPopMatrix();
   restoreDefaultTexParam();
@@ -178,7 +180,9 @@ static void renderHUD(void) {
   sprintf(buffer, "%03d", GameState.remainItem);
   length = strlen(buffer);
   renderText(buffer, MAZE_SIZE - length, 0, 1);
-  renderSprite(MISC_SPRITES, COIN_BIG_ROW, COIN_BIG_COL, MAZE_SIZE - length - 1, 0, 1, 1);
+  renderSprite(MISC_SPRITES, COIN_BIG_ROW, COIN_BIG_COL,
+               MAZE_SIZE - length - 1.25, 0,
+               1, 1);
 
   glPopMatrix();
 }

@@ -12,6 +12,7 @@
 		DC31F7AB22DB644100BDF29C /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = DC31F7AA22DB644100BDF29C /* render.c */; };
 		DC31F7AE22DB662700BDF29C /* keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = DC31F7AD22DB662700BDF29C /* keyboard.c */; };
 		DC31F7B222DB745200BDF29C /* level-title.c in Sources */ = {isa = PBXBuildFile; fileRef = DC31F7B122DB745200BDF29C /* level-title.c */; };
+		DC31F7B922DB8ED600BDF29C /* game-over.c in Sources */ = {isa = PBXBuildFile; fileRef = DC31F7B822DB8ED600BDF29C /* game-over.c */; };
 		DC3347C32283D3320027F173 /* floodfill.c in Sources */ = {isa = PBXBuildFile; fileRef = DC3347C22283D3320027F173 /* floodfill.c */; };
 		DC5F74E1228F1404007A2301 /* engine.c in Sources */ = {isa = PBXBuildFile; fileRef = DC5F74E0228F1404007A2301 /* engine.c */; };
 		DC68FA2022C237A30036515E /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = DC68FA1F22C237A30036515E /* player.c */; };
@@ -51,6 +52,8 @@
 		DC31F7AD22DB662700BDF29C /* keyboard.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = keyboard.c; sourceTree = "<group>"; };
 		DC31F7B022DB745200BDF29C /* level-title.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "level-title.h"; sourceTree = "<group>"; };
 		DC31F7B122DB745200BDF29C /* level-title.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "level-title.c"; sourceTree = "<group>"; };
+		DC31F7B722DB8ED600BDF29C /* game-over.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "game-over.h"; sourceTree = "<group>"; };
+		DC31F7B822DB8ED600BDF29C /* game-over.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "game-over.c"; sourceTree = "<group>"; };
 		DC33479C227F27CF0027F173 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		DC3347C12283D3320027F173 /* floodfill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = floodfill.h; sourceTree = "<group>"; };
 		DC3347C22283D3320027F173 /* floodfill.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = floodfill.c; sourceTree = "<group>"; };
@@ -98,6 +101,7 @@
 		DC31F76522CF826900BDF29C /* scene */ = {
 			isa = PBXGroup;
 			children = (
+				DC31F7B622DB8E2D00BDF29C /* game-over */,
 				DC31F7AF22DB739700BDF29C /* level-title */,
 				DC31F7A822DB631600BDF29C /* game */,
 				DC31F7A222DB2BE200BDF29C /* scene.h */,
@@ -130,6 +134,15 @@
 				DC31F7B122DB745200BDF29C /* level-title.c */,
 			);
 			path = "level-title";
+			sourceTree = "<group>";
+		};
+		DC31F7B622DB8E2D00BDF29C /* game-over */ = {
+			isa = PBXGroup;
+			children = (
+				DC31F7B722DB8ED600BDF29C /* game-over.h */,
+				DC31F7B822DB8ED600BDF29C /* game-over.c */,
+			);
+			path = "game-over";
 			sourceTree = "<group>";
 		};
 		DC68FA2A22C2500F0036515E /* maze */ = {
@@ -283,6 +296,7 @@
 				DC8B3D9B22B3CBC700E863B3 /* texture.c in Sources */,
 				DC8A4C332278826300D6BCA4 /* direction.c in Sources */,
 				DC8A4C3A2278AB6B00D6BCA4 /* util.c in Sources */,
+				DC31F7B922DB8ED600BDF29C /* game-over.c in Sources */,
 				DC8A4C302278819600D6BCA4 /* maze.c in Sources */,
 				DC77734F225A168C00F8EA1B /* main.c in Sources */,
 			);

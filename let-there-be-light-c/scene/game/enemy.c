@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "enemy.h"
 #include "state.h"
@@ -249,7 +250,7 @@ void initEnemy(void) {
   enemyIdleStateUpdater->update = updateEnemyState;
 }
 
-void destroyEnemy(void) {
+void destroyEnemy(bool shouldExpload) {
   cancelAnimation(enemySpawner);
   cancelAnimation(enemyIdleStateUpdater);
 
@@ -263,7 +264,9 @@ void destroyEnemy(void) {
 
     cancelAnimation(enemy->movingAnimation);
 
-    fxExplode(FX_SMOKE_ROW, enemy->x, enemy->y);
+    if (shouldExpload) {
+      fxExplode(FX_SMOKE_ROW, enemy->x, enemy->y);
+    }
 
     listDelete(GameState.enemies, node);
   }

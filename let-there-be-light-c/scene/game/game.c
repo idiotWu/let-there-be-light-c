@@ -15,6 +15,7 @@
 #include "keyboard.h"
 
 #include "scene/level-title/level-title.h"
+#include "scene/game-over/game-over.h"
 #include "scene/scene.h"
 #include "util/util.h"
 #include "maze/maze.h"
@@ -171,7 +172,7 @@ static void showLevelTile(Animation* _) {
   delay(1000, enterNextLevel, NULL);
 }
 
-void nextLevel(int level) {
+static void nextLevel(int level) {
   GameState.level = level;
   GameState.paused = true;
 
@@ -222,6 +223,10 @@ static void updateGame(void) {
 
   GameState.visibleRadius -= RADIUS_DECREASING_RATE * (player->spoiled ? SPOILED_DAMAGE : 1.0);
 
+  if (GameState.visibleRadius <= 0) {
+    return switchScene(gameOverScene);
+  }
+
   if (GameState.player.idle) {
     updateItems();
     readKeyboard();
@@ -235,7 +240,7 @@ static void updateGame(void) {
     GameState.lastVisibleRadius = GameState.visibleRadius;
 
     expandVision(MAZE_SIZE * 10, 3000);
-    destroyEnemy();
+    destroyEnemy(true);
     fxFlood(player->x, player->y);
 
     delay(5000, gameClear, NULL);
@@ -244,6 +249,6 @@ static void updateGame(void) {
 
 static void leaveGame(void) {
   destroyPlayer();
-  destroyEnemy();
+  destroyEnemy(false);
   removeGameKeyboardHandlers();
 }

@@ -251,8 +251,8 @@ void loadTextures(void) {
   FX_SPRITES->cols = 5;
 
   FONT_SPRITES->texture = createTextureFrom(IMG_FONT);
-  FONT_SPRITES->rows = 8;
-  FONT_SPRITES->cols = 15;
+  FONT_SPRITES->rows = 11;
+  FONT_SPRITES->cols = 11;
 
   ENERGY_BAR_SPRITES->texture = createTextureFrom(IMG_ENERGY_BAR);
   ENERGY_BAR_SPRITES->rows = 5;

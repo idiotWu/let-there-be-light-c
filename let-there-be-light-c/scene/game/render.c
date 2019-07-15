@@ -160,7 +160,7 @@ static void renderHUD(void) {
 
   if (GameState.player.spoiled) {
     glTranslated(randomBetween(-0.2, 0.2), randomBetween(-0.2, 0.2), 0);
-    glColor4d(0.0, 0.5, 1.0, 1.0);
+    glColor4d(0.2, 0.5, 1.0, 1.0);
   } else {
     glColor4d(1.0, 1.0, 1.0, 1.0);
   }

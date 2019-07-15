@@ -11,7 +11,6 @@
 #include "util/util.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
-#include "engine/fx.h"
 #include "engine/engine.h"
 #include "engine/texture.h"
 #include "maze/direction.h"

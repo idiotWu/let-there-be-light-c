@@ -33,9 +33,9 @@ static Scene gameOver = {
 
 Scene* gameOverScene = &gameOver;
 
-const char* msg = "GAME OVER";
+static const char* msg = "GAME OVER";
 
-bool animationFinished = false;
+static bool animationFinished = false;
 
 static void showMessage(const char* str) {
   size_t length = strlen(str);
@@ -53,8 +53,6 @@ static void showMessage(const char* str) {
 
   // replace one letter randomly
   tmp[randomIdx] = RANDOM_CHAR;
-
-  //  size_t length = strlen(str);
 
   setTexParam(GL_MODULATE);
   glColor3d(0.6, 0.2, 0.2);

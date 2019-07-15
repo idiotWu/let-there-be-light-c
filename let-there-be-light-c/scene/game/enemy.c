@@ -2,9 +2,10 @@
 #include <stdbool.h>
 
 #include "enemy.h"
+
+#include "fx.h"
 #include "state.h"
 
-#include "engine/fx.h"
 #include "engine/engine.h"
 #include "engine/texture.h"
 #include "maze/tile.h"

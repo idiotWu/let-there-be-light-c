@@ -8,6 +8,7 @@
 #include "config.h"
 #include "state.h"
 
+#include "fx.h"
 #include "game.h"
 #include "enemy.h"
 #include "player.h"
@@ -17,12 +18,12 @@
 #include "scene/level-title/level-title.h"
 #include "scene/game-over/game-over.h"
 #include "scene/scene.h"
+#include "scene/transition.h"
 #include "util/util.h"
 #include "maze/maze.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"
 #include "maze/direction.h"
-#include "engine/fx.h"
 #include "engine/engine.h"
 #include "engine/texture.h"
 
@@ -153,33 +154,6 @@ static void updateItems(void) {
   }
 }
 
-// ============ Set Level ============ //
-
-static void enterNextLevel(void* _) {
-  UNUSED(_);
-
-  switchScene(gameScene);
-  GameState.paused = false;
-
-  fxDoorOpen(300);
-}
-
-static void showLevelTile(Animation* _) {
-  UNUSED(_);
-
-  switchScene(levelTitleScene);
-
-  delay(1000, enterNextLevel, NULL);
-}
-
-static void nextLevel(int level) {
-  GameState.level = level;
-  GameState.paused = true;
-
-  Animation* animation = fxDoorClose(300);
-  animation->complete = showLevelTile;
-}
-
 // ============ TODO REFACTOR ============ //
 
 static void initGame(void) {
@@ -196,6 +170,8 @@ static void initGame(void) {
   } while(pathLength < MIN_PATH_LENGTH && tried < 5);
 
   free(GameState.openTiles);
+
+  GameState.paused = false;
   GameState.pathLength = pathLength;
   GameState.openTiles = malloc(pathLength * sizeof(*GameState.openTiles));
   GameState.visibleRadius = INITIAL_VISIBLE_RADIUS + GameState.lastVisibleRadius / 2.0;
@@ -209,7 +185,12 @@ static void initGame(void) {
 
 static void gameClear(void* _) {
   UNUSED(_);
-  nextLevel(GameState.level + 1);
+
+  GameState.level++;
+  GameState.paused = true;
+
+  transitionQueue(LEVEL_TRANSITION_DURATION, gameScene,
+                  LEVEL_TRANSITION_REST, levelTitleScene);
 }
 
 static void updateGame(void) {

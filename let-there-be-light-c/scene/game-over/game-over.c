@@ -32,25 +32,25 @@ static Scene gameOver = {
 Scene* gameOverScene = &gameOver;
 
 const char* msg = "GAME OVER";
-const size_t length = 9;
 
 bool animationFinished = false;
 
 static void showMessage(const char* str) {
+  size_t length = strlen(str);
   double width = GameState.ortho.width;
   double height = GameState.ortho.height;
 
-  char* tmp = malloc(length);
+  char* tmp = malloc(sizeof(char) * (length + 1));
   strcpy(tmp, str);
 
-  int randomIdx = randomInt(0, length - 1);
+  int randomIdx = randomInt(0, (int)length - 1);
 
   if (tmp[randomIdx] == ' ') {
     randomIdx++;
   }
 
   // replace one letter randomly
-  tmp[randomIdx] = (unsigned char)randomInt('!', 'z');
+  tmp[randomIdx] = (unsigned char)randomInt('!', 'Z');
 
   //  size_t length = strlen(str);
 
@@ -85,7 +85,7 @@ static void gameOverAnimationRender(Animation* animation) {
     str[i] = msg[i];
   }
 
-  str[n - 1] = msg[n - 1] == ' ' ? ' ' : (unsigned char)randomInt('!', 'z');
+  str[n - 1] = msg[n - 1] == ' ' ? ' ' : (unsigned char)randomInt('!', 'Z');
   str[n] = '\0';
 
   showMessage(str);
@@ -95,7 +95,7 @@ static void gameOverAnimationRender(Animation* animation) {
 static void initGameOver(void) {
   animationFinished = false;
 
-  Animation* animation = createAnimation60FPS(DURATION, length);
+  Animation* animation = createAnimation60FPS(DURATION, (int)strlen(msg));
 
   animation->render = gameOverAnimationRender;
   animation->complete = gameOverAnimationComplete;

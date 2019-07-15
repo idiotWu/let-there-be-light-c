@@ -9,8 +9,6 @@
 #include "engine/engine.h"
 #include "util/util.h"
 
-#define LEVEL_TRANSITION_DURATION   300
-
 typedef struct TransitionQueue {
   double duration;
   Scene* target;

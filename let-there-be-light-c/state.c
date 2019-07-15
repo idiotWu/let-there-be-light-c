@@ -6,7 +6,7 @@
 #include "util/list.h"
 #include "maze/direction.h"
 #include "scene/scene.h"
-#include "scene/game/game.h"
+#include "scene/title/title.h"
 
 State GameState;
 
@@ -27,6 +27,5 @@ void initGameState(void) {
   
   GameState.enemies = createList();
 
-  // TODO: replace next
-  switchScene(gameScene);
+  switchScene(titleScene);
 }

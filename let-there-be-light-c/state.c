@@ -11,7 +11,8 @@
 State GameState;
 
 void initGameState(void) {
-  GameState.level = 0;
+  GameState.level.major = 1;
+  GameState.level.minor = 1;
   GameState.remainItem = 0;
 
   GameState.openTiles = NULL;

@@ -46,7 +46,7 @@ static void initItems(void) {
   Tile (*tiles)[MAZE_SIZE] = GameState.maze;
 
   // item desity: (0.5, 1]
-  double itemDesity = 1.0 - (double)(GameState.level % LEVEL_INTERVAL) / LEVEL_INTERVAL * 0.5;
+  double itemDesity = 1.0 - (double)(GameState.level.minor - 1) / LEVEL_INTERVAL * 0.5;
 
   int openCount = 0;
 
@@ -154,11 +154,11 @@ static void updateItems(void) {
   }
 }
 
-// ============ TODO REFACTOR ============ //
+// ============ Misc ============ //
 
 static void initGame(void) {
-  int spawnerCount = MIN_SPAWNER_COUNT + GameState.level / LEVEL_INTERVAL;
-  int minDistance = 2 * (LEVEL_INTERVAL - GameState.level % LEVEL_INTERVAL); // 2, 4, 6, ...
+  int spawnerCount = MIN_SPAWNER_COUNT + GameState.level.major - 1; // min, min+1, min+2, ...
+  int minDistance = 2 * (LEVEL_INTERVAL - GameState.level.minor + 1); // 2n, 2n-2, ..., 2
   int maxDistance = minDistance * 2;
 
   int pathLength;
@@ -186,7 +186,13 @@ static void initGame(void) {
 static void gameClear(void* _) {
   UNUSED(_);
 
-  GameState.level++;
+  if (GameState.level.minor < LEVEL_INTERVAL) {
+    GameState.level.minor++;
+  } else {
+    GameState.level.major++;
+    GameState.level.minor = 1;
+  }
+
   GameState.paused = true;
 
   transitionQueue(LEVEL_TRANSITION_DURATION, gameScene,

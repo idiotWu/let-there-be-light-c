@@ -29,7 +29,7 @@ static void renderLevelTitle(void) {
   double height = GameState.ortho.height;
 
   char title[128];
-  sprintf(title, "WORLD %d-%d", GameState.level / LEVEL_INTERVAL + 1, GameState.level % LEVEL_INTERVAL + 1);
+  sprintf(title, "WORLD %d-%d", GameState.level.major, GameState.level.minor);
 
   size_t length = strlen(title);
 

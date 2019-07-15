@@ -24,8 +24,12 @@ typedef struct ClientRect {
 
 typedef struct State {
   Scene* scene;
-  
-  int level;
+
+  struct {
+    int major;
+    int minor;
+  } level;
+
   int remainItem;
 
   Tile maze[MAZE_SIZE][MAZE_SIZE];

@@ -19,6 +19,8 @@
 #define DURATION      250
 #define START_RADIUS  (MAZE_SIZE)
 
+#define RANDOM_CHAR   ((unsigned char)randomInt('A', 'Z'))
+
 static void initGameOver(void);
 static void renderGameOver(void);
 
@@ -50,7 +52,7 @@ static void showMessage(const char* str) {
   }
 
   // replace one letter randomly
-  tmp[randomIdx] = (unsigned char)randomInt('!', 'Z');
+  tmp[randomIdx] = RANDOM_CHAR;
 
   //  size_t length = strlen(str);
 
@@ -80,12 +82,8 @@ static void gameOverAnimationRender(Animation* animation) {
   size_t n = animation->nth;
 
   char* str = malloc(sizeof(char) * (n + 1));
-
-  for (size_t i = 0; i < n - 1; i++) {
-    str[i] = msg[i];
-  }
-
-  str[n - 1] = msg[n - 1] == ' ' ? ' ' : (unsigned char)randomInt('!', 'Z');
+  strncpy(str, msg, n - 1);
+  str[n - 1] = msg[n - 1] == ' ' ? ' ' : RANDOM_CHAR;
   str[n] = '\0';
 
   showMessage(str);

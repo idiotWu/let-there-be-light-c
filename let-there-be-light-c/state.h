@@ -50,6 +50,7 @@ typedef struct State {
 
 extern State GameState;
 
+void resetGameState(void);
 void initGameState(void);
 
 #endif

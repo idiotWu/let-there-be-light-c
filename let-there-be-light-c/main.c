@@ -14,11 +14,12 @@
 #include "render/engine.h"
 #include "render/texture.h"
 #include "maze/direction.h"
+#include "scene/title/title.h"
 
 #define GAME_TITLE "Let There Be Light"
 #define WIN_WIDTH  800
 #define WIN_HEIGHT 800
-//#define CENTERING_WINDOW
+#define CENTERING_WINDOW
 
 static int frameCount = 0;
 

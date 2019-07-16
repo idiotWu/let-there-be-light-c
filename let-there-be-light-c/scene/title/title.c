@@ -15,20 +15,22 @@
 #define FONT_SIZE 1.2
 
 static void initTitle(void);
+static void renderTitle(void);
 static void destroyTitle(void);
 
 static Scene title = {
   .init = initTitle,
   .update = noop,
-  .render = noop,
+  .render = renderTitle,
   .destroy = destroyTitle,
 };
 
 Scene* titleScene = &title;
 
-static const char* msg = "PRESS ANY KEY";
+static const char* caption = "PRESS ANY KEY";
 
-static Animation* blink = NULL;
+static double alphaDelta = 0.02;
+static double captionAlpha = 0.0;
 
 static void startGame(void) {
   destroyTitle();
@@ -45,31 +47,40 @@ static void specialKeyHandler(int key, int x, int y) {
   startGame();
 }
 
-static void renderTitle(Animation *animation) {
-  double percent = (double)animation->currentFrame / animation->frameCount;
+static void renderTitle(void) {
   double width = GameState.ortho.width;
   double height = GameState.ortho.height;
+  size_t length = strlen(caption);
 
-  size_t length = strlen(msg);
+  captionAlpha += alphaDelta;
+
+  if (captionAlpha > 1.0) {
+    captionAlpha = 1.0;
+    alphaDelta *= -1;
+  } else if (captionAlpha < 0.0) {
+    captionAlpha = 0.0;
+    alphaDelta *= -1;
+  }
 
   setTexParam(GL_MODULATE);
-  glColor4d(1.0, 0.5, 0.0, animation->nth % 2 ? percent : 1.0 - percent);
-  renderText(msg, (width - length * FONT_SIZE) / 2.0, (height - FONT_SIZE) / 2.0, FONT_SIZE);
+  glColor4d(1.0, 0.5, 0.0, captionAlpha);
+  renderText(caption, (width - length * FONT_SIZE) / 2.0, (height - FONT_SIZE) / 2.0, FONT_SIZE);
   restoreDefaultTexParam();
 }
 
 static void initTitle(void) {
-  blink = createAnimation60FPS(1000, ANIMATION_INFINITY);
-  blink->render = renderTitle;
+  GameState.level.major = 1;
+  GameState.level.minor = 1;
+  resetGameState();
+
+  captionAlpha = 0.0;
+  alphaDelta = 0.02;
 
   glutKeyboardFunc(keyboardHandler);
   glutSpecialFunc(specialKeyHandler);
 }
 
 static void destroyTitle(void) {
-  cancelAnimation(blink);
-  blink = NULL;
-
   glutKeyboardFunc(NULL);
   glutSpecialFunc(NULL);
 }

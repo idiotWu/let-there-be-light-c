@@ -4,11 +4,12 @@
 #include "transition.h"
 
 #include "state.h"
-#include "scene.h"
 
+#include "scene/scene.h"
 #include "scene/game/game.h"
 #include "scene/level-title/level-title.h"
 #include "render/engine.h"
+#include "render/fx.h"
 #include "util/util.h"
 
 typedef struct TransitionQueue {

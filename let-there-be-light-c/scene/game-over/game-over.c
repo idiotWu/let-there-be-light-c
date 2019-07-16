@@ -22,7 +22,7 @@
 
 #define CAPTION_FONT_SIZE           2.0
 #define HINT_FONT_SIZE              0.75
-#define CAPTION_ANIMATION_DURATION  250
+#define CAPTION_ANIMATION_DURATION  150
 
 #define RANDOM_CHAR           ((unsigned char)randomInt('A', 'Z'))
 
@@ -89,12 +89,14 @@ static void keyboardHandler(unsigned char key, int x, int y) {
   UNUSED(x); UNUSED(y);
 
   if (key == 'R' || key == 'r') {
+    resetGameState();
     levelTransition();
     destroyGameOver();
     return;
   }
 
   if (key == 'T' || key == 't') {
+    resetGameState();
     fxFadeOut(1000, titleScene);
     destroyGameOver();
     return;

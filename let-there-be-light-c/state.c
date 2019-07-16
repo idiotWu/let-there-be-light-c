@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
 #include "config.h"
-
 #include "state.h"
+
 #include "util/list.h"
 #include "maze/direction.h"
 #include "scene/scene.h"

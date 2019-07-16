@@ -5,8 +5,8 @@
 
 #include "config.h"
 
-#include "player.h"
-#include "enemy.h"
+#include "scene/game/player.h"
+#include "scene/game/enemy.h"
 
 #include "scene/scene.h"
 #include "util/util.h"

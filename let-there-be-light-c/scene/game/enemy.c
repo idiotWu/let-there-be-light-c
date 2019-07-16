@@ -55,8 +55,7 @@ static void spoilTiles(int x, int y, int radius) {
   animation->complete = spoilTilesComplete;
 }
 
-static void enemyExplode(Node* node) {
-  Enemy* enemy = node->data;
+static void enemyExplode(Enemy* enemy) {
   int radius = max(1, (double)enemy->remainSteps / ENEMY_MAX_STEPS * ENEMY_EXPLODE_RADIUS);
 
   cancelAnimation(enemy->movingAnimation);
@@ -65,12 +64,12 @@ static void enemyExplode(Node* node) {
 
   spoilTiles(enemy->x, enemy->y, radius);
 
-  listDelete(GameState.enemies, node);
+  listFindDelete(GameState.enemies, enemy);
 }
 
 // ============ Spawn Enemy ============ //
 
-static void moveEnemy(Node* node);
+static void moveEnemy(Enemy* enemy);
 
 // flood-fill path finding
 static vec2i getEnemyDelta(Enemy* enemy) {
@@ -99,8 +98,7 @@ static vec2i getEnemyDelta(Enemy* enemy) {
 
 // move enemy update callback
 static void moveEnemyUpdate(Animation* animation) {
-  Node* node = animation->target;
-  Enemy* enemy = node->data;
+  Enemy* enemy = animation->target;
   vec2i* fromPos = animation->from;
   vec2i* delta = animation->delta;
 
@@ -111,27 +109,24 @@ static void moveEnemyUpdate(Animation* animation) {
 
   if (distance(enemy->x, enemy->y,
                GameState.player.x, GameState.player.y) <= 0.5) {
-    enemyExplode(node);
+    enemyExplode(enemy);
     cancelAnimation(animation);
   }
 }
 
 // move enemy complete callback
 static void moveEnemyComplete(Animation* animation) {
-  Node* node = animation->target;
-  Enemy* enemy = node->data;
+  Enemy* enemy = animation->target;
   enemy->remainSteps--;
 
   if (enemy->remainSteps == 0) {
-    enemyExplode(node);
+    enemyExplode(enemy);
   } else {
-    moveEnemy(node);
+    moveEnemy(enemy);
   }
 }
 
-static void moveEnemy(Node* node) {
-  Enemy* enemy = node->data;
-
+static void moveEnemy(Enemy* enemy) {
   if (!enemy->activated) {
     return;
   }
@@ -153,7 +148,7 @@ static void moveEnemy(Node* node) {
   d->x = delta.x;
   d->y = delta.y;
 
-  animation->target = node;
+  animation->target = enemy;
   animation->from = fromPos;
   animation->delta = d;
 
@@ -181,7 +176,7 @@ void activateEnemies(void) {
       fxExplode(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
 
 //      moveEnemy(node);
-      enemy->movingAnimation = delay(200, (DelayCallback)moveEnemy, node);
+      enemy->movingAnimation = delay(200, (DelayCallback)moveEnemy, enemy);
     }
   }
 }

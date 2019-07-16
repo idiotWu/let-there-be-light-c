@@ -2,11 +2,12 @@
 #define TRANSITION_H
 
 #include "scene.h"
-#include "engine/engine.h"
+#include "render/engine.h"
 
 Animation* transitionIn(double duration);
 Animation* transitionOut(double duration);
 
 void transitionQueue(double duration, Scene* target, double rest, Scene* midway);
+void levelTransition(void);
 
 #endif

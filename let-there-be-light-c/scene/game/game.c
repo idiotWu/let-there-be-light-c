@@ -8,24 +8,23 @@
 #include "config.h"
 #include "state.h"
 
-#include "fx.h"
+#include "render/fx.h"
 #include "game.h"
 #include "enemy.h"
 #include "player.h"
 #include "render.h"
 #include "keyboard.h"
 
-#include "scene/level-title/level-title.h"
 #include "scene/game-over/game-over.h"
 #include "scene/scene.h"
-#include "scene/transition.h"
+#include "render/transition.h"
 #include "util/util.h"
 #include "maze/maze.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"
 #include "maze/direction.h"
-#include "engine/engine.h"
-#include "engine/texture.h"
+#include "render/engine.h"
+#include "render/texture.h"
 
 static void initGame(void);
 static void updateGame(void);
@@ -195,8 +194,7 @@ static void gameClear(void* _) {
 
   GameState.paused = true;
 
-  transitionQueue(LEVEL_TRANSITION_DURATION, gameScene,
-                  LEVEL_TRANSITION_REST, levelTitleScene);
+  levelTransition();
 }
 
 static void updateGame(void) {

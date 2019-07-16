@@ -11,8 +11,8 @@
 #include "util/util.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
-#include "engine/engine.h"
-#include "engine/texture.h"
+#include "render/engine.h"
+#include "render/texture.h"
 #include "maze/direction.h"
 
 #define GAME_TITLE "Let There Be Light"

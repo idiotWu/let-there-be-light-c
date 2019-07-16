@@ -5,8 +5,8 @@
 #include "state.h"
 
 #include "maze/floodfill.h"
-#include "engine/engine.h"
-#include "engine/texture.h"
+#include "render/engine.h"
+#include "render/texture.h"
 #include "util/util.h"
 #include "maze/direction.h"
 #include "maze/maze.h"

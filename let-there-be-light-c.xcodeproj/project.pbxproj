@@ -113,8 +113,6 @@
 				DC4A1EC222DCA7B100FAB5E1 /* title */,
 				DC31F7A322DB2BE200BDF29C /* scene.c */,
 				DC31F7A222DB2BE200BDF29C /* scene.h */,
-				DC4A1EBD22DC94B300FAB5E1 /* transition.c */,
-				DC4A1EBC22DC94B300FAB5E1 /* transition.h */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -124,16 +122,14 @@
 			children = (
 				DC68FA2722C241EA0036515E /* enemy.c */,
 				DC68FA2622C241EA0036515E /* enemy.h */,
+				DC31F7A622DB5EC000BDF29C /* game.c */,
+				DC31F7A522DB5EC000BDF29C /* game.h */,
+				DC31F7AD22DB662700BDF29C /* keyboard.c */,
+				DC31F7AC22DB662700BDF29C /* keyboard.h */,
 				DC68FA1F22C237A30036515E /* player.c */,
 				DC68FA1E22C237A30036515E /* player.h */,
-				DC31F7A522DB5EC000BDF29C /* game.h */,
-				DC31F7A622DB5EC000BDF29C /* game.c */,
-				DC31F7A922DB644100BDF29C /* render.h */,
 				DC31F7AA22DB644100BDF29C /* render.c */,
-				DC31F7AC22DB662700BDF29C /* keyboard.h */,
-				DC31F7AD22DB662700BDF29C /* keyboard.c */,
-				DC8B3DA822B67DDA00E863B3 /* fx.c */,
-				DC8B3DA722B67DDA00E863B3 /* fx.h */,
+				DC31F7A922DB644100BDF29C /* render.h */,
 			);
 			path = game;
 			sourceTree = "<group>";
@@ -141,8 +137,8 @@
 		DC31F7AF22DB739700BDF29C /* level-title */ = {
 			isa = PBXGroup;
 			children = (
-				DC31F7B022DB745200BDF29C /* level-title.h */,
 				DC31F7B122DB745200BDF29C /* level-title.c */,
+				DC31F7B022DB745200BDF29C /* level-title.h */,
 			);
 			path = "level-title";
 			sourceTree = "<group>";
@@ -150,8 +146,8 @@
 		DC31F7B622DB8E2D00BDF29C /* game-over */ = {
 			isa = PBXGroup;
 			children = (
-				DC31F7B722DB8ED600BDF29C /* game-over.h */,
 				DC31F7B822DB8ED600BDF29C /* game-over.c */,
+				DC31F7B722DB8ED600BDF29C /* game-over.h */,
 			);
 			path = "game-over";
 			sourceTree = "<group>";
@@ -159,8 +155,8 @@
 		DC4A1EC222DCA7B100FAB5E1 /* title */ = {
 			isa = PBXGroup;
 			children = (
-				DC4A1EC322DCA8AA00FAB5E1 /* title.h */,
 				DC4A1EC422DCA8AA00FAB5E1 /* title.c */,
+				DC4A1EC322DCA8AA00FAB5E1 /* title.h */,
 			);
 			path = title;
 			sourceTree = "<group>";
@@ -179,15 +175,19 @@
 			path = maze;
 			sourceTree = "<group>";
 		};
-		DC68FA2D22C252B00036515E /* engine */ = {
+		DC68FA2D22C252B00036515E /* render */ = {
 			isa = PBXGroup;
 			children = (
 				DC5F74E0228F1404007A2301 /* engine.c */,
 				DC5F74DF228F1404007A2301 /* engine.h */,
+				DC8B3DA822B67DDA00E863B3 /* fx.c */,
+				DC8B3DA722B67DDA00E863B3 /* fx.h */,
+				DC4A1EBD22DC94B300FAB5E1 /* transition.c */,
+				DC4A1EBC22DC94B300FAB5E1 /* transition.h */,
 				DC8B3D9A22B3CBC700E863B3 /* texture.c */,
 				DC8B3D9922B3CBC700E863B3 /* texture.h */,
 			);
-			path = engine;
+			path = render;
 			sourceTree = "<group>";
 		};
 		DC68FA2E22C252C70036515E /* util */ = {
@@ -228,7 +228,7 @@
 				DC8B3DA422B64F6700E863B3 /* state.h */,
 				DC31F76522CF826900BDF29C /* scene */,
 				DC68FA2A22C2500F0036515E /* maze */,
-				DC68FA2D22C252B00036515E /* engine */,
+				DC68FA2D22C252B00036515E /* render */,
 				DC68FA2E22C252C70036515E /* util */,
 			);
 			path = "let-there-be-light-c";

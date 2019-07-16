@@ -3,11 +3,11 @@
 
 #include "enemy.h"
 
-#include "fx.h"
+#include "render/fx.h"
 #include "state.h"
 
-#include "engine/engine.h"
-#include "engine/texture.h"
+#include "render/engine.h"
+#include "render/texture.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
 #include "maze/floodfill.h"

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "util/list.h"
-#include "engine/engine.h"
+#include "render/engine.h"
 #include "maze/direction.h"
 
 typedef struct Enemy {

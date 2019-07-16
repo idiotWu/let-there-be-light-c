@@ -8,13 +8,11 @@
 #include "state.h"
 
 #include "scene/scene.h"
-#include "scene/transition.h"
-#include "scene/game/game.h"
-#include "scene/level-title/level-title.h"
+#include "render/transition.h"
 #include "util/util.h"
-#include "engine/texture.h"
+#include "render/texture.h"
 
-#define FONT_SIZE 1.0
+#define FONT_SIZE 1.2
 
 static void initTitle(void);
 static void destroyTitle(void);
@@ -34,9 +32,7 @@ static Animation* blink = NULL;
 
 static void startGame(void) {
   destroyTitle();
-
-  transitionQueue(LEVEL_TRANSITION_DURATION, gameScene,
-                  LEVEL_TRANSITION_REST, levelTitleScene);
+  levelTransition();
 }
 
 static void keyboardHandler(unsigned char key, int x, int y) {
@@ -57,7 +53,7 @@ static void renderTitle(Animation *animation) {
   size_t length = strlen(msg);
 
   setTexParam(GL_MODULATE);
-  glColor4d(1.0, 0.5, 0.0, animation->nth % 2 == 0 ? percent : 1.0 - percent);
+  glColor4d(1.0, 0.5, 0.0, animation->nth % 2 ? percent : 1.0 - percent);
   renderText(msg, (width - length * FONT_SIZE) / 2.0, (height - FONT_SIZE) / 2.0, FONT_SIZE);
   restoreDefaultTexParam();
 }

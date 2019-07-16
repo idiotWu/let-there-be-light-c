@@ -7,6 +7,7 @@
 #include "maze/direction.h"
 #include "scene/scene.h"
 #include "scene/title/title.h"
+#include "scene/game-over/game-over.h"
 
 State GameState;
 

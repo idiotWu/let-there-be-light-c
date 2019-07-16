@@ -6,7 +6,9 @@
 #include "state.h"
 #include "scene.h"
 
-#include "engine/engine.h"
+#include "scene/game/game.h"
+#include "scene/level-title/level-title.h"
+#include "render/engine.h"
 #include "util/util.h"
 
 typedef struct TransitionQueue {
@@ -116,4 +118,9 @@ void transitionQueue(double duration, Scene* target, double rest, Scene* midway)
   in->target = queue;
   in->complete = transitionQueueMidway;
   in->cleanFlag = ANIMATION_CLEAN_NONE;
+}
+
+void levelTransition(void) {
+  transitionQueue(LEVEL_TRANSITION_DURATION, gameScene,
+                  LEVEL_TRANSITION_REST, levelTitleScene);
 }

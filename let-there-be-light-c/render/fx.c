@@ -4,9 +4,11 @@
 #include "config.h"
 #include "state.h"
 
-#include "fx.h"
+#include "render/fx.h"
 #include "engine.h"
 #include "texture.h"
+
+#include "scene/scene.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"
 #include "util/list.h"
@@ -16,6 +18,46 @@
 #define FX_EXPLODE_SCALE          1.2
 #define FX_FLOOD_DURADION         600
 #define FX_FLOOD_INFLEXION_POINT  0.1
+
+// ============ Fade In Effect ============ //
+static void fxFadeInRender(Animation* animation) {
+  double alpha = 1.0 - (double)animation->currentFrame / animation->frameCount;
+
+  glColor4d(0.0, 0.0, 0.0, alpha);
+  glRectd(GameState.ortho.left, GameState.ortho.bottom,
+          GameState.ortho.right, GameState.ortho.top);
+}
+
+void fxFadeIn(double duration, Scene* toScene) {
+  switchScene(toScene);
+
+  Animation* animation = createAnimation60FPS(duration, 1);
+  animation->render = fxFadeInRender;
+}
+
+// ============ Fade Out Effect ============ //
+
+static void fxFadeOutComplete(Animation* animation) {
+  Scene* toScene = animation->target;
+
+  switchScene(toScene);
+}
+
+static void fxFadeOutRender(Animation* animation) {
+  double alpha = (double)animation->currentFrame / animation->frameCount;
+
+  glColor4d(0.0, 0.0, 0.0, alpha);
+  glRectd(GameState.ortho.left, GameState.ortho.bottom,
+          GameState.ortho.right, GameState.ortho.top);
+}
+
+void fxFadeOut(double duration, Scene* toScene) {
+  Animation* animation = createAnimation60FPS(duration, 1);
+  animation->render = fxFadeOutRender;
+  animation->complete = fxFadeOutComplete;
+  animation->target = toScene;
+  animation->cleanFlag = ANIMATION_CLEAN_NONE;
+}
 
 // ============ Explode Effect ============ //
 
@@ -31,7 +73,7 @@ static void fxExplodeRender(Animation* animation) {
                FX_EXPLODE_SCALE, FX_EXPLODE_SCALE);
 }
 
-Animation* fxExplode(int spriteRow, int x, int y) {
+void fxExplode(int spriteRow, int x, int y) {
   Animation* animation = createAnimation(FX_SPRITES->cols, FX_EXPLODE_DURATION, 1);
 
   vec2i* start = malloc(sizeof(vec2i));
@@ -46,8 +88,6 @@ Animation* fxExplode(int spriteRow, int x, int y) {
   animation->cleanFlag = ANIMATION_CLEAN_TARGET | ANIMATION_CLEAN_FROM;
 
   animation->render = fxExplodeRender;
-
-  return animation;
 }
 
 // ============ Flood Effect ============ //

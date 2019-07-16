@@ -26,6 +26,8 @@ void initGameState(void) {
 
   GameState.level.major = 1;
   GameState.level.minor = 1;
+  GameState.unlockLimits = false;
+
   GameState.openTiles = NULL;
   GameState.enemies = createList();
 

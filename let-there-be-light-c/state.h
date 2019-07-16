@@ -41,6 +41,9 @@ typedef struct State {
 
   double visibleRadius;
   double lastVisibleRadius;
+
+  bool unlockLimits;
+
   Player player;
   List* enemies;
 

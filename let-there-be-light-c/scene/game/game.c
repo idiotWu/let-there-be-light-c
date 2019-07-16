@@ -8,12 +8,12 @@
 #include "config.h"
 #include "state.h"
 
-#include "render/fx.h"
 #include "game.h"
 #include "enemy.h"
 #include "player.h"
 #include "render.h"
 #include "keyboard.h"
+#include "difficulty.h"
 
 #include "scene/game-over/game-over.h"
 #include "scene/scene.h"
@@ -25,6 +25,7 @@
 #include "maze/direction.h"
 #include "render/engine.h"
 #include "render/texture.h"
+#include "render/fx.h"
 
 static void initGame(void);
 static void updateGame(void);
@@ -44,8 +45,7 @@ Scene* gameScene = &game;
 static void initItems(void) {
   Tile (*tiles)[MAZE_SIZE] = GameState.maze;
 
-  // item desity: (0.5, 1]
-  double itemDesity = 1.0 - (double)(GameState.level.minor - 1) / LEVEL_INTERVAL * 0.5;
+  double itemDesity = getItemDensity();
 
   int openCount = 0;
 
@@ -156,8 +156,8 @@ static void updateItems(void) {
 // ============ Misc ============ //
 
 static void initGame(void) {
-  int spawnerCount = MIN_SPAWNER_COUNT + GameState.level.major - 1; // min, min+1, min+2, ...
-  int minDistance = 2 * (LEVEL_INTERVAL - GameState.level.minor + 1); // 2n, 2n-2, ..., 2
+  int spawnerCount = getSpawnerCount();
+  int minDistance = getMinBuilderDistance();
   int maxDistance = minDistance * 2;
 
   int pathLength;
@@ -173,7 +173,7 @@ static void initGame(void) {
   GameState.paused = false;
   GameState.pathLength = pathLength;
   GameState.openTiles = malloc(pathLength * sizeof(*GameState.openTiles));
-  GameState.visibleRadius = INITIAL_VISIBLE_RADIUS + GameState.lastVisibleRadius / 2.0;
+  GameState.visibleRadius = getInitialVisibleRadius();
 
   initItems();
   initPlayer();
@@ -206,7 +206,7 @@ static void updateGame(void) {
 
   player->spoiled = (GameState.maze[(int)player->y][(int)player->x] & TILE_SPOILED);
 
-  GameState.visibleRadius -= RADIUS_DECREASING_RATE * (player->spoiled ? SPOILED_DAMAGE : 1.0);
+  GameState.visibleRadius -= getVisibleRadiusRuducingRate();
 
   if (GameState.visibleRadius <= 0) {
     return switchScene(gameOverScene);

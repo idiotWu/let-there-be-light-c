@@ -3,11 +3,12 @@
 
 #include "enemy.h"
 
-#include "render/fx.h"
 #include "state.h"
+#include "difficulty.h"
 
 #include "render/engine.h"
 #include "render/texture.h"
+#include "render/fx.h"
 #include "maze/tile.h"
 #include "maze/maze.h"
 #include "maze/floodfill.h"
@@ -241,7 +242,7 @@ static void updateEnemyState(Animation* animation) {
 
 void initEnemy(void) {
   // TODO: adjust speed
-  enemySpawner = createAnimation(1, ENEMY_SPAWN_INTERVEL, ANIMATION_INFINITY);
+  enemySpawner = createAnimation(1, getEnemySpawnIntervel(), ANIMATION_INFINITY);
 
   enemySpawner->update = createEnemy;
 

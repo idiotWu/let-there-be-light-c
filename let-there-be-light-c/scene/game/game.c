@@ -48,6 +48,7 @@ static void initItems(void) {
   double itemDesity = getItemDensity();
 
   int openCount = 0;
+  GameState.remainItem = 0;
 
   for (int y = 0; y < MAZE_SIZE; y++) {
     for (int x = 0; x < MAZE_SIZE; x++) {

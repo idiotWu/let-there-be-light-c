@@ -15,7 +15,7 @@
 #include "util/util.h"
 
 #define FX_EXPLODE_DURATION       300
-#define FX_EXPLODE_SCALE          1.2
+#define FX_EXPLODE_STD_SIZE       1.2
 #define FX_FLOOD_DURADION         600
 #define FX_FLOOD_INFLEXION_POINT  0.1
 
@@ -63,31 +63,43 @@ void fxFadeOut(double duration, Scene* toScene) {
 
 static void fxExplodeRender(Animation* animation) {
   int* row = animation->target;
-  vec2i* start = animation->from;
+  vec2d* start = animation->from;
+  double* size = animation->delta;
 
-  double offset = (1.0 - FX_EXPLODE_SCALE) / 2.0;
+  glPushMatrix();
+  glTranslated(start->x, start->y, 0.0);
+  glScaled(*size, *size, 1.0);
+  glTranslated(-start->x, -start->y, 0.0);
 
-  renderSprite(FX_SPRITES, *row,
-               animation->currentFrame - 1,
-               start->x + offset, start->y + offset, // centering
-               FX_EXPLODE_SCALE, FX_EXPLODE_SCALE);
+   // centering sprite
+  renderSprite(FX_SPRITES, *row, animation->currentFrame - 1,
+               start->x - 0.5, start->y - 0.5, 1.0, 1.0);
+  glPopMatrix();
 }
 
-void fxExplode(int spriteRow, int x, int y) {
+void fxExplode(int spriteRow, double x, double y, double size) {
   Animation* animation = createAnimation(FX_SPRITES->cols, FX_EXPLODE_DURATION, 1);
 
-  vec2i* start = malloc(sizeof(vec2i));
+  vec2d* start = malloc(sizeof(vec2d));
   start->x = x;
   start->y = y;
 
   int* row = malloc(sizeof(int));
   *row = spriteRow;
 
+  double* s = malloc(sizeof(double));
+  *s = size;
+
   animation->target = row;
   animation->from = start;
-  animation->cleanFlag = ANIMATION_CLEAN_TARGET | ANIMATION_CLEAN_FROM;
+  animation->delta = s;
+  animation->cleanFlag = ANIMATION_CLEAN_TARGET | ANIMATION_CLEAN_FROM | ANIMATION_CLEAN_DELTA;
 
   animation->render = fxExplodeRender;
+}
+
+void fxExplodeAtCell(int spriteRow, int x, int y) {
+  fxExplode(spriteRow, x + 0.5, y + 0.5, FX_EXPLODE_STD_SIZE);
 }
 
 // ============ Flood Effect ============ //
@@ -104,7 +116,7 @@ static void fxFloodFinish(Animation* animation);
 static void clearSpoiledTile(int x, int y) {
   if (GameState.maze[y][x] & TILE_SPOILED) {
     clearBits(GameState.maze[y][x], TILE_SPOILED);
-    fxExplode(FX_SMOKE_ROW, x + 0.5, y + 0.5);
+    fxExplodeAtCell(FX_SMOKE_ROW, x + 0.5, y + 0.5);
   }
 }
 
@@ -205,7 +217,7 @@ static void fxFloodFinish(Animation* animation) {
 void fxFlood(int x, int y) {
   FloodState* state = floodGenerate(GameState.maze, x, y);
 
-  fxExplode(FX_EXPLODE_ROW, x, y);
+  fxExplodeAtCell(FX_EXPLODE_ROW, x, y);
 
   fxFloodNext(state);
 

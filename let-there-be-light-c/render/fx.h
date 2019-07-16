@@ -7,7 +7,8 @@
 void fxFadeIn(double duration, Scene* toScene);
 void fxFadeOut(double duration, Scene* toScene);
 
-void fxExplode(int spriteRow, int x, int y);
+void fxExplode(int spriteRow, double x, double y, double size);
+void fxExplodeAtCell(int spriteRow, int x, int y);
 
 void fxFlood(int x, int y);
 

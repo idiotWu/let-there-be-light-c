@@ -128,6 +128,7 @@ int main(int argc, char* argv[]) {
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
 
+  reshape(WIN_WIDTH, WIN_HEIGHT);
   init();
   update(glutGet(GLUT_ELAPSED_TIME));
   updateTitle(1000 / ANIMATION_60_FPS);

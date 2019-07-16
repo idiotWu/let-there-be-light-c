@@ -32,7 +32,7 @@ static void spoilTilesUpdate(Animation* animation) {
     vec2i* frontier = node->data;
 
     setBits(GameState.maze[frontier->y][frontier->x], TILE_SPOILED);
-    fxExplode(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
+    fxExplodeAtCell(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
   }
 }
 
@@ -60,7 +60,7 @@ static void enemyExplode(Enemy* enemy) {
 
   cancelAnimation(enemy->movingAnimation);
 
-  fxExplode(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
+  fxExplodeAtCell(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
 
   spoilTiles(enemy->x, enemy->y, radius);
 
@@ -173,7 +173,7 @@ void activateEnemies(void) {
     if (r <= 1.0 || r <= GameState.visibleRadius) {
       enemy->activated = true;
 
-      fxExplode(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
+      fxExplodeAtCell(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
 
 //      moveEnemy(node);
       enemy->movingAnimation = delay(200, (DelayCallback)moveEnemy, enemy);
@@ -213,7 +213,7 @@ static void createEnemy(Animation* animation) {
 
   listAppend(GameState.enemies, node);
 
-  fxExplode(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
+  fxExplodeAtCell(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
 }
 
 static void updateEnemyState(Animation* animation) {
@@ -262,7 +262,7 @@ void destroyEnemy(bool shouldExpload) {
     cancelAnimation(enemy->movingAnimation);
 
     if (shouldExpload) {
-      fxExplode(FX_SMOKE_ROW, enemy->x, enemy->y);
+      fxExplodeAtCell(FX_SMOKE_ROW, enemy->x, enemy->y);
     }
 
     listDelete(GameState.enemies, node);

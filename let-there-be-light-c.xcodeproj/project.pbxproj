@@ -17,6 +17,7 @@
 		DC4A1EBE22DC94B300FAB5E1 /* transition.c in Sources */ = {isa = PBXBuildFile; fileRef = DC4A1EBD22DC94B300FAB5E1 /* transition.c */; };
 		DC4A1EC522DCA8AA00FAB5E1 /* title.c in Sources */ = {isa = PBXBuildFile; fileRef = DC4A1EC422DCA8AA00FAB5E1 /* title.c */; };
 		DC4A1EC822DE0AFD00FAB5E1 /* difficulty.c in Sources */ = {isa = PBXBuildFile; fileRef = DC4A1EC722DE0AFD00FAB5E1 /* difficulty.c */; };
+		DC4A1ECB22DE165A00FAB5E1 /* helper.c in Sources */ = {isa = PBXBuildFile; fileRef = DC4A1ECA22DE165A00FAB5E1 /* helper.c */; };
 		DC5F74E1228F1404007A2301 /* engine.c in Sources */ = {isa = PBXBuildFile; fileRef = DC5F74E0228F1404007A2301 /* engine.c */; };
 		DC68FA2022C237A30036515E /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = DC68FA1F22C237A30036515E /* player.c */; };
 		DC68FA2822C241EA0036515E /* enemy.c in Sources */ = {isa = PBXBuildFile; fileRef = DC68FA2722C241EA0036515E /* enemy.c */; };
@@ -66,6 +67,8 @@
 		DC4A1EC422DCA8AA00FAB5E1 /* title.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = title.c; sourceTree = "<group>"; };
 		DC4A1EC622DE0AFD00FAB5E1 /* difficulty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = difficulty.h; sourceTree = "<group>"; };
 		DC4A1EC722DE0AFD00FAB5E1 /* difficulty.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = difficulty.c; sourceTree = "<group>"; };
+		DC4A1EC922DE165A00FAB5E1 /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
+		DC4A1ECA22DE165A00FAB5E1 /* helper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = helper.c; sourceTree = "<group>"; };
 		DC5F74DF228F1404007A2301 /* engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = engine.h; sourceTree = "<group>"; };
 		DC5F74E0228F1404007A2301 /* engine.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = engine.c; sourceTree = "<group>"; };
 		DC68FA1E22C237A30036515E /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
@@ -187,10 +190,12 @@
 				DC5F74DF228F1404007A2301 /* engine.h */,
 				DC8B3DA822B67DDA00E863B3 /* fx.c */,
 				DC8B3DA722B67DDA00E863B3 /* fx.h */,
-				DC4A1EBD22DC94B300FAB5E1 /* transition.c */,
-				DC4A1EBC22DC94B300FAB5E1 /* transition.h */,
+				DC4A1ECA22DE165A00FAB5E1 /* helper.c */,
+				DC4A1EC922DE165A00FAB5E1 /* helper.h */,
 				DC8B3D9A22B3CBC700E863B3 /* texture.c */,
 				DC8B3D9922B3CBC700E863B3 /* texture.h */,
+				DC4A1EBD22DC94B300FAB5E1 /* transition.c */,
+				DC4A1EBC22DC94B300FAB5E1 /* transition.h */,
 			);
 			path = render;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				DC4A1EC822DE0AFD00FAB5E1 /* difficulty.c in Sources */,
 				DC8A4C302278819600D6BCA4 /* maze.c in Sources */,
 				DC77734F225A168C00F8EA1B /* main.c in Sources */,
+				DC4A1ECB22DE165A00FAB5E1 /* helper.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

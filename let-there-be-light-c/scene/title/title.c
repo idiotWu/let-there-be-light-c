@@ -76,7 +76,7 @@ static void mouseDownHandler(int button, int state, int x, int y) {
 
   double d = distance(uv.x, uv.y, sprite.x + SPRITE_SIZE / 2.0, sprite.y + SPRITE_SIZE / 2.0);
 
-  if (d <= SPRITE_SIZE) {
+  if (d <= SPRITE_SIZE / 2.0) {
     GameState.unlockLimits = true;
 
     fxExplode(FX_EXPLODE_ROW, uv.x, uv.y, EXPLODE_SIZE);

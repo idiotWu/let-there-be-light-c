@@ -5,9 +5,9 @@
 #include "state.h"
 
 #include "render/fx.h"
-#include "engine.h"
-#include "texture.h"
 
+#include "render/engine.h"
+#include "render/texture.h"
 #include "scene/scene.h"
 #include "maze/tile.h"
 #include "maze/floodfill.h"

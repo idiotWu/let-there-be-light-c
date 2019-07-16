@@ -5,8 +5,8 @@
 
 #include "config.h"
 
-#include "tile.h"
-#include "floodfill.h"
+#include "maze/tile.h"
+#include "maze/floodfill.h"
 #include "util/list.h"
 #include "util/util.h"
 

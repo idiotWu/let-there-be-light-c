@@ -8,7 +8,7 @@
 #include "config.h"
 #include "state.h"
 
-#include "render.h"
+#include "scene/game/render.h"
 
 #include "render/engine.h"
 #include "render/texture.h"

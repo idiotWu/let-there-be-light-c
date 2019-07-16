@@ -22,7 +22,7 @@
 #include <assert.h>
 #include <math.h>
 
-#include "engine.h"
+#include "render/engine.h"
 #include "util/list.h"
 
 typedef struct Delay {

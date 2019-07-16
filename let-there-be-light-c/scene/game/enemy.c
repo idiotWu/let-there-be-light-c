@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "enemy.h"
+#include "scene/game/enemy.h"
 
 #include "state.h"
-#include "difficulty.h"
 
 #include "render/engine.h"
 #include "render/texture.h"
@@ -14,6 +13,7 @@
 #include "maze/floodfill.h"
 #include "util/util.h"
 #include "util/list.h"
+#include "scene/game/difficulty.h"
 
 static Animation* enemySpawner = NULL;
 static Animation* enemyIdleStateUpdater;

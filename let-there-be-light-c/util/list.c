@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#include "list.h"
+#include "util/list.h"
 
 void listAppend(List* list, Node* node) {
   if (list->count == 0) {

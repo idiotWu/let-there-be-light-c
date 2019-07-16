@@ -1,5 +1,5 @@
 
-#include "difficulty.h"
+#include "scene/game/difficulty.h"
 
 #include "config.h"
 #include "state.h"

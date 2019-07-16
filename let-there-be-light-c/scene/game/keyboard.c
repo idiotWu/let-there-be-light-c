@@ -1,6 +1,6 @@
 #include "glut.h"
 
-#include "keyboard.h"
+#include "scene/game/keyboard.h"
 
 #include "util/util.h"
 #include "maze/direction.h"

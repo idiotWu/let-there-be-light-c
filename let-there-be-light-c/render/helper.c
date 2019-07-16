@@ -1,6 +1,6 @@
 #include "glut.h"
 
-#include "helper.h"
+#include "render/helper.h"
 
 void clipRect(double x, double y, double width, double height) {
   // enable writing to the stencil buffer

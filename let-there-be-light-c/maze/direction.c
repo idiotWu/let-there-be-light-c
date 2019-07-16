@@ -1,6 +1,6 @@
 #include <stdbool.h>
 
-#include "direction.h"
+#include "maze/direction.h"
 #include "util/util.h"
 
 bool isSingleDirection(Direction dir) {

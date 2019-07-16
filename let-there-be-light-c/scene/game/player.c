@@ -1,8 +1,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "player.h"
 #include "state.h"
+
+#include "scene/game/player.h"
 
 #include "maze/floodfill.h"
 #include "render/engine.h"

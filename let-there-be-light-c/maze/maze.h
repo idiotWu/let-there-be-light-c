@@ -6,8 +6,8 @@
 
 #include "config.h"
 
-#include "tile.h"
-#include "direction.h"
+#include "maze/tile.h"
+#include "maze/direction.h"
 
 int initMaze(int spawnerCount,
              int minDistance,

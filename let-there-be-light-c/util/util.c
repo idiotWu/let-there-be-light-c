@@ -2,7 +2,7 @@
 #include <time.h>
 #include <math.h>
 
-#include "util.h"
+#include "util/util.h"
 
 double randomBetween(double lower, double upper) {
   static int randInitFlag = 0;

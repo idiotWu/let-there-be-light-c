@@ -2,7 +2,7 @@
 
 #include "state.h"
 
-#include "scene.h"
+#include "scene/scene.h"
 
 void switchScene(Scene* nextScene) {
   if (nextScene == NULL) {

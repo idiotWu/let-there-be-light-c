@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,10 +7,10 @@
 
 #include "glut.h"
 
-#include "game-over.h"
-
 #include "config.h"
 #include "state.h"
+
+#include "scene/game-over/game-over.h"
 
 #include "scene/scene.h"
 #include "render/transition.h"

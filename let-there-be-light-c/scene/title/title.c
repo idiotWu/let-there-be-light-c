@@ -3,10 +3,10 @@
 
 #include "glut.h"
 
-#include "title.h"
-
 #include "state.h"
 #include "config.h"
+
+#include "scene/title/title.h"
 
 #include "scene/scene.h"
 #include "render/transition.h"

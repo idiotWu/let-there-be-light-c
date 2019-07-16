@@ -1,7 +1,7 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
-#include "scene.h"
+#include "scene/scene.h"
 #include "render/engine.h"
 
 Animation* transitionIn(double duration);

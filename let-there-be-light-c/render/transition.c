@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include "glut.h"
 
-#include "transition.h"
-
 #include "state.h"
+
+#include "render/transition.h"
 
 #include "scene/scene.h"
 #include "scene/game/game.h"

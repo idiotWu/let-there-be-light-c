@@ -1,7 +1,7 @@
 #ifndef EXPR_FX_H
 #define EXPR_FX_H
 
-#include "engine.h"
+#include "render/engine.h"
 #include "scene/scene.h"
 
 void fxFadeIn(double duration, Scene* toScene);

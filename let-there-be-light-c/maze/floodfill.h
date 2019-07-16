@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-#include "tile.h"
+#include "maze/tile.h"
 #include "util/list.h"
 
 #define FLOOD_DEPTH_UNVISITED  -1

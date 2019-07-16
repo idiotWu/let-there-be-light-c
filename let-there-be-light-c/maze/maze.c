@@ -7,10 +7,11 @@
 
 #include "config.h"
 
-#include "maze.h"
-#include "tile.h"
-#include "direction.h"
-#include "floodfill.h"
+#include "maze/maze.h"
+
+#include "maze/tile.h"
+#include "maze/direction.h"
+#include "maze/floodfill.h"
 #include "util/list.h"
 #include "util/util.h"
 

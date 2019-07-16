@@ -5,9 +5,9 @@
 
 #include "glut.h"
 
-#include "level-title.h"
-
 #include "state.h"
+
+#include "scene/level-title/level-title.h"
 
 #include "scene/scene.h"
 #include "util/util.h"

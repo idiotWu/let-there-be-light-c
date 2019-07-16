@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "config.h"
 #include "state.h"
@@ -10,26 +11,31 @@
 
 State GameState;
 
-void resetGameState(void) {
+void initGameState(void) {
+  GameState.level.major = 1;
+  GameState.level.minor = 1;
+
+  GameState.paused = false;
+  GameState.unlockLimits = false;
+
   GameState.remainItem = 0;
   GameState.pathLength = 0;
-  GameState.paused = false;
+
   GameState.visibleRadius = 0.0;
   GameState.lastVisibleRadius = 0.0;
+
   GameState.player.idle = true;
   GameState.player.spoiled = false;
   GameState.player.spriteState = 0;
-}
 
-void initGameState(void) {
-  resetGameState();
+  if (GameState.openTiles) {
+    free(GameState.openTiles);
+    GameState.openTiles = NULL;
+  }
 
-  GameState.level.major = 1;
-  GameState.level.minor = 1;
-  GameState.unlockLimits = false;
-
-  GameState.openTiles = NULL;
-  GameState.enemies = createList();
-
-  switchScene(titleScene);
+  if (GameState.enemies) {
+    listClear(GameState.enemies);
+  } else {
+    GameState.enemies = createList();
+  }
 }

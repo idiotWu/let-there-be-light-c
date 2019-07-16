@@ -32,6 +32,7 @@ void init(void) {
 
   loadTextures();
   initGameState();
+  switchScene(titleScene);
 }
 
 void display(void) {

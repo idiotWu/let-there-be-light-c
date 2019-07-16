@@ -25,6 +25,12 @@ int getMinBuilderDistance(void) {
 }
 
 double getInitialVisibleRadius(void) {
+  // easter eggs!
+  if (GameState.unlockLimits &&
+      GameState.level.major == 1 && GameState.level.minor == 1) {
+    return MAX_VISIBLE_RADIUS;
+  }
+
   double baseRadius = max(BASE_VISIBLE_RADIUS_MIN, BASE_VISIBLE_RADIUS - BASE_VISIBLE_RADIUS_REDUCING_RATE * getMajorLevel());
 
   double visibleRadius = baseRadius + GameState.lastVisibleRadius / 2.0;

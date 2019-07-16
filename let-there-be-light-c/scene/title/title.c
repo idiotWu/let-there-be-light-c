@@ -78,7 +78,6 @@ static void mouseDownHandler(int button, int state, int x, int y) {
 
   if (d <= SPRITE_SIZE) {
     GameState.unlockLimits = true;
-    GameState.lastVisibleRadius = 1024;
 
     fxExplode(FX_EXPLODE_ROW, uv.x, uv.y, EXPLODE_SIZE);
 
@@ -147,10 +146,11 @@ static void initTitle(void) {
   GameState.unlockLimits = false;
   GameState.level.major = 1;
   GameState.level.minor = 1;
-  resetGameState();
 
   sprite.x = randomBetween(GameState.ortho.left, GameState.ortho.right - 1);
   sprite.y = randomBetween(GameState.ortho.bottom, GameState.ortho.top - 1);
+
+  mouse.x = mouse.y = -100.0;
 
   captionAlpha = 0.0;
   alphaDelta = 0.02;

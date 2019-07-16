@@ -91,14 +91,13 @@ static void keyboardHandler(unsigned char key, int x, int y) {
   UNUSED(x); UNUSED(y);
 
   if (key == 'R' || key == 'r') {
-    resetGameState();
     levelTransition();
     destroyGameOver();
     return;
   }
 
   if (key == 'T' || key == 't') {
-    resetGameState();
+    initGameState();
     fxFadeOut(1000, titleScene);
     destroyGameOver();
     return;

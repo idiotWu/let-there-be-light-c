@@ -474,6 +474,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "/Users/Dolphin_Wood/Desktop/Project/let-there-be-light-c/let-there-be-light-c";
 			};
 			name = Release;
 		};

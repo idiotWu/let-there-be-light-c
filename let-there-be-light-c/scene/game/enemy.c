@@ -77,11 +77,11 @@ static vec2i getEnemyDelta(Enemy* enemy) {
   int y = enemy->y;
   int minSteps = GameState.stepsFromPlayer[y][x] - 1;
 
-  vec2i delta = { 0, 0 };
-
   if (minSteps < 0) {
-    return delta;
+    return directionToDelta(enemy->direction);
   }
+
+  vec2i delta = { 0, 0 };
 
   if (GameState.stepsFromPlayer[y][x - 1] == minSteps) {
     delta.x = -1;

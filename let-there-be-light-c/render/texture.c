@@ -8,6 +8,10 @@
 #include <math.h>
 #include "glut.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "render/texture.h"
 #include "util/util.h"
 
@@ -78,7 +82,15 @@ static GLuint createTextureFrom(const char* filename) {
   FILE* fp = fopen(filename, "r");
 
   if (fp == NULL) {
-    fprintf(stderr, "cannot open file %s\n", filename);
+    char msg[256];
+
+    sprintf(msg, "cannot open file %s", filename);
+
+#ifdef _WIN32
+    MessageBoxA(NULL, msg, "Error", MB_OK);
+#else
+    fprintf(stderr, "%s\n", msg);
+#endif
     exit(1);
   }
 

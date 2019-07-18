@@ -32,7 +32,7 @@ static void spoilTilesUpdate(Animation* animation) {
     vec2i* frontier = node->data;
 
     setBits(GameState.maze[frontier->y][frontier->x], TILE_SPOILED);
-    fxExplodeAtCell(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
+    fxExplodeAtTile(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
   }
 }
 
@@ -60,7 +60,7 @@ static void enemyExplode(Enemy* enemy) {
 
   cancelAnimation(enemy->movingAnimation);
 
-  fxExplodeAtCell(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
+  fxExplodeAtTile(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
 
   spoilTiles(enemy->x, enemy->y, radius);
 
@@ -77,11 +77,24 @@ static vec2i getEnemyDelta(Enemy* enemy) {
   int y = enemy->y;
   int minSteps = GameState.stepsFromPlayer[y][x] - 1;
 
-  if (minSteps < 0) {
-    return directionToDelta(enemy->direction);
-  }
-
   vec2i delta = { 0, 0 };
+
+  if (minSteps < 0) {
+    // in case player is moving
+    // -> move towards player
+    delta.x = sign(GameState.player.x - x);
+    delta.y = sign(GameState.player.y - y);
+
+    if (!isPath(GameState.maze, x + delta.x, y)) {
+      delta.x = 0;
+    }
+
+    if (!isPath(GameState.maze, x, y + delta.y)) {
+      delta.y = 0;
+    }
+
+    return delta;
+  }
 
   if (GameState.stepsFromPlayer[y][x - 1] == minSteps) {
     delta.x = -1;
@@ -173,7 +186,7 @@ void activateEnemies(void) {
     if (r <= 1.0 || r <= GameState.visibleRadius) {
       enemy->activated = true;
 
-      fxExplodeAtCell(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
+      fxExplodeAtTile(FX_ENEMY_REVIVE_ROW, enemy->x, enemy->y);
 
 //      moveEnemy(node);
       enemy->movingAnimation = delay(200, (DelayCallback)moveEnemy, enemy);
@@ -213,7 +226,7 @@ static void createEnemy(Animation* animation) {
 
   listAppend(GameState.enemies, node);
 
-  fxExplodeAtCell(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
+  fxExplodeAtTile(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
 }
 
 static void updateEnemyState(Animation* animation) {
@@ -262,7 +275,7 @@ void destroyEnemy(bool shouldExpload) {
     cancelAnimation(enemy->movingAnimation);
 
     if (shouldExpload) {
-      fxExplodeAtCell(FX_SMOKE_ROW, enemy->x, enemy->y);
+      fxExplodeAtTile(FX_SMOKE_ROW, enemy->x, enemy->y);
     }
 
     listDelete(GameState.enemies, node);

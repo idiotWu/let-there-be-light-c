@@ -33,9 +33,9 @@ double getInitialVisibleRadius(void) {
 
   double baseRadius = max(BASE_VISIBLE_RADIUS_MIN, BASE_VISIBLE_RADIUS - BASE_VISIBLE_RADIUS_REDUCING_RATE * getMajorLevel());
 
-  double visibleRadius = baseRadius + GameState.lastVisibleRadius / 2.0;
+  double limit = GameState.unlockLimits ? 0.75 : 0.5;
 
-  double limit = GameState.unlockLimits ? 1.0 : 0.5;
+  double visibleRadius = baseRadius + GameState.lastVisibleRadius * limit;
 
   return min(visibleRadius, MAX_VISIBLE_RADIUS * limit);
 }

@@ -107,32 +107,31 @@ static void readKeyboard(void) {
   int x = GameState.player.x;
   int y = GameState.player.y;
 
-  int deltaX = 0;
-  int deltaY = 0;
+  vec2i delta = { 0, 0 };
 
   if (moveDir & DIR_LEFT) {
-    deltaX--;
+    delta.x--;
   }
   if (moveDir & DIR_RIGHT) {
-    deltaX++;
+    delta.x++;
   }
   if (moveDir & DIR_UP) {
-    deltaY++;
+    delta.y++;
   }
   if (moveDir & DIR_DOWN) {
-    deltaY--;
+    delta.y--;
   }
 
-  if (!isPath(GameState.maze, x + deltaX, y)) {
-    deltaX = 0;
+  if (!isPath(GameState.maze, x + delta.x, y)) {
+    delta.x = 0;
   }
-  if (!isPath(GameState.maze, x, y + deltaY)) {
-    deltaY = 0;
+  if (!isPath(GameState.maze, x, y + delta.y)) {
+    delta.y = 0;
   }
 
-  if (deltaX || deltaY) {
+  if (delta.x || delta.y) {
     GameState.player.idle = false;
-    movePlayer(deltaX, deltaY);
+    movePlayer(delta.x, delta.y);
   }
 }
 

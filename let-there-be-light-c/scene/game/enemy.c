@@ -27,6 +27,17 @@ static Animation* enemyStateUpdater;
 // ============ Explode & Spoil ============ //
 
 /**
+ * @brief 地面を凍らせる
+ *
+ * @param x タイルの x 座標
+ * @param y タイルの y 座標
+ */
+static void setSpolied(int x, int y) {
+  setBits(GameState.maze[y][x], TILE_SPOILED);
+  fxExplode(FX_ICE_SPLIT_ROW, x + 0.5, y + 0.5, 0.5);
+}
+
+/**
  * @brief 地面を凍らせるアニメーションを更新する
  *
  * @param animation アニメーション
@@ -42,9 +53,7 @@ static void spoilTilesUpdate(Animation* animation) {
     Node* node = it.next(&it);
     vec2i* frontier = node->data;
 
-    setBits(GameState.maze[frontier->y][frontier->x], TILE_SPOILED);
-//    fxExplodeAtTile(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
-    fxExplode(FX_ICE_SPLIT_ROW, frontier->x + 0.5, frontier->y + 0.5, 0.5);
+    setSpolied(frontier->x, frontier->y);
   }
 }
 
@@ -66,8 +75,6 @@ static void spoilTilesComplete(Animation* animation) {
  * @param radius 凍らせる範囲
  */
 static void spoilTiles(int x, int y, int radius) {
-  setBits(GameState.maze[y][x], TILE_SPOILED);
-
   Animation* animation = createAnimation(radius, 300 * radius / ENEMY_EXPLODE_RADIUS, 1);
 
   FloodState* state = floodGenerate(GameState.maze, x, y);
@@ -77,6 +84,8 @@ static void spoilTiles(int x, int y, int radius) {
 
   animation->update = spoilTilesUpdate;
   animation->complete = spoilTilesComplete;
+
+  setSpolied(x, y);
 }
 
 /**
@@ -88,9 +97,6 @@ static void enemyExplode(Enemy* enemy) {
   int radius = max(1, (double)enemy->remainSteps / ENEMY_MAX_STEPS * ENEMY_EXPLODE_RADIUS);
 
   cancelAnimation(enemy->movingAnimation);
-
-//  fxExplodeAtTile(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
-  fxExplode(FX_ICE_SPLIT_ROW, enemy->x + 0.5, enemy->y + 0.5, 0.5);
 
   spoilTiles(enemy->x, enemy->y, radius);
 

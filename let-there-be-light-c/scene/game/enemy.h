@@ -47,8 +47,8 @@ void initEnemy(void);
 /**
  * @brief 敵の生成器を廃棄する
  *
- * @param shouldExpload 残る敵を爆発させる
+ * @param shouldExplode 残る敵を爆発させる
  */
-void destroyEnemy(bool shouldExpload);
+void destroyEnemy(bool shouldExplode);
 
 #endif

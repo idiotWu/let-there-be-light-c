@@ -330,7 +330,7 @@ void initEnemy(void) {
   enemyStateUpdater->update = updateEnemyState;
 }
 
-void destroyEnemy(bool shouldExpload) {
+void destroyEnemy(bool shouldExplode) {
   cancelAnimation(enemySpawner);
   cancelAnimation(enemyStateUpdater);
 
@@ -344,7 +344,7 @@ void destroyEnemy(bool shouldExpload) {
 
     cancelAnimation(enemy->movingAnimation);
 
-    if (shouldExpload) {
+    if (shouldExplode) {
       fxExplodeAtTile(FX_SMOKE_ROW, enemy->x, enemy->y);
     }
 

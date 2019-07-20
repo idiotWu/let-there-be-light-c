@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['caption_5fanimation_5fduration',['CAPTION_ANIMATION_DURATION',['../game-over_8c.html#a5d2994f00f0d27bb448c97b70ea05c03',1,'game-over.c']]],
+  ['caption_5ffont_5fsize',['CAPTION_FONT_SIZE',['../game-over_8c.html#a96f24555de8565f8f1a22f5e7a751825',1,'game-over.c']]],
+  ['centering_5fwindow',['CENTERING_WINDOW',['../main_8c.html#a094897c5c9a8cfe7f0a4b9db6dc56463',1,'main.c']]],
+  ['character_5fback_5frow',['CHARACTER_BACK_ROW',['../texture_8h.html#a526009afb79dfb09f4ec65f663e5c63a',1,'texture.h']]],
+  ['character_5ffront_5frow',['CHARACTER_FRONT_ROW',['../texture_8h.html#acf0aea91077f8b09ace711d10fb5fba2',1,'texture.h']]],
+  ['character_5fleft_5frow',['CHARACTER_LEFT_ROW',['../texture_8h.html#a4d65e51b3e6e741722e333ce7f83610a',1,'texture.h']]],
+  ['character_5fmove_5fanimation_5fduration',['CHARACTER_MOVE_ANIMATION_DURATION',['../config_8h.html#ac65bd20a2fa0e85c18581c1af2521868',1,'config.h']]],
+  ['character_5fright_5frow',['CHARACTER_RIGHT_ROW',['../texture_8h.html#a07d85bde7b4f7ff80de6449391a89e26',1,'texture.h']]],
+  ['character_5fsprite_5fbaseline',['CHARACTER_SPRITE_BASELINE',['../render_8c.html#a785dbd6b4a46e580b98188ef2781e278',1,'render.c']]],
+  ['character_5fsprite_5fscale',['CHARACTER_SPRITE_SCALE',['../render_8c.html#acc6e67a1e00c8154ba6493e2e8c12a93',1,'render.c']]],
+  ['character_5fstate_5fanimation_5fduration',['CHARACTER_STATE_ANIMATION_DURATION',['../config_8h.html#a898cb2c1513d54e55f8f250c9bd54685',1,'config.h']]],
+  ['clearbits',['clearBits',['../util_8h.html#a721b8038f5b6dbdb855ed58eedfac29e',1,'util.h']]],
+  ['coin_5fbig_5fcol',['COIN_BIG_COL',['../texture_8h.html#aaa4a7bb9912bc9d2885023fd50d5d622',1,'texture.h']]],
+  ['coin_5fbig_5frow',['COIN_BIG_ROW',['../texture_8h.html#a905ff8099a62bf9db0ce10f2019bd1e0',1,'texture.h']]],
+  ['coin_5fcol',['COIN_COL',['../texture_8h.html#adfe12161e102b2681441a8c918ac1255',1,'texture.h']]],
+  ['coin_5fdark_5fcol',['COIN_DARK_COL',['../texture_8h.html#aa61f2ad9fefac1ab27cacb13a0f2b879',1,'texture.h']]],
+  ['coin_5fdark_5frow',['COIN_DARK_ROW',['../texture_8h.html#a71a431b37f0048362381e988e9435691',1,'texture.h']]],
+  ['coin_5frow',['COIN_ROW',['../texture_8h.html#a19db2e97a7b7990e47d5fd11b300ef36',1,'texture.h']]]
+];

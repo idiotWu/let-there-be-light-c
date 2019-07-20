@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief 様々なエフェクト
+ */
 #include <stdlib.h>
 #include "glut.h"
 
@@ -14,12 +18,22 @@
 #include "util/list.h"
 #include "util/util.h"
 
+//! 爆発アニメーションの持続時間
 #define FX_EXPLODE_DURATION       300
+//! 標準の爆発サイズ
 #define FX_EXPLODE_STD_SIZE       1.2
+//! 洪水アニメーションの持続時間
 #define FX_FLOOD_DURADION         600
+//! 洪水アニメーションが次の場所に流れていく時刻
 #define FX_FLOOD_INFLEXION_POINT  0.1
 
 // ============ Fade In Effect ============ //
+
+/**
+ * @brief \ref fadeIn アニメーションをレンダリングする
+ *
+ * @param animation fadeIn アニメーション
+ */
 static void fxFadeInRender(Animation* animation) {
   double alpha = 1.0 - (double)animation->currentFrame / animation->frameCount;
 
@@ -37,12 +51,22 @@ void fxFadeIn(double duration, Scene* toScene) {
 
 // ============ Fade Out Effect ============ //
 
+/**
+ * @brief \ref fadeOut アニメーションが終わった後の処理（シーンの切り替え）
+ *
+ * @param animation fadeOut アニメーション
+ */
 static void fxFadeOutComplete(Animation* animation) {
   Scene* toScene = animation->target;
 
   switchScene(toScene);
 }
 
+/**
+ * @brief \ref fadeOut アニメーションをレンダリングする
+ *
+ * @param animation fadeOut アニメーション
+ */
 static void fxFadeOutRender(Animation* animation) {
   double alpha = (double)animation->currentFrame / animation->frameCount;
 
@@ -61,6 +85,11 @@ void fxFadeOut(double duration, Scene* toScene) {
 
 // ============ Explode Effect ============ //
 
+/**
+ * @brief 爆発アニメーションをレンダリングする
+ *
+ * @param animation 爆発アニメーション
+ */
 static void fxExplodeRender(Animation* animation) {
   int* row = animation->target;
   vec2d* start = animation->from;
@@ -98,28 +127,59 @@ void fxExplode(int spriteRow, double x, double y, double size) {
   animation->render = fxExplodeRender;
 }
 
-void fxExplodeAtCell(int spriteRow, int x, int y) {
+void fxExplodeAtTile(int spriteRow, int x, int y) {
   fxExplode(spriteRow, x + 0.5, y + 0.5, FX_EXPLODE_STD_SIZE);
 }
 
 // ============ Flood Effect ============ //
 
+/**
+ * @brief Flood の状態を記録するオブジェクト
+ */
 typedef struct FxFloodRecord {
+  //! Flood の状態
   FloodState* state;
+  //! Flood の先頭
   List* frontiers;
 } FxFloodRecord;
 
+/**
+ * @brief \ref fxFlood アニメーションをレンダリングする
+ *
+ * @param animation Flood アニメーション
+ */
 static void fxFloodRender(Animation* animation);
+/**
+ * @brief \ref fxFlood アニメーションを更新する
+ *
+ * @param animation Flood アニメーション
+ */
 static void fxFloodUpdate(Animation* animation);
+/**
+ * @brief \ref fxFlood アニメーションが終わった後の処理
+ *
+ * @param animation Flood アニメーション
+ */
 static void fxFloodFinish(Animation* animation);
 
+/**
+ * @brief 凍った地面をクリアする
+ *
+ * @param x 凍った地面の x 座標
+ * @param y 凍った地面の y 座標
+ */
 static void clearSpoiledTile(int x, int y) {
   if (GameState.maze[y][x] & TILE_SPOILED) {
     clearBits(GameState.maze[y][x], TILE_SPOILED);
-    fxExplodeAtCell(FX_SMOKE_ROW, x + 0.5, y + 0.5);
+    fxExplodeAtTile(FX_SMOKE_ROW, x + 0.5, y + 0.5);
   }
 }
 
+/**
+ * @brief Flood を 1 回進める
+ *
+ * @param state Flood の状態
+ */
 static void fxFloodNext(FloodState* state) {
   if (state->finished) {
     floodDestory(state);
@@ -140,13 +200,20 @@ static void fxFloodNext(FloodState* state) {
   animation->complete = fxFloodFinish;
 }
 
+/**
+ * @brief Flood の先頭をレンダリングする（先頭にあるアイテムを示す）
+ *
+ * @param record Flood の状態
+ * @param scale  アイテムの拡大倍数
+ * @param alpha  透明度
+ */
 static void renderFrontiers(FxFloodRecord* record, double scale, double alpha) {
   ListIterator it = createListIterator(record->frontiers);
 
   // enable alpha blend
   setTexParam(GL_MODULATE);
   glColor4d(alpha, alpha, alpha, alpha);
-  
+
   while (!it.done) {
     Node* node = it.next(&it);
     vec2i* frontier = node->data;
@@ -217,7 +284,7 @@ static void fxFloodFinish(Animation* animation) {
 void fxFlood(int x, int y) {
   FloodState* state = floodGenerate(GameState.maze, x, y);
 
-  fxExplodeAtCell(FX_EXPLODE_ROW, x, y);
+  fxExplodeAtTile(FX_EXPLODE_ROW, x, y);
 
   fxFloodNext(state);
 

@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief 方向の定義
+ */
 #include <stdbool.h>
 
 #include "maze/direction.h"

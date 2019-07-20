@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ゲームのタイトルシーンのコントローラー
+ */
 #include <string.h>
 #include <stdio.h>
 
@@ -15,15 +19,29 @@
 #include "render/helper.h"
 #include "render/fx.h"
 
+//! ゲームのタイトルのフォントサイズ
 #define FONT_SIZE     1.2
+//! マウスにより見える範囲の半径
 #define FOG_RADIUS    3.0
+//! 火だるまのサイズ
 #define SPRITE_SIZE   1.0
+//! 火だるまをクリックした時の爆発サイズ
 #define EXPLODE_SIZE  3.0
 
+/**
+ * @brief ゲームのタイトルシーンを初期化する
+ */
 static void initTitle(void);
+/**
+ * @brief ゲームのタイトルシーンをレンダリングする
+ */
 static void renderTitle(void);
+/**
+ * @brief ゲームのタイトルシーンから離れる時の処理
+ */
 static void destroyTitle(void);
 
+//! ゲームのタイトルシーン
 static Scene title = {
   .init = initTitle,
   .update = noop,
@@ -33,29 +51,59 @@ static Scene title = {
 
 Scene* titleScene = &title;
 
+//! タイトル
 static const char* caption = "PRESS ANY KEY";
 
-static double alphaDelta = 0.02;
+//! タイトルの透明度
 static double captionAlpha = 0.0;
+//! 透明度の変化スピード
+static double alphaDelta = 0.02;
 
+//! 火だるまの座標
 static vec2d sprite = { 0.0, 0.0 };
+//! マウスの座標
 static vec2d mouse = { -100.0, -100.0 };
 
+/**
+ * @brief ゲームを始める
+ */
 static void startGame(void) {
   destroyTitle();
   levelTransition();
 }
 
+/**
+ * @brief キーボードのハンドラ関数
+ *
+ * @param key 押されたキー（使われていない）
+ * @param x   マウスの x 座標（使われていない）
+ * @param y   マウスの y 座標（使われていない）
+ */
 static void keyboardHandler(unsigned char key, int x, int y) {
   UNUSED(key); UNUSED(x); UNUSED(y);
   startGame();
 }
 
+/**
+ * @brief 特殊キーのハンドラ関数
+ *
+ * @param key 押されたキー（使われていない）
+ * @param x   マウスの x 座標（使われていない）
+ * @param y   マウスの y 座標（使われていない）
+ */
 static void specialKeyHandler(int key, int x, int y) {
   UNUSED(key); UNUSED(x); UNUSED(y);
   startGame();
 }
 
+/**
+ * @brief スクリーン座標系からゲームの座標系へ変換する
+ *
+ * @param x スクリーン座標系における x 座標
+ * @param y スクリーン座標系における y 座標
+ *
+ * @return vec2d ゲーム座標系における座標のベクトル
+ */
 static vec2d xy2uv(int x, int y) {
   ClientRect* vp = &GameState.viewport;
   ClientRect* ortho = &GameState.ortho;
@@ -67,6 +115,14 @@ static vec2d xy2uv(int x, int y) {
   return uv;
 }
 
+/**
+ * @brief マウスイベントのハンドラ関数
+ *
+ * @param button イベント関連のマウスボタン
+ * @param state  ボタンの状態
+ * @param x      スクリーン座標系におけるマウスの x 座標
+ * @param y      スクリーン座標系におけるマウスの y 座標
+ */
 static void mouseDownHandler(int button, int state, int x, int y) {
   if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN) {
     return;
@@ -88,6 +144,12 @@ static void mouseDownHandler(int button, int state, int x, int y) {
   }
 }
 
+/**
+ * @brief マウスが移動するときのハンドラ関数
+ *
+ * @param x スクリーン座標系におけるマウスの x 座標
+ * @param y スクリーン座標系におけるマウスの y 座標
+ */
 static void mouseMoveHandler(int x, int y) {
   vec2d uv = xy2uv(x, y);
 
@@ -95,6 +157,9 @@ static void mouseMoveHandler(int x, int y) {
   mouse.y = uv.y;
 }
 
+/**
+ * @brief イースターエッグ（隠れている火だるま）をレンダリングする
+ */
 static void renderEasterEgg(void) {
   double x = mouse.x - FOG_RADIUS;
   double y = mouse.y - FOG_RADIUS;

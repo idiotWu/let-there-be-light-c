@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief 敵の定義
+ */
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -15,11 +19,18 @@
 #include "util/list.h"
 #include "scene/game/difficulty.h"
 
+//! 敵の生成器
 static Animation* enemySpawner = NULL;
-static Animation* enemyIdleStateUpdater;
+//! 敵のスプライトの状態（フレーム）を更新するタイマー
+static Animation* enemyStateUpdater;
 
 // ============ Explode & Spoil ============ //
 
+/**
+ * @brief 地面を凍らせるアニメーションを更新する
+ *
+ * @param animation アニメーション
+ */
 static void spoilTilesUpdate(Animation* animation) {
   FloodState* state = animation->from;
 
@@ -36,11 +47,23 @@ static void spoilTilesUpdate(Animation* animation) {
   }
 }
 
+/**
+ * @brief 地面を凍らせるアニメーションが終わったときの処理
+ *
+ * @param animation アニメーション
+ */
 static void spoilTilesComplete(Animation* animation) {
   FloodState* state = animation->from;
   floodDestory(state);
 }
 
+/**
+ * @brief \ref floodFill アルゴリズムを使って地面を凍らせるアニメーション
+ *
+ * @param x      出発タイルの x 座標
+ * @param y      出発タイルの y 座標
+ * @param radius 凍らせる範囲
+ */
 static void spoilTiles(int x, int y, int radius) {
   setBits(GameState.maze[y][x], TILE_SPOILED);
 
@@ -55,6 +78,11 @@ static void spoilTiles(int x, int y, int radius) {
   animation->complete = spoilTilesComplete;
 }
 
+/**
+ * @brief 敵を爆発させる
+ *
+ * @param enemy 敵
+ */
 static void enemyExplode(Enemy* enemy) {
   int radius = max(1, (double)enemy->remainSteps / ENEMY_MAX_STEPS * ENEMY_EXPLODE_RADIUS);
 
@@ -69,9 +97,23 @@ static void enemyExplode(Enemy* enemy) {
 
 // ============ Spawn Enemy ============ //
 
+/**
+ * @brief 敵を移動させる
+ *
+ * @param enemy 敵
+ */
 static void moveEnemy(Enemy* enemy);
 
-// flood-fill path finding
+/**
+ * @brief 敵がプレイヤーに近づくための変位
+ *
+ * @details この関数は \ref State.stepsFromPlayer "GameState.stepsFromPlayer" に基づき，
+ * 敵を上下左右からプレイヤーへの距離が一番短いタイルに移動させる
+ *
+ * @param enemy 敵
+ *
+ * @return vec2i 変位
+ */
 static vec2i getEnemyDelta(Enemy* enemy) {
   int x = enemy->x;
   int y = enemy->y;
@@ -109,7 +151,13 @@ static vec2i getEnemyDelta(Enemy* enemy) {
   return delta;
 }
 
-// move enemy update callback
+/**
+ * @brief 敵を移動させるアニメーションを更新する
+ *
+ * @details 敵がプレイヤーに突き当たると爆発する
+ *
+ * @param animation アニメーション
+ */
 static void moveEnemyUpdate(Animation* animation) {
   Enemy* enemy = animation->target;
   vec2i* fromPos = animation->from;
@@ -127,7 +175,11 @@ static void moveEnemyUpdate(Animation* animation) {
   }
 }
 
-// move enemy complete callback
+/**
+ * @brief 敵を移動させるアニメーションが終わった後の処理
+ *
+ * @param animation アニメーション
+ */
 static void moveEnemyComplete(Animation* animation) {
   Enemy* enemy = animation->target;
   enemy->remainSteps--;
@@ -196,6 +248,11 @@ void activateEnemies(void) {
 
 // ============ Spawn Enemy ============ //
 
+/**
+ * @brief 敵を生成する
+ *
+ * @param animation 生成器のアニメーション（使われていない）
+ */
 static void createEnemy(Animation* animation) {
   UNUSED(animation);
 
@@ -229,6 +286,11 @@ static void createEnemy(Animation* animation) {
   fxExplodeAtTile(FX_ENEMY_SPAWN_ROW, pos.x, pos.y);
 }
 
+/**
+ * @brief 敵のスプライトを更新する
+ *
+ * @param animation 更新のタイマー（使われていない）
+ */
 static void updateEnemyState(Animation* animation) {
   UNUSED(animation);
 
@@ -249,22 +311,22 @@ static void updateEnemyState(Animation* animation) {
 // ============ Misc ============ //
 
 void initEnemy(void) {
-  // TODO: adjust speed
   enemySpawner = createAnimation(1, getEnemySpawnIntervel(), ANIMATION_INFINITY);
 
   enemySpawner->update = createEnemy;
 
-  // TODO: slow down enemy
-  enemyIdleStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION * 2, ANIMATION_INFINITY);
+  enemyStateUpdater = createAnimation(ENEMY_SPRITES->cols,
+                                      CHARACTER_STATE_ANIMATION_DURATION * 2,   // slow down
+                                      ANIMATION_INFINITY);
 
-  enemyIdleStateUpdater->update = updateEnemyState;
+  enemyStateUpdater->update = updateEnemyState;
 }
 
 void destroyEnemy(bool shouldExpload) {
   cancelAnimation(enemySpawner);
-  cancelAnimation(enemyIdleStateUpdater);
+  cancelAnimation(enemyStateUpdater);
 
-  enemySpawner = enemyIdleStateUpdater = NULL;
+  enemySpawner = enemyStateUpdater = NULL;
 
   ListIterator it = createListIterator(GameState.enemies);
 

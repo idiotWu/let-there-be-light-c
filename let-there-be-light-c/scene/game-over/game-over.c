@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ゲームオーバーシーンのコントローラー
+ */
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
@@ -18,20 +22,38 @@
 #include "scene/level-title/level-title.h"
 #include "scene/game/game.h"
 #include "util/util.h"
+/**
+ * @file
+ * @brief ゲームオーバーシーンのコントローラー
+ */
 #include "render/texture.h"
 #include "render/engine.h"
 #include "render/fx.h"
 
+//! タイトルのフォントサイズ
 #define CAPTION_FONT_SIZE           2.0
+//! ヒントのフォントサイズ
 #define HINT_FONT_SIZE              0.75
+//! タイトルの文字が一個ずつ出るアニメーションの持続時間
 #define CAPTION_ANIMATION_DURATION  150
 
+//! A~Z ランダムな文字を生成する
 #define RANDOM_CHAR           ((unsigned char)randomInt('A', 'Z'))
 
+/**
+ * @brief ゲームオーバーのシーンを初期化する
+ */
 static void initGameOver(void);
+/**
+ * @brief ゲームオーバーのシーンをレンダリングする
+ */
 static void renderGameOver(void);
+/**
+ * @brief ゲームオーバーのシーンから離れる時の処理
+ */
 static void destroyGameOver(void);
 
+//! ゲームオーバーシーン
 static Scene gameOver = {
   .init = initGameOver,
   .update = noop,
@@ -41,15 +63,24 @@ static Scene gameOver = {
 
 Scene* gameOverScene = &gameOver;
 
+//! タイトル
 static const char* caption = "GAME OVER";
 
+//! ヒント
 static const char* hint = "[R]ETRY   [T]ITLE";
 
+//! ヒントの透明度
 static double hintAlpha = 0.0;
+//! タイトルのアニメーションが終わった
 static bool captionAnimationFinished = false;
 
 // ============ Render Text ============ //
 
+/**
+ * @brief メッセージを画面の中央に出力する
+ *
+ * @param str メッセージ
+ */
 static void showMessage(const char* str) {
   size_t length = strlen(str);
   double width = GameState.ortho.width;
@@ -75,6 +106,9 @@ static void showMessage(const char* str) {
   free(tmp);
 }
 
+/**
+ * @brief ヒントをレンダリングする
+ */
 static void showHint(void) {
   size_t length = strlen(hint);
   double width = GameState.ortho.width;
@@ -87,6 +121,13 @@ static void showHint(void) {
 
 // ============ Hint Fading In ============ //
 
+/**
+ * @brief キーボードのハンドラ関数
+ *
+ * @param key 押されたキー
+ * @param x   マウスの x 座標（使われていない）
+ * @param y   マウスの y 座標（使われていない）
+ */
 static void keyboardHandler(unsigned char key, int x, int y) {
   UNUSED(x); UNUSED(y);
 
@@ -104,10 +145,18 @@ static void keyboardHandler(unsigned char key, int x, int y) {
   }
 }
 
+/**
+ * @brief \ref hintFadeIn アニメーションをレンダリングする
+ *
+ * @param animation アニメーション
+ */
 static void hintFadeInRender(Animation* animation) {
   hintAlpha = (double)animation->currentFrame / animation->frameCount;
 }
 
+/**
+ * @brief ヒントを次第に明るく出力するアニメーション
+ */
 static void hintFadeIn(void) {
   Animation* animation = createAnimation60FPS(300, 1);
   animation->update = hintFadeInRender;
@@ -117,6 +166,11 @@ static void hintFadeIn(void) {
 
 // ============ Caption Animation ============ //
 
+/**
+ * @brief タイトルのアニメーションが終わった後の処理
+ *
+ * @param _ アニメーション（使われていない）
+ */
 static void captionComplete(Animation* _) {
   UNUSED(_);
 
@@ -124,6 +178,11 @@ static void captionComplete(Animation* _) {
   captionAnimationFinished = true;
 }
 
+/**
+ * @brief タイトルのアニメーションをレンダリングする
+ *
+ * @param animation アニメーション
+ */
 static void captionRender(Animation* animation) {
   size_t n = animation->nth;
 

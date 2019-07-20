@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief 迷路の生成など
+ *
+ * @see <http://www.contralogic.com/2d-pac-man-style-maze-generation/>
+ */
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -15,36 +21,62 @@
 #include "util/list.h"
 #include "util/util.h"
 
+/**
+ * @internal
+ * @brief 迷路のビルダー
+ */
 typedef struct MazeBuilder {
+  //! ビルダーの x 座標
   int x;
+  //! ビルダーの y 座標
   int y;
 
+  //! x 方向における移動スピード
   int vx;
+  //! y 方向における移動スピード
   int vy;
 
+  //! 迷路の大きさ制限
   int limit;
+  //! 残りの歩数
   int remain;
 
+  //! 最短走行距離
   int minDistance;
+  //! 最大走行距離
   int maxDistance;
 
+  //! ビルダーの向き
   Direction direction;
+  //! 生成器の配列
   vec2i* spawners;
+  //! このビルダーを作った生成器のインデックス
   int spawnerIndex;
+  //! 生成器の数
   int spawnerCount;
 } MazeBuilder;
 
+/**
+ * @brief 複数の方向から進まない方向を取り除く
+ *
+ * @param x           現在のビルダーの x 座標
+ * @param y           現在のビルダーの y 座標
+ * @param limit       迷路の大きさ制限
+ * @param candidates  選択できる方向（複数）
+ *
+ * @return Direction  行ける方向
+ */
 static Direction filterDirections(int x, int y, int limit, Direction candidates) {
   if (x == 0 || x == 1 /* odd numbers of distance are not allowed */) {
-    candidates &= ~DIR_LEFT; // clear the specific bit
+    clearBits(candidates, DIR_LEFT);
   } else if (x == limit || x == limit - 1) {
-    candidates &= ~DIR_RIGHT;
+    clearBits(candidates, DIR_RIGHT);
   }
 
   if (y == 0 || y == 1) {
-    candidates &= ~DIR_DOWN;
+    clearBits(candidates, DIR_DOWN);
   } else if (y == limit || y == limit - 1) {
-    candidates &= ~DIR_UP;
+    clearBits(candidates, DIR_UP);
   }
 
   return candidates;
@@ -52,6 +84,11 @@ static Direction filterDirections(int x, int y, int limit, Direction candidates)
 
 // ============ Builder Begin ============ //
 
+/**
+ * @brief ビルダーの次回の走行距離を計算する
+ *
+ * @param builder 目標のビルダー
+ */
 static void updateDistance(MazeBuilder* builder) {
   int distance = randomInt(builder->minDistance, builder->maxDistance);
 
@@ -83,6 +120,18 @@ static void updateDistance(MazeBuilder* builder) {
   builder->remain = distance;
 }
 
+/**
+ * @brief ビルダーの位置において，横軸（方向）または縦軸（方向）のウェイトを計算する
+ *
+ * @details この関数の戻り値はどの方向において生成器の数が多いかを表している．
+ * - x 軸に対して，左側に生成器の数が多い場合は負の値を，右側が多い場合は正の値を，両側が等しい場合は 0 を返す．
+ * - y 軸に対して，下側に生成器の数が多い場合は負の値を，上側が多い場合は正の値を，両側が等しい場合は 0 を返す．
+ *
+ * @param builder 目標のビルダー
+ * @param axis    横軸 `'x'`，または縦軸 `'y'`
+ *
+ * @return int ウェイト
+ */
 static int calcWeight(MazeBuilder* builder, char axis) {
   int weight = 0;
 
@@ -108,6 +157,14 @@ static int calcWeight(MazeBuilder* builder, char axis) {
   return weight;
 }
 
+/**
+ * @brief ビルダーが曲がるときに，他の生成器に近づける方向（ウェイトの大きい）を選ぶ
+ *
+ * @param builder 目標のビルダー
+ * @param bidir   選択できる両方向
+ *
+ * @return Direction 計算で得た片方向
+ */
 static Direction chooseDirection(MazeBuilder* builder, Direction bidir) {
   switch (bidir) {
     case DIR_HORIZONTAL:
@@ -121,6 +178,11 @@ static Direction chooseDirection(MazeBuilder* builder, Direction bidir) {
   }
 }
 
+/**
+ * @brief ビルダーを 90 度回転させる
+ *
+ * @param builder 目標のビルダー
+ */
 static void turnBuilder(MazeBuilder* builder) {
   Direction current = builder->direction;
   Direction candidates = (current & DIR_VERTICAL) ? DIR_HORIZONTAL : DIR_VERTICAL;
@@ -131,6 +193,11 @@ static void turnBuilder(MazeBuilder* builder) {
   updateDistance(builder);
 }
 
+/**
+ * @brief ビルダーを一回進める
+ *
+ * @param builder 目標のビルダー
+ */
 static void moveBuilder(MazeBuilder* builder) {
   if (!builder->remain) {
     turnBuilder(builder);
@@ -144,19 +211,26 @@ static void moveBuilder(MazeBuilder* builder) {
 // ============ Builder End ============ //
 
 /**
- * Splits map into 2 rows * n blocks and pick a random tile from each block
+ * @brief 生成器を初期化する
  *
- *                    +---+---+---+-...-+----+
- *  first row:  index=| 0 | 2 | 4 | --> | 2n |
- *                    +---+---+---+-...-+----+
+ * @details 迷路を可能な限り広くするため，生成器同士の距離を大きくする必要がある．
+ * ここでは，生成器の数を 2n とし，迷路を 2 列に分け，各列に n 個のブロックを分割する．
+ * そして，下記のルールに従って生成器を置く．
+ * ```
+ *                       +---+---+---+-...-+----+
+ *  1 行目: 生成器の index=| 0 | 2 | 4 | --> | 2n |
+ *                       +---+---+---+-...-+----+
  *
- *                    +------+-...-+---+---+---+
- *  second row: index=| 2n+1 | <-- | 5 | 3 | 1 |
- *                    +------+-...-+---+---+---+
+ *                       +------+-...-+---+---+---+
+ *  2 行目: 生成器の index=| 2n+1 | <-- | 5 | 3 | 1 |
+ *                       +------+-...-+---+---+---+
+ * ```
+ *
+ * @param count    生成器の数
+ * @param spawners 生成器の配列
+ * @param tiles    迷路の構成
  */
-static void initSpawners(int count,
-                         vec2i spawners[],
-                         Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
+static void initSpawners(int count, vec2i spawners[], Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   // max odd number of index
   const int maxIndex = floor(MAZE_SIZE / 2) * 2 - 1;
 
@@ -196,10 +270,17 @@ static void initSpawners(int count,
   }
 }
 
-static void initBuilders(int minDistance,
-                         int maxDistance,
-                         int spawnerCount,
-                         vec2i spawners[],
+/**
+ * @brief ビルダーを初期化する
+ *
+ * @param minDistance  最短走行距離
+ * @param maxDistance  最大走行距離
+ * @param spawnerCount 生成器の数
+ * @param spawners     生成器の配列
+ * @param builders     ビルダーのリスト
+ */
+static void initBuilders(int minDistance, int maxDistance,
+                         int spawnerCount, vec2i spawners[],
                          List* builders) {
   int limit = MAZE_SIZE - 1;
 
@@ -236,6 +317,12 @@ static void initBuilders(int minDistance,
   }
 }
 
+/**
+ * @brief 迷路を生成する
+ *
+ * @param tiles    タイルの保存先
+ * @param builders ビルダーのリスト
+ */
 static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], List* builders) {
   while (builders->count) {
     ListIterator it = createListIterator(builders);
@@ -256,6 +343,14 @@ static void generateMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], List* builders) {
   }
 }
 
+/**
+ * @brief 孤立した部分（離島）を迷路から排除する
+ *
+ * @param tiles       迷路の構成
+ * @param startPoint  チェックの出発点
+ *
+ * @return int 開いているタイルの数
+ */
 static int fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], vec2i* startPoint) {
   FloodState* state = floodFill(tiles, startPoint->x, startPoint->y);
 
@@ -276,8 +371,7 @@ static int fixMap(Tile tiles[MAZE_SIZE][MAZE_SIZE], vec2i* startPoint) {
 }
 
 int initMaze(int spawnerCount,
-             int minDistance,
-             int maxDistance,
+             int minDistance, int maxDistance,
              Tile tiles[MAZE_SIZE][MAZE_SIZE]) {
   vec2i* spawners = malloc(sizeof(vec2i) * spawnerCount);
   List* builders = createList();

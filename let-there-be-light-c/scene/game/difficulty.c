@@ -1,4 +1,7 @@
-
+/**
+ * @file
+ * @brief ゲームの難易度の計算
+ */
 #include "scene/game/difficulty.h"
 
 #include "config.h"
@@ -6,10 +9,20 @@
 
 #include "util/util.h"
 
+/**
+ * @brief 0を始まりとするメージャーレベル（ワールド）を計算する
+ *
+ * @return int メージャーレベル
+ */
 static int getMajorLevel(void) {
   return GameState.level.major - 1;
 }
 
+/**
+ * @brief 0を始まりとするマイナーレベル（ステージ）を計算する
+ *
+ * @return int マイナーレベル
+ */
 static int getMinorLevel(void) {
   return GameState.level.minor - 1;
 }

@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: scene/game-over/game-over.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('game-over_8c.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle">
+<div class="title">game-over.c ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>ゲームオーバーシーンのコントローラー  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &quot;glut.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="config_8h_source.html">config.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="state_8h_source.html">state.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="game-over_8h_source.html">scene/game-over/game-over.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="scene_8h_source.html">scene/scene.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="transition_8h_source.html">render/transition.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="title_8h_source.html">scene/title/title.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="level-title_8h_source.html">scene/level-title/level-title.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="game_8h_source.html">scene/game/game.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util/util.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texture_8h_source.html">render/texture.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="engine_8h_source.html">render/engine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fx_8h_source.html">render/fx.h</a>&quot;</code><br />
+</div>
+<p><a href="game-over_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr class="memitem:af08ec37a8c99d747fb60fa15bc28678b"><td class="memItemLeft" align="right" valign="top"><a id="af08ec37a8c99d747fb60fa15bc28678b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_CRT_SECURE_NO_WARNINGS</b></td></tr>
+<tr class="separator:af08ec37a8c99d747fb60fa15bc28678b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96f24555de8565f8f1a22f5e7a751825"><td class="memItemLeft" align="right" valign="top"><a id="a96f24555de8565f8f1a22f5e7a751825"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a96f24555de8565f8f1a22f5e7a751825">CAPTION_FONT_SIZE</a>&#160;&#160;&#160;2.0</td></tr>
+<tr class="memdesc:a96f24555de8565f8f1a22f5e7a751825"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルのフォントサイズ <br /></td></tr>
+<tr class="separator:a96f24555de8565f8f1a22f5e7a751825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a106929e8a885bdf0d1fbf80434e89c38"><td class="memItemLeft" align="right" valign="top"><a id="a106929e8a885bdf0d1fbf80434e89c38"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a106929e8a885bdf0d1fbf80434e89c38">HINT_FONT_SIZE</a>&#160;&#160;&#160;0.75</td></tr>
+<tr class="memdesc:a106929e8a885bdf0d1fbf80434e89c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">ヒントのフォントサイズ <br /></td></tr>
+<tr class="separator:a106929e8a885bdf0d1fbf80434e89c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2994f00f0d27bb448c97b70ea05c03"><td class="memItemLeft" align="right" valign="top"><a id="a5d2994f00f0d27bb448c97b70ea05c03"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a5d2994f00f0d27bb448c97b70ea05c03">CAPTION_ANIMATION_DURATION</a>&#160;&#160;&#160;150</td></tr>
+<tr class="memdesc:a5d2994f00f0d27bb448c97b70ea05c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルの文字が一個ずつ出るアニメーションの持続時間 <br /></td></tr>
+<tr class="separator:a5d2994f00f0d27bb448c97b70ea05c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0425cecf47eba3ded8db834caae90e7c"><td class="memItemLeft" align="right" valign="top"><a id="a0425cecf47eba3ded8db834caae90e7c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a0425cecf47eba3ded8db834caae90e7c">RANDOM_CHAR</a>&#160;&#160;&#160;((unsigned char)<a class="el" href="util_8h.html#a1e0c17c5d6e86def3e92241950b37b10">randomInt</a>('A', 'Z'))</td></tr>
+<tr class="memdesc:a0425cecf47eba3ded8db834caae90e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A~Z ランダムな文字を生成する <br /></td></tr>
+<tr class="separator:a0425cecf47eba3ded8db834caae90e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a9cb066ecc64b38d17a170d697c03c26a"><td class="memItemLeft" align="right" valign="top"><a id="a9cb066ecc64b38d17a170d697c03c26a"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a9cb066ecc64b38d17a170d697c03c26a">initGameOver</a> (void)</td></tr>
+<tr class="memdesc:a9cb066ecc64b38d17a170d697c03c26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームオーバーのシーンを初期化する <br /></td></tr>
+<tr class="separator:a9cb066ecc64b38d17a170d697c03c26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae571d4df80f01dfb2d6463003215a3a7"><td class="memItemLeft" align="right" valign="top"><a id="ae571d4df80f01dfb2d6463003215a3a7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#ae571d4df80f01dfb2d6463003215a3a7">renderGameOver</a> (void)</td></tr>
+<tr class="memdesc:ae571d4df80f01dfb2d6463003215a3a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームオーバーのシーンをレンダリングする <br /></td></tr>
+<tr class="separator:ae571d4df80f01dfb2d6463003215a3a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad05ec4d4e40c654526d5f4d6c236d956"><td class="memItemLeft" align="right" valign="top"><a id="ad05ec4d4e40c654526d5f4d6c236d956"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#ad05ec4d4e40c654526d5f4d6c236d956">destroyGameOver</a> (void)</td></tr>
+<tr class="memdesc:ad05ec4d4e40c654526d5f4d6c236d956"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームオーバーのシーンから離れる時の処理 <br /></td></tr>
+<tr class="separator:ad05ec4d4e40c654526d5f4d6c236d956"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a572576d3f8b393a4d49e835c14ad219a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a572576d3f8b393a4d49e835c14ad219a">showMessage</a> (const char *str)</td></tr>
+<tr class="memdesc:a572576d3f8b393a4d49e835c14ad219a"><td class="mdescLeft">&#160;</td><td class="mdescRight">メッセージを画面の中央に出力する  <a href="#a572576d3f8b393a4d49e835c14ad219a">[詳解]</a><br /></td></tr>
+<tr class="separator:a572576d3f8b393a4d49e835c14ad219a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5e627f25355c2dc0be13bc46840c7eb"><td class="memItemLeft" align="right" valign="top"><a id="af5e627f25355c2dc0be13bc46840c7eb"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#af5e627f25355c2dc0be13bc46840c7eb">showHint</a> (void)</td></tr>
+<tr class="memdesc:af5e627f25355c2dc0be13bc46840c7eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">ヒントをレンダリングする <br /></td></tr>
+<tr class="separator:af5e627f25355c2dc0be13bc46840c7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3369ad10582c1d9c09afc4db0edb8015"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a3369ad10582c1d9c09afc4db0edb8015">keyboardHandler</a> (unsigned char key, int x, int y)</td></tr>
+<tr class="memdesc:a3369ad10582c1d9c09afc4db0edb8015"><td class="mdescLeft">&#160;</td><td class="mdescRight">キーボードのハンドラ関数  <a href="#a3369ad10582c1d9c09afc4db0edb8015">[詳解]</a><br /></td></tr>
+<tr class="separator:a3369ad10582c1d9c09afc4db0edb8015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a574e60a5018b757e64a7882b73e2fdad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a574e60a5018b757e64a7882b73e2fdad">hintFadeInRender</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a574e60a5018b757e64a7882b73e2fdad"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="game-over_8c.html#acac9eaa41f9fe33ad68767be2b3825dc">hintFadeIn</a> アニメーションをレンダリングする  <a href="#a574e60a5018b757e64a7882b73e2fdad">[詳解]</a><br /></td></tr>
+<tr class="separator:a574e60a5018b757e64a7882b73e2fdad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac9eaa41f9fe33ad68767be2b3825dc"><td class="memItemLeft" align="right" valign="top"><a id="acac9eaa41f9fe33ad68767be2b3825dc"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#acac9eaa41f9fe33ad68767be2b3825dc">hintFadeIn</a> (void)</td></tr>
+<tr class="memdesc:acac9eaa41f9fe33ad68767be2b3825dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">ヒントを次第に明るく出力するアニメーション <br /></td></tr>
+<tr class="separator:acac9eaa41f9fe33ad68767be2b3825dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94256d07b0ea034cb3048a212f4ab6b7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a94256d07b0ea034cb3048a212f4ab6b7">captionComplete</a> (<a class="el" href="struct_animation.html">Animation</a> *_)</td></tr>
+<tr class="memdesc:a94256d07b0ea034cb3048a212f4ab6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルのアニメーションが終わった後の処理  <a href="#a94256d07b0ea034cb3048a212f4ab6b7">[詳解]</a><br /></td></tr>
+<tr class="separator:a94256d07b0ea034cb3048a212f4ab6b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4ab968e09548bfedfa138293b3765a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#aef4ab968e09548bfedfa138293b3765a">captionRender</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:aef4ab968e09548bfedfa138293b3765a"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルのアニメーションをレンダリングする  <a href="#aef4ab968e09548bfedfa138293b3765a">[詳解]</a><br /></td></tr>
+<tr class="separator:aef4ab968e09548bfedfa138293b3765a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+変数</h2></td></tr>
+<tr class="memitem:aa4bbd48fd02af4d6ed00e7b3d11a0bcc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_scene.html">Scene</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#aa4bbd48fd02af4d6ed00e7b3d11a0bcc">gameOver</a></td></tr>
+<tr class="memdesc:aa4bbd48fd02af4d6ed00e7b3d11a0bcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームオーバーシーン  <a href="#aa4bbd48fd02af4d6ed00e7b3d11a0bcc">[詳解]</a><br /></td></tr>
+<tr class="separator:aa4bbd48fd02af4d6ed00e7b3d11a0bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3088bfba61e7e20697576a1cff840a"><td class="memItemLeft" align="right" valign="top"><a id="a4e3088bfba61e7e20697576a1cff840a"></a>
+<a class="el" href="struct_scene.html">Scene</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a4e3088bfba61e7e20697576a1cff840a">gameOverScene</a> = &amp;<a class="el" href="game-over_8c.html#aa4bbd48fd02af4d6ed00e7b3d11a0bcc">gameOver</a></td></tr>
+<tr class="memdesc:a4e3088bfba61e7e20697576a1cff840a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームオーバーのシーン <br /></td></tr>
+<tr class="separator:a4e3088bfba61e7e20697576a1cff840a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="memItemLeft" align="right" valign="top"><a id="a80d1a77abfa3f1d4158ec3de9e61bb88"></a>
+static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a80d1a77abfa3f1d4158ec3de9e61bb88">caption</a> = &quot;GAME OVER&quot;</td></tr>
+<tr class="memdesc:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトル <br /></td></tr>
+<tr class="separator:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5abb4142cf73aee316cb470075d527"><td class="memItemLeft" align="right" valign="top"><a id="a6d5abb4142cf73aee316cb470075d527"></a>
+static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#a6d5abb4142cf73aee316cb470075d527">hint</a> = &quot;[R]ETRY [T]ITLE&quot;</td></tr>
+<tr class="memdesc:a6d5abb4142cf73aee316cb470075d527"><td class="mdescLeft">&#160;</td><td class="mdescRight">ヒント <br /></td></tr>
+<tr class="separator:a6d5abb4142cf73aee316cb470075d527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab72b42d41c6d831d7bdd96c3f7cf537b"><td class="memItemLeft" align="right" valign="top"><a id="ab72b42d41c6d831d7bdd96c3f7cf537b"></a>
+static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#ab72b42d41c6d831d7bdd96c3f7cf537b">hintAlpha</a> = 0.0</td></tr>
+<tr class="memdesc:ab72b42d41c6d831d7bdd96c3f7cf537b"><td class="mdescLeft">&#160;</td><td class="mdescRight">ヒントの透明度 <br /></td></tr>
+<tr class="separator:ab72b42d41c6d831d7bdd96c3f7cf537b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa731ea0fda9d4234995903c5b6b516e5"><td class="memItemLeft" align="right" valign="top"><a id="aa731ea0fda9d4234995903c5b6b516e5"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game-over_8c.html#aa731ea0fda9d4234995903c5b6b516e5">captionAnimationFinished</a> = false</td></tr>
+<tr class="memdesc:aa731ea0fda9d4234995903c5b6b516e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルのアニメーションが終わった <br /></td></tr>
+<tr class="separator:aa731ea0fda9d4234995903c5b6b516e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>ゲームオーバーシーンのコントローラー </p>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> に定義があります。</p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="a572576d3f8b393a4d49e835c14ad219a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a572576d3f8b393a4d49e835c14ad219a">&#9670;&nbsp;</a></span>showMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void showMessage </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>メッセージを画面の中央に出力する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>メッセージ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00084">84</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a3369ad10582c1d9c09afc4db0edb8015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3369ad10582c1d9c09afc4db0edb8015">&#9670;&nbsp;</a></span>keyboardHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void keyboardHandler </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>キーボードのハンドラ関数 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>押されたキー </td></tr>
+    <tr><td class="paramname">x</td><td>マウスの x 座標（使われていない） </td></tr>
+    <tr><td class="paramname">y</td><td>マウスの y 座標（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00131">131</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a574e60a5018b757e64a7882b73e2fdad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a574e60a5018b757e64a7882b73e2fdad">&#9670;&nbsp;</a></span>hintFadeInRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void hintFadeInRender </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="game-over_8c.html#acac9eaa41f9fe33ad68767be2b3825dc">hintFadeIn</a> アニメーションをレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00153">153</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a94256d07b0ea034cb3048a212f4ab6b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94256d07b0ea034cb3048a212f4ab6b7">&#9670;&nbsp;</a></span>captionComplete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void captionComplete </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>タイトルのアニメーションが終わった後の処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_</td><td>アニメーション（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00174">174</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aef4ab968e09548bfedfa138293b3765a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef4ab968e09548bfedfa138293b3765a">&#9670;&nbsp;</a></span>captionRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void captionRender </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>タイトルのアニメーションをレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00186">186</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<h2 class="groupheader">変数詳解</h2>
+<a id="aa4bbd48fd02af4d6ed00e7b3d11a0bcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4bbd48fd02af4d6ed00e7b3d11a0bcc">&#9670;&nbsp;</a></span>gameOver</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_scene.html">Scene</a> gameOver</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>初期値:</b><div class="fragment"><div class="line">= {</div><div class="line">  .init = <a class="code" href="game-over_8c.html#a9cb066ecc64b38d17a170d697c03c26a">initGameOver</a>,</div><div class="line">  .update = <a class="code" href="util_8c.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>,</div><div class="line">  .render = <a class="code" href="game-over_8c.html#ae571d4df80f01dfb2d6463003215a3a7">renderGameOver</a>,</div><div class="line">  .destroy = <a class="code" href="game-over_8c.html#ad05ec4d4e40c654526d5f4d6c236d956">destroyGameOver</a>,</div><div class="line">}</div><div class="ttc" id="game-over_8c_html_ae571d4df80f01dfb2d6463003215a3a7"><div class="ttname"><a href="game-over_8c.html#ae571d4df80f01dfb2d6463003215a3a7">renderGameOver</a></div><div class="ttdeci">static void renderGameOver(void)</div><div class="ttdoc">ゲームオーバーのシーンをレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="game-over_8c_source.html#l00210">game-over.c:210</a></div></div>
+<div class="ttc" id="game-over_8c_html_ad05ec4d4e40c654526d5f4d6c236d956"><div class="ttname"><a href="game-over_8c.html#ad05ec4d4e40c654526d5f4d6c236d956">destroyGameOver</a></div><div class="ttdeci">static void destroyGameOver(void)</div><div class="ttdoc">ゲームオーバーのシーンから離れる時の処理</div><div class="ttdef"><b>Definition:</b> <a href="game-over_8c_source.html#l00219">game-over.c:219</a></div></div>
+<div class="ttc" id="game-over_8c_html_a9cb066ecc64b38d17a170d697c03c26a"><div class="ttname"><a href="game-over_8c.html#a9cb066ecc64b38d17a170d697c03c26a">initGameOver</a></div><div class="ttdeci">static void initGameOver(void)</div><div class="ttdoc">ゲームオーバーのシーンを初期化する</div><div class="ttdef"><b>Definition:</b> <a href="game-over_8c_source.html#l00200">game-over.c:200</a></div></div>
+<div class="ttc" id="util_8c_html_ac6aafaca6eb2c1716beb84f6d9f1f5ac"><div class="ttname"><a href="util_8c.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a></div><div class="ttdeci">void noop(void)</div><div class="ttdoc">何もしない関数</div><div class="ttdef"><b>Definition:</b> <a href="util_8c_source.html#l00078">util.c:78</a></div></div>
+</div><!-- fragment -->
+<p>ゲームオーバーシーン </p>
+
+<p class="definition"> <a class="el" href="game-over_8c_source.html">game-over.c</a> の <a class="el" href="game-over_8c_source.html#l00057">57</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_fd40b43fc4c1e00689c4b0cc7f9f9515.html">scene</a></li><li class="navelem"><a class="el" href="dir_3febf10fb52a48a1d59ef5bcad1cc811.html">game-over</a></li><li class="navelem"><a class="el" href="game-over_8c.html">game-over.c</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

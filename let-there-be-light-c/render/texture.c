@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief テクスチャ
+ */
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
@@ -23,8 +27,10 @@
 #define IMG_FX              "assets/fx.bin"
 #define IMG_ENERGY_BAR      "assets/energy-bar.bin"
 
+//! エネルギーバーの内部のオフセット
 #define ENERGY_BAR_FILL_OFFSET (12.0 / 256.0)
 
+//! 霧のテクスチャのサイズ
 #define FOG_SIZE 128
 
 Sprite* PLAYER_SPRITES;
@@ -35,14 +41,32 @@ Sprite* FX_SPRITES;
 Sprite* FONT_SPRITES;
 Sprite* ENERGY_BAR_SPRITES;
 
+/**
+ * @internal
+ * @brief 霧のテクスチャ
+ */
 static GLuint FOG_TEX;
 
+/**
+ * @internal
+ * @brief テクスチャパラメータの初期値
+ */
 static GLfloat TEX_PARAM = GL_REPLACE;
 
 /**
+ * @brief バイナリデータから画像の長さ，または高さを読み取る
+ *
+ * @details バイナリデータの仕様：
+ * ```
  * Hex View <image.bin>:
  *   [0a 0b 0c 0d][1a 1b 1c 1d][ff ff ff ff ...]
  *   <-- width --><-- height -><--   pixels  -->
+ * ```
+ *
+ * @param fp     ファイルポインタ
+ * @param offset データのオフセット
+ *
+ * @return uint32_t 画像の長さ，または高さ
  */
 static uint32_t readDimension(FILE* fp, uint64_t offset) {
   uint32_t dimension = 0;
@@ -60,6 +84,14 @@ static uint32_t readDimension(FILE* fp, uint64_t offset) {
   return dimension;
 }
 
+/**
+ * @brief テクスチャを有効にする
+ *
+ * @param texName テクスチャの ID
+ * @param width   テクスチャの長さ
+ * @param height  テクスチャの高さ
+ * @param pixels  ピクセルデータ
+ */
 static void bindTexture(GLuint* texName,
                         uint32_t width,
                         uint32_t height,
@@ -77,6 +109,13 @@ static void bindTexture(GLuint* texName,
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 }
 
+/**
+ * @brief バイナリデータのファイルからテクスチャを生成する
+ *
+ * @param filename バイナリデータのファイル名
+ *
+ * @return GLuint テクスチャの ID
+ */
 static GLuint createTextureFrom(const char* filename) {
   GLuint texName;
   FILE* fp = fopen(filename, "r");
@@ -111,6 +150,11 @@ static GLuint createTextureFrom(const char* filename) {
   return texName;
 }
 
+/**
+ * @brief 霧のテクスチャを生成する
+ *
+ * @return GLuint 霧のテクスチャの ID
+ */
 static GLuint initFogTexture() {
   GLuint texName;
 
@@ -136,7 +180,19 @@ static GLuint initFogTexture() {
   return texName;
 }
 
-// texture mapping
+/**
+ * @brief テクスチャをマッピングする
+ *
+ * @param texName テクスチャの ID
+ * @param sx      マッピングしたいテクスチャ空間の x 座標
+ * @param sy      マッピングしたいテクスチャ空間の y 座標
+ * @param sw      マッピングしたいテクスチャ空間の長さ
+ * @param sh      マッピングしたいテクスチャ空間の高さ
+ * @param dx      出力先の x 座標
+ * @param dy      出力先の y 座標
+ * @param dw      出力先の長さ
+ * @param dh      出力先の高さ
+ */
 static void mapTexture(GLuint texName,
                        double sx, double sy,
                        double sw, double sh,

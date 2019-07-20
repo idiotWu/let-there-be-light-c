@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: scene/game/render.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('render_8c.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#func-members">関数</a>  </div>
+  <div class="headertitle">
+<div class="title">render.c ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>ゲームシーンのレンダリング  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;glut.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="config_8h_source.html">config.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="state_8h_source.html">state.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="render_8h_source.html">scene/game/render.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="engine_8h_source.html">render/engine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texture_8h_source.html">render/texture.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="helper_8h_source.html">render/helper.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="direction_8h_source.html">maze/direction.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tile_8h_source.html">maze/tile.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="list_8h_source.html">util/list.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util/util.h</a>&quot;</code><br />
+</div>
+<p><a href="render_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr class="memitem:af08ec37a8c99d747fb60fa15bc28678b"><td class="memItemLeft" align="right" valign="top"><a id="af08ec37a8c99d747fb60fa15bc28678b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_CRT_SECURE_NO_WARNINGS</b></td></tr>
+<tr class="separator:af08ec37a8c99d747fb60fa15bc28678b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6e67a1e00c8154ba6493e2e8c12a93"><td class="memItemLeft" align="right" valign="top"><a id="acc6e67a1e00c8154ba6493e2e8c12a93"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#acc6e67a1e00c8154ba6493e2e8c12a93">CHARACTER_SPRITE_SCALE</a>&#160;&#160;&#160;1.2</td></tr>
+<tr class="memdesc:acc6e67a1e00c8154ba6493e2e8c12a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスプライトを拡大する倍数 <br /></td></tr>
+<tr class="separator:acc6e67a1e00c8154ba6493e2e8c12a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a785dbd6b4a46e580b98188ef2781e278"><td class="memItemLeft" align="right" valign="top"><a id="a785dbd6b4a46e580b98188ef2781e278"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#a785dbd6b4a46e580b98188ef2781e278">CHARACTER_SPRITE_BASELINE</a>&#160;&#160;&#160;0.3</td></tr>
+<tr class="memdesc:a785dbd6b4a46e580b98188ef2781e278"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスプライトの縦方向における基準位置 <br /></td></tr>
+<tr class="separator:a785dbd6b4a46e580b98188ef2781e278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb7c05dd4e0b8001a735bc68d39b968"><td class="memItemLeft" align="right" valign="top"><a id="aaeb7c05dd4e0b8001a735bc68d39b968"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#aaeb7c05dd4e0b8001a735bc68d39b968">ENERGY_BAR_WIDTH</a>&#160;&#160;&#160;(<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a> / 4.0)</td></tr>
+<tr class="memdesc:aaeb7c05dd4e0b8001a735bc68d39b968"><td class="mdescLeft">&#160;</td><td class="mdescRight">エネルギーバーの長さ <br /></td></tr>
+<tr class="separator:aaeb7c05dd4e0b8001a735bc68d39b968"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a40dc50ed7b4f3bdef83a67c8a72511f7"><td class="memItemLeft" align="right" valign="top"><a id="a40dc50ed7b4f3bdef83a67c8a72511f7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#a40dc50ed7b4f3bdef83a67c8a72511f7">renderTiles</a> (void)</td></tr>
+<tr class="memdesc:a40dc50ed7b4f3bdef83a67c8a72511f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">迷路のタイルをレンダリングする <br /></td></tr>
+<tr class="separator:a40dc50ed7b4f3bdef83a67c8a72511f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae675117f855e17d936b1ba9b072f7106"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#ae675117f855e17d936b1ba9b072f7106">renderCharacter</a> (<a class="el" href="struct_sprite.html">Sprite</a> *<a class="el" href="title_8c.html#a827a0b02b73bfcad9a38974101c921ff">sprite</a>, int col, double x, double y, <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> direction)</td></tr>
+<tr class="memdesc:ae675117f855e17d936b1ba9b072f7106"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタ（敵，プレイヤー）をレンダリングする  <a href="#ae675117f855e17d936b1ba9b072f7106">[詳解]</a><br /></td></tr>
+<tr class="separator:ae675117f855e17d936b1ba9b072f7106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add6aff3b630ca0c47de09983cefebb77"><td class="memItemLeft" align="right" valign="top"><a id="add6aff3b630ca0c47de09983cefebb77"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#add6aff3b630ca0c47de09983cefebb77">renderPlayer</a> (void)</td></tr>
+<tr class="memdesc:add6aff3b630ca0c47de09983cefebb77"><td class="mdescLeft">&#160;</td><td class="mdescRight">プレイヤーをレンダリングする <br /></td></tr>
+<tr class="separator:add6aff3b630ca0c47de09983cefebb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2765d54fa1f972a1abec6954acbd325"><td class="memItemLeft" align="right" valign="top"><a id="aa2765d54fa1f972a1abec6954acbd325"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#aa2765d54fa1f972a1abec6954acbd325">renderEnemies</a> (void)</td></tr>
+<tr class="memdesc:aa2765d54fa1f972a1abec6954acbd325"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵をレンダリングする <br /></td></tr>
+<tr class="separator:aa2765d54fa1f972a1abec6954acbd325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2e900d9dba7238413d7186d7dbcde60"><td class="memItemLeft" align="right" valign="top"><a id="ac2e900d9dba7238413d7186d7dbcde60"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#ac2e900d9dba7238413d7186d7dbcde60">renderHUD</a> (void)</td></tr>
+<tr class="memdesc:ac2e900d9dba7238413d7186d7dbcde60"><td class="mdescLeft">&#160;</td><td class="mdescRight">HUD をレンダリングする <br /></td></tr>
+<tr class="separator:ac2e900d9dba7238413d7186d7dbcde60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79eb7111efe9c8656a000fbeab8cb23e"><td class="memItemLeft" align="right" valign="top"><a id="a79eb7111efe9c8656a000fbeab8cb23e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#a79eb7111efe9c8656a000fbeab8cb23e">renderGame</a> (void)</td></tr>
+<tr class="memdesc:a79eb7111efe9c8656a000fbeab8cb23e"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームシーンをレンダリングする <br /></td></tr>
+<tr class="separator:a79eb7111efe9c8656a000fbeab8cb23e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>ゲームシーンのレンダリング </p>
+
+<p class="definition"> <a class="el" href="render_8c_source.html">render.c</a> に定義があります。</p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="ae675117f855e17d936b1ba9b072f7106"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae675117f855e17d936b1ba9b072f7106">&#9670;&nbsp;</a></span>renderCharacter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void renderCharacter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>キャラクタ（敵，プレイヤー）をレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>キャラクタスプライト </td></tr>
+    <tr><td class="paramname">col</td><td>スプライトの列 </td></tr>
+    <tr><td class="paramname">x</td><td>キャラクタの位置の x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>キャラクタの位置の y 座標 </td></tr>
+    <tr><td class="paramname">direction</td><td>キャラクタの向き </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="render_8c_source.html">render.c</a> の <a class="el" href="render_8c_source.html#l00093">93</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_fd40b43fc4c1e00689c4b0cc7f9f9515.html">scene</a></li><li class="navelem"><a class="el" href="dir_9c12e1ed3f6cdd392cffccc83cf77653.html">game</a></li><li class="navelem"><a class="el" href="render_8c.html">render.c</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分14秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

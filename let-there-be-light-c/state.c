@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ゲームの状態
+ */
 #include <stdbool.h>
 #include <stdlib.h>
 

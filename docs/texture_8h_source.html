@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: render/texture.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('texture_8h_source.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">texture.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="texture_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef TEXTURE_H</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define TEXTURE_H</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;glut.h&quot;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="texture_8h.html#acf0aea91077f8b09ace711d10fb5fba2">   11</a></span>&#160;<span class="preprocessor">#define CHARACTER_FRONT_ROW 0</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define CHARACTER_BACK_ROW  1</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define CHARACTER_LEFT_ROW  2</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define CHARACTER_RIGHT_ROW 3</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="texture_8h.html#a98d2326afb5317d6ec3d3f920684e5c6">   20</a></span>&#160;<span class="preprocessor">#define ENEMY_INACTIVE_COL 3</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div><div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="texture_8h.html#a8ce8f248ac792e5aef2e7fed417a58c8">   23</a></span>&#160;<span class="preprocessor">#define PATH_ROW 0</span></div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define PATH_COL 0</span></div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="texture_8h.html#a00cb227fa41bff2284c3286357814d58">   28</a></span>&#160;<span class="preprocessor">#define SHADOW_ROW 0</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define SHADOW_COL 1</span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="texture_8h.html#a7fc3f145b27c579e63bd711d4fd9de60">   33</a></span>&#160;<span class="preprocessor">#define FROZEN_PATH_ROW 1</span></div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define FROZEN_PATH_COL 0</span></div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="texture_8h.html#ac9e1c6d220dedaa9de14d0d98fb3745f">   38</a></span>&#160;<span class="preprocessor">#define ICE_SPIKE_ROW 1</span></div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define ICE_SPIKE_COL 1</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="texture_8h.html#aaa1e8c937484533821d640dbdba85751">   43</a></span>&#160;<span class="preprocessor">#define FIRE_ROW 2</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define FIRE_COL 0</span></div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="texture_8h.html#a19db2e97a7b7990e47d5fd11b300ef36">   48</a></span>&#160;<span class="preprocessor">#define COIN_ROW 2</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#define COIN_COL 1</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="texture_8h.html#a71a431b37f0048362381e988e9435691">   53</a></span>&#160;<span class="preprocessor">#define COIN_DARK_ROW 3</span></div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define COIN_DARK_COL 0</span></div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div><div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="texture_8h.html#a905ff8099a62bf9db0ce10f2019bd1e0">   58</a></span>&#160;<span class="preprocessor">#define COIN_BIG_ROW 3</span></div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define COIN_BIG_COL 1</span></div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="texture_8h.html#a6639d55b652d29c6a4825e847d1c7a34">   63</a></span>&#160;<span class="preprocessor">#define FX_EXPLODE_ROW 0</span></div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#define FX_ICE_SPLIT_ROW 1</span></div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#define FX_ENEMY_SPAWN_ROW 2</span></div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#define FX_ENEMY_REVIVE_ROW 3</span></div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#define FX_SMOKE_ROW 4</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div><div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="struct_sprite.html">   76</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_sprite.html">Sprite</a> {</div><div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="struct_sprite.html#a0704dfe56dec926cb35f7bdc0834ecd0">   78</a></span>&#160;  GLuint <a class="code" href="struct_sprite.html#a0704dfe56dec926cb35f7bdc0834ecd0">texture</a>;</div><div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="struct_sprite.html#a49e0bbf3345a92e11ef36008b27643af">   80</a></span>&#160;  GLuint <a class="code" href="struct_sprite.html#a49e0bbf3345a92e11ef36008b27643af">rows</a>;</div><div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="struct_sprite.html#a6281bf68a80743ca364af21ad6992924">   82</a></span>&#160;  GLuint <a class="code" href="struct_sprite.html#a6281bf68a80743ca364af21ad6992924">cols</a>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;} <a class="code" href="texture_8h.html#ab1686e881087d6370cd9ddebea2ce6d4">Sprite</a>;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#a91b5968f18e609ecf3d43f5978ea5978">PLAYER_SPRITES</a>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#adbd2cd16e30c4526e0563f5c19d3feef">PLAYER_SPRITES_SPOILED</a>;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#a3e1943d55c0a71378af37b3ac160708f">ENEMY_SPRITES</a>;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#a2f8858307ec89674fcde0d3ee0fd3fef">MISC_SPRITES</a>;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#af23748cfdc680620cca28b0c07b2ac61">FX_SPRITES</a>;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#ac27f0ed616f1e9693f8a59ba8a44c2ff">FONT_SPRITES</a>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="texture_8h.html#a4a62d967b9580ea98ec220d2e0428ee0">ENERGY_BAR_SPRITES</a>;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a1a0f98fb47855777ebc795c1a8747b2b">setTexParam</a>(GLfloat param);</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a6ddd3f74d751a58e01c0c653ce393f64">restoreDefaultTexParam</a>(<span class="keywordtype">void</span>);</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a93bc054fe540984fa8c2384503b95f59">renderSprite</a>(<a class="code" href="struct_sprite.html">Sprite</a>* <a class="code" href="title_8c.html#a827a0b02b73bfcad9a38974101c921ff">sprite</a>,</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                  uint32_t row, uint32_t col,</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                  <span class="keywordtype">double</span> dx, <span class="keywordtype">double</span> dy,</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                  <span class="keywordtype">double</span> dw, <span class="keywordtype">double</span> dh);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a0c683885265a286fd5e3ae184a76847a">renderFog</a>(<span class="keywordtype">double</span> dx, <span class="keywordtype">double</span> dy,</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;               <span class="keywordtype">double</span> dw, <span class="keywordtype">double</span> dh);</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#ac31e4e8a2a99dd6755beb44a4f98e665">renderEnergyBar</a>(<span class="keywordtype">double</span> percent,</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                     <span class="keywordtype">double</span> dx, <span class="keywordtype">double</span> dy,</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                     <span class="keywordtype">double</span> dw, <span class="keywordtype">double</span> dh);</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a31dc8b6967843ae0a76cd1c21fe84d8e">renderText</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* str,</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y,</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="keywordtype">double</span> fontSize);</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordtype">void</span> <a class="code" href="texture_8h.html#a31c7dfe7065183fbac3808943a95e285">loadTextures</a>(<span class="keywordtype">void</span>);</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="texture_8h_html_a4a62d967b9580ea98ec220d2e0428ee0"><div class="ttname"><a href="texture_8h.html#a4a62d967b9580ea98ec220d2e0428ee0">ENERGY_BAR_SPRITES</a></div><div class="ttdeci">Sprite * ENERGY_BAR_SPRITES</div><div class="ttdoc">エネルギーバーのスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00042">texture.c:42</a></div></div>
+<div class="ttc" id="texture_8h_html_ab1686e881087d6370cd9ddebea2ce6d4"><div class="ttname"><a href="texture_8h.html#ab1686e881087d6370cd9ddebea2ce6d4">Sprite</a></div><div class="ttdeci">struct Sprite Sprite</div><div class="ttdoc">スプライトのオブジェクト</div></div>
+<div class="ttc" id="struct_sprite_html_a49e0bbf3345a92e11ef36008b27643af"><div class="ttname"><a href="struct_sprite.html#a49e0bbf3345a92e11ef36008b27643af">Sprite::rows</a></div><div class="ttdeci">GLuint rows</div><div class="ttdoc">スプライトの行数</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00080">texture.h:80</a></div></div>
+<div class="ttc" id="struct_sprite_html"><div class="ttname"><a href="struct_sprite.html">Sprite</a></div><div class="ttdoc">スプライトのオブジェクト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00076">texture.h:76</a></div></div>
+<div class="ttc" id="texture_8h_html_a0c683885265a286fd5e3ae184a76847a"><div class="ttname"><a href="texture_8h.html#a0c683885265a286fd5e3ae184a76847a">renderFog</a></div><div class="ttdeci">void renderFog(double dx, double dy, double dw, double dh)</div><div class="ttdoc">霧（見える範囲）をレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00244">texture.c:244</a></div></div>
+<div class="ttc" id="struct_sprite_html_a6281bf68a80743ca364af21ad6992924"><div class="ttname"><a href="struct_sprite.html#a6281bf68a80743ca364af21ad6992924">Sprite::cols</a></div><div class="ttdeci">GLuint cols</div><div class="ttdoc">スプライトの列数</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00082">texture.h:82</a></div></div>
+<div class="ttc" id="title_8c_html_a827a0b02b73bfcad9a38974101c921ff"><div class="ttname"><a href="title_8c.html#a827a0b02b73bfcad9a38974101c921ff">sprite</a></div><div class="ttdeci">static vec2d sprite</div><div class="ttdoc">火だるまの座標</div><div class="ttdef"><b>Definition:</b> <a href="title_8c_source.html#l00063">title.c:63</a></div></div>
+<div class="ttc" id="texture_8h_html_a93bc054fe540984fa8c2384503b95f59"><div class="ttname"><a href="texture_8h.html#a93bc054fe540984fa8c2384503b95f59">renderSprite</a></div><div class="ttdeci">void renderSprite(Sprite *sprite, uint32_t row, uint32_t col, double dx, double dy, double dw, double dh)</div><div class="ttdoc">スプライトをレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00230">texture.c:230</a></div></div>
+<div class="ttc" id="texture_8h_html_a1a0f98fb47855777ebc795c1a8747b2b"><div class="ttname"><a href="texture_8h.html#a1a0f98fb47855777ebc795c1a8747b2b">setTexParam</a></div><div class="ttdeci">void setTexParam(GLfloat param)</div><div class="ttdoc">テクスチャのパラメータを設定する</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00222">texture.c:222</a></div></div>
+<div class="ttc" id="texture_8h_html_a3e1943d55c0a71378af37b3ac160708f"><div class="ttname"><a href="texture_8h.html#a3e1943d55c0a71378af37b3ac160708f">ENEMY_SPRITES</a></div><div class="ttdeci">Sprite * ENEMY_SPRITES</div><div class="ttdoc">敵のスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00038">texture.c:38</a></div></div>
+<div class="ttc" id="texture_8h_html_a31c7dfe7065183fbac3808943a95e285"><div class="ttname"><a href="texture_8h.html#a31c7dfe7065183fbac3808943a95e285">loadTextures</a></div><div class="ttdeci">void loadTextures(void)</div><div class="ttdoc">テクスチャを読み取る</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00289">texture.c:289</a></div></div>
+<div class="ttc" id="texture_8h_html_af23748cfdc680620cca28b0c07b2ac61"><div class="ttname"><a href="texture_8h.html#af23748cfdc680620cca28b0c07b2ac61">FX_SPRITES</a></div><div class="ttdeci">Sprite * FX_SPRITES</div><div class="ttdoc">エフェクトのスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00040">texture.c:40</a></div></div>
+<div class="ttc" id="texture_8h_html_ac31e4e8a2a99dd6755beb44a4f98e665"><div class="ttname"><a href="texture_8h.html#ac31e4e8a2a99dd6755beb44a4f98e665">renderEnergyBar</a></div><div class="ttdeci">void renderEnergyBar(double percent, double dx, double dy, double dw, double dh)</div><div class="ttdoc">エネルギーバーをレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00251">texture.c:251</a></div></div>
+<div class="ttc" id="texture_8h_html_adbd2cd16e30c4526e0563f5c19d3feef"><div class="ttname"><a href="texture_8h.html#adbd2cd16e30c4526e0563f5c19d3feef">PLAYER_SPRITES_SPOILED</a></div><div class="ttdeci">Sprite * PLAYER_SPRITES_SPOILED</div><div class="ttdoc">プレイヤーが凍える状態のスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00037">texture.c:37</a></div></div>
+<div class="ttc" id="struct_sprite_html_a0704dfe56dec926cb35f7bdc0834ecd0"><div class="ttname"><a href="struct_sprite.html#a0704dfe56dec926cb35f7bdc0834ecd0">Sprite::texture</a></div><div class="ttdeci">GLuint texture</div><div class="ttdoc">スプライトのテクスチャ</div><div class="ttdef"><b>Definition:</b> <a href="texture_8h_source.html#l00078">texture.h:78</a></div></div>
+<div class="ttc" id="texture_8h_html_a6ddd3f74d751a58e01c0c653ce393f64"><div class="ttname"><a href="texture_8h.html#a6ddd3f74d751a58e01c0c653ce393f64">restoreDefaultTexParam</a></div><div class="ttdeci">void restoreDefaultTexParam(void)</div><div class="ttdoc">テクスチャのパラメータを初期値に戻す</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00226">texture.c:226</a></div></div>
+<div class="ttc" id="texture_8h_html_a31dc8b6967843ae0a76cd1c21fe84d8e"><div class="ttname"><a href="texture_8h.html#a31dc8b6967843ae0a76cd1c21fe84d8e">renderText</a></div><div class="ttdeci">void renderText(const char *str, double x, double y, double fontSize)</div><div class="ttdoc">文字列をレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00271">texture.c:271</a></div></div>
+<div class="ttc" id="texture_8h_html_ac27f0ed616f1e9693f8a59ba8a44c2ff"><div class="ttname"><a href="texture_8h.html#ac27f0ed616f1e9693f8a59ba8a44c2ff">FONT_SPRITES</a></div><div class="ttdeci">Sprite * FONT_SPRITES</div><div class="ttdoc">フォントのスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00041">texture.c:41</a></div></div>
+<div class="ttc" id="texture_8h_html_a91b5968f18e609ecf3d43f5978ea5978"><div class="ttname"><a href="texture_8h.html#a91b5968f18e609ecf3d43f5978ea5978">PLAYER_SPRITES</a></div><div class="ttdeci">Sprite * PLAYER_SPRITES</div><div class="ttdoc">プレイヤーのスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00036">texture.c:36</a></div></div>
+<div class="ttc" id="texture_8h_html_a2f8858307ec89674fcde0d3ee0fd3fef"><div class="ttname"><a href="texture_8h.html#a2f8858307ec89674fcde0d3ee0fd3fef">MISC_SPRITES</a></div><div class="ttdeci">Sprite * MISC_SPRITES</div><div class="ttdoc">アイテムとか，様々のものを含むスプライト</div><div class="ttdef"><b>Definition:</b> <a href="texture_8c_source.html#l00039">texture.c:39</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_c30bb48f042946ebe97e62b65a0197ba.html">render</a></li><li class="navelem"><a class="el" href="texture_8h.html">texture.h</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

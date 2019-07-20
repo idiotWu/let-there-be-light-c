@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['fire_5fcol',['FIRE_COL',['../texture_8h.html#a35573b7b3f7fb5702856dea852a30d1b',1,'texture.h']]],
+  ['fire_5frow',['FIRE_ROW',['../texture_8h.html#aaa1e8c937484533821d640dbdba85751',1,'texture.h']]],
+  ['flood_5fdepth_5funvisited',['FLOOD_DEPTH_UNVISITED',['../floodfill_8h.html#a5ca445e682517f2c39d5a85cc2ef8ef8',1,'floodfill.h']]],
+  ['fog_5fradius',['FOG_RADIUS',['../title_8c.html#a822850dd479556fa7fb408002c547cb1',1,'title.c']]],
+  ['fog_5fsize',['FOG_SIZE',['../texture_8c.html#a512fe69df2c54911d91dda2ccb897cc7',1,'texture.c']]],
+  ['font_5fsize',['FONT_SIZE',['../level-title_8c.html#aa968a61524f9ed159c4c5464cb26dd41',1,'FONT_SIZE():&#160;level-title.c'],['../title_8c.html#aa968a61524f9ed159c4c5464cb26dd41',1,'FONT_SIZE():&#160;title.c']]],
+  ['frozen_5fpath_5fcol',['FROZEN_PATH_COL',['../texture_8h.html#a22bdf69ac8fae8dce7cd7a2f8643b8da',1,'texture.h']]],
+  ['frozen_5fpath_5frow',['FROZEN_PATH_ROW',['../texture_8h.html#a7fc3f145b27c579e63bd711d4fd9de60',1,'texture.h']]],
+  ['fx_5fenemy_5frevive_5frow',['FX_ENEMY_REVIVE_ROW',['../texture_8h.html#a9ccd7f985181c5ccbe0058721332ccb4',1,'texture.h']]],
+  ['fx_5fenemy_5fspawn_5frow',['FX_ENEMY_SPAWN_ROW',['../texture_8h.html#a0e372f29b5ad0f748883b6d5afd2d64b',1,'texture.h']]],
+  ['fx_5fexplode_5fduration',['FX_EXPLODE_DURATION',['../fx_8c.html#a177ec5d67004853afbbfc4abffaa6931',1,'fx.c']]],
+  ['fx_5fexplode_5frow',['FX_EXPLODE_ROW',['../texture_8h.html#a6639d55b652d29c6a4825e847d1c7a34',1,'texture.h']]],
+  ['fx_5fexplode_5fstd_5fsize',['FX_EXPLODE_STD_SIZE',['../fx_8c.html#ac1a60d4e16c4e525851809774dac7fca',1,'fx.c']]],
+  ['fx_5fflood_5fduradion',['FX_FLOOD_DURADION',['../fx_8c.html#aeab1c587e5c2cb6e41de6ca2b44736c6',1,'fx.c']]],
+  ['fx_5fflood_5finflexion_5fpoint',['FX_FLOOD_INFLEXION_POINT',['../fx_8c.html#aa88c60ecdde436b574154d831de99295',1,'fx.c']]],
+  ['fx_5fice_5fsplit_5frow',['FX_ICE_SPLIT_ROW',['../texture_8h.html#acbd73ca6ba869c92a61e0f852e96bb9d',1,'texture.h']]],
+  ['fx_5fsmoke_5frow',['FX_SMOKE_ROW',['../texture_8h.html#ae9e5d283224a2cac17587ddd4a07cc91',1,'texture.h']]]
+];

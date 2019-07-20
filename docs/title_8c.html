@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: scene/title/title.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('title_8c.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle">
+<div class="title">title.c ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>ゲームのタイトルシーンのコントローラー  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;glut.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="state_8h_source.html">state.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="config_8h_source.html">config.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="title_8h_source.html">scene/title/title.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="scene_8h_source.html">scene/scene.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="transition_8h_source.html">render/transition.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util/util.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texture_8h_source.html">render/texture.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="helper_8h_source.html">render/helper.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fx_8h_source.html">render/fx.h</a>&quot;</code><br />
+</div>
+<p><a href="title_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr class="memitem:aa968a61524f9ed159c4c5464cb26dd41"><td class="memItemLeft" align="right" valign="top"><a id="aa968a61524f9ed159c4c5464cb26dd41"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#aa968a61524f9ed159c4c5464cb26dd41">FONT_SIZE</a>&#160;&#160;&#160;1.2</td></tr>
+<tr class="memdesc:aa968a61524f9ed159c4c5464cb26dd41"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルのフォントサイズ <br /></td></tr>
+<tr class="separator:aa968a61524f9ed159c4c5464cb26dd41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822850dd479556fa7fb408002c547cb1"><td class="memItemLeft" align="right" valign="top"><a id="a822850dd479556fa7fb408002c547cb1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a822850dd479556fa7fb408002c547cb1">FOG_RADIUS</a>&#160;&#160;&#160;3.0</td></tr>
+<tr class="memdesc:a822850dd479556fa7fb408002c547cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">マウスにより見える範囲の半径 <br /></td></tr>
+<tr class="separator:a822850dd479556fa7fb408002c547cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3611cd7caad34521610ef1f7c116772"><td class="memItemLeft" align="right" valign="top"><a id="ae3611cd7caad34521610ef1f7c116772"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#ae3611cd7caad34521610ef1f7c116772">SPRITE_SIZE</a>&#160;&#160;&#160;1.0</td></tr>
+<tr class="memdesc:ae3611cd7caad34521610ef1f7c116772"><td class="mdescLeft">&#160;</td><td class="mdescRight">火だるまのサイズ <br /></td></tr>
+<tr class="separator:ae3611cd7caad34521610ef1f7c116772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4096a82a430a558bd5d6487cfa4cd2"><td class="memItemLeft" align="right" valign="top"><a id="a4a4096a82a430a558bd5d6487cfa4cd2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a4a4096a82a430a558bd5d6487cfa4cd2">EXPLODE_SIZE</a>&#160;&#160;&#160;3.0</td></tr>
+<tr class="memdesc:a4a4096a82a430a558bd5d6487cfa4cd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">火だるまをクリックした時の爆発サイズ <br /></td></tr>
+<tr class="separator:a4a4096a82a430a558bd5d6487cfa4cd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a84dc127e70796f790591e54461b158d2"><td class="memItemLeft" align="right" valign="top"><a id="a84dc127e70796f790591e54461b158d2"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a84dc127e70796f790591e54461b158d2">initTitle</a> (void)</td></tr>
+<tr class="memdesc:a84dc127e70796f790591e54461b158d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルシーンを初期化する <br /></td></tr>
+<tr class="separator:a84dc127e70796f790591e54461b158d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eccdd71e5640c9d47e0ec368cbfbd51"><td class="memItemLeft" align="right" valign="top"><a id="a1eccdd71e5640c9d47e0ec368cbfbd51"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a1eccdd71e5640c9d47e0ec368cbfbd51">renderTitle</a> (void)</td></tr>
+<tr class="memdesc:a1eccdd71e5640c9d47e0ec368cbfbd51"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルシーンをレンダリングする <br /></td></tr>
+<tr class="separator:a1eccdd71e5640c9d47e0ec368cbfbd51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f19984e6cba7f8c55c555293cd2001d"><td class="memItemLeft" align="right" valign="top"><a id="a4f19984e6cba7f8c55c555293cd2001d"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a4f19984e6cba7f8c55c555293cd2001d">destroyTitle</a> (void)</td></tr>
+<tr class="memdesc:a4f19984e6cba7f8c55c555293cd2001d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルシーンから離れる時の処理 <br /></td></tr>
+<tr class="separator:a4f19984e6cba7f8c55c555293cd2001d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae615335cd0b31c24fe89bec2450a99b6"><td class="memItemLeft" align="right" valign="top"><a id="ae615335cd0b31c24fe89bec2450a99b6"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#ae615335cd0b31c24fe89bec2450a99b6">startGame</a> (void)</td></tr>
+<tr class="memdesc:ae615335cd0b31c24fe89bec2450a99b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームを始める <br /></td></tr>
+<tr class="separator:ae615335cd0b31c24fe89bec2450a99b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3369ad10582c1d9c09afc4db0edb8015"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a3369ad10582c1d9c09afc4db0edb8015">keyboardHandler</a> (unsigned char key, int x, int y)</td></tr>
+<tr class="memdesc:a3369ad10582c1d9c09afc4db0edb8015"><td class="mdescLeft">&#160;</td><td class="mdescRight">キーボードのハンドラ関数  <a href="#a3369ad10582c1d9c09afc4db0edb8015">[詳解]</a><br /></td></tr>
+<tr class="separator:a3369ad10582c1d9c09afc4db0edb8015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b8b6f45a0826a17dee5dbc05cb953bc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a9b8b6f45a0826a17dee5dbc05cb953bc">specialKeyHandler</a> (int key, int x, int y)</td></tr>
+<tr class="memdesc:a9b8b6f45a0826a17dee5dbc05cb953bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">特殊キーのハンドラ関数  <a href="#a9b8b6f45a0826a17dee5dbc05cb953bc">[詳解]</a><br /></td></tr>
+<tr class="separator:a9b8b6f45a0826a17dee5dbc05cb953bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a401da4b42ffd292a990daeed94b5cebd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec2d.html">vec2d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a401da4b42ffd292a990daeed94b5cebd">xy2uv</a> (int x, int y)</td></tr>
+<tr class="memdesc:a401da4b42ffd292a990daeed94b5cebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">スクリーン座標系からゲームの座標系へ変換する  <a href="#a401da4b42ffd292a990daeed94b5cebd">[詳解]</a><br /></td></tr>
+<tr class="separator:a401da4b42ffd292a990daeed94b5cebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72f4f5ed4918fcbbe1179b7c79e6a974"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a72f4f5ed4918fcbbe1179b7c79e6a974">mouseDownHandler</a> (int button, int state, int x, int y)</td></tr>
+<tr class="memdesc:a72f4f5ed4918fcbbe1179b7c79e6a974"><td class="mdescLeft">&#160;</td><td class="mdescRight">マウスイベントのハンドラ関数  <a href="#a72f4f5ed4918fcbbe1179b7c79e6a974">[詳解]</a><br /></td></tr>
+<tr class="separator:a72f4f5ed4918fcbbe1179b7c79e6a974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a140ba93305c4569c590e3c4495077d0b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a140ba93305c4569c590e3c4495077d0b">mouseMoveHandler</a> (int x, int y)</td></tr>
+<tr class="memdesc:a140ba93305c4569c590e3c4495077d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">マウスが移動するときのハンドラ関数  <a href="#a140ba93305c4569c590e3c4495077d0b">[詳解]</a><br /></td></tr>
+<tr class="separator:a140ba93305c4569c590e3c4495077d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a1f6b9d01d5c5807978f052c75aee77"><td class="memItemLeft" align="right" valign="top"><a id="a9a1f6b9d01d5c5807978f052c75aee77"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a9a1f6b9d01d5c5807978f052c75aee77">renderEasterEgg</a> (void)</td></tr>
+<tr class="memdesc:a9a1f6b9d01d5c5807978f052c75aee77"><td class="mdescLeft">&#160;</td><td class="mdescRight">イースターエッグ（隠れている火だるま）をレンダリングする <br /></td></tr>
+<tr class="separator:a9a1f6b9d01d5c5807978f052c75aee77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+変数</h2></td></tr>
+<tr class="memitem:a2a6ed6b7aff3bd0b755ba13f7ea67b16"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_scene.html">Scene</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a2a6ed6b7aff3bd0b755ba13f7ea67b16">title</a></td></tr>
+<tr class="memdesc:a2a6ed6b7aff3bd0b755ba13f7ea67b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルシーン  <a href="#a2a6ed6b7aff3bd0b755ba13f7ea67b16">[詳解]</a><br /></td></tr>
+<tr class="separator:a2a6ed6b7aff3bd0b755ba13f7ea67b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b356458b47f930c34e6edc9e984951a"><td class="memItemLeft" align="right" valign="top"><a id="a5b356458b47f930c34e6edc9e984951a"></a>
+<a class="el" href="struct_scene.html">Scene</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a5b356458b47f930c34e6edc9e984951a">titleScene</a> = &amp;<a class="el" href="title_8c.html#a2a6ed6b7aff3bd0b755ba13f7ea67b16">title</a></td></tr>
+<tr class="memdesc:a5b356458b47f930c34e6edc9e984951a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ゲームのタイトルシーン <br /></td></tr>
+<tr class="separator:a5b356458b47f930c34e6edc9e984951a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="memItemLeft" align="right" valign="top"><a id="a80d1a77abfa3f1d4158ec3de9e61bb88"></a>
+static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a80d1a77abfa3f1d4158ec3de9e61bb88">caption</a> = &quot;PRESS ANY KEY&quot;</td></tr>
+<tr class="memdesc:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトル <br /></td></tr>
+<tr class="separator:a80d1a77abfa3f1d4158ec3de9e61bb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa344a3edfe3f918097bd72bf681ea2c6"><td class="memItemLeft" align="right" valign="top"><a id="aa344a3edfe3f918097bd72bf681ea2c6"></a>
+static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#aa344a3edfe3f918097bd72bf681ea2c6">captionAlpha</a> = 0.0</td></tr>
+<tr class="memdesc:aa344a3edfe3f918097bd72bf681ea2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">タイトルの透明度 <br /></td></tr>
+<tr class="separator:aa344a3edfe3f918097bd72bf681ea2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61b65c68daeeabcf6bfeae561446bbaa"><td class="memItemLeft" align="right" valign="top"><a id="a61b65c68daeeabcf6bfeae561446bbaa"></a>
+static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a61b65c68daeeabcf6bfeae561446bbaa">alphaDelta</a> = 0.02</td></tr>
+<tr class="memdesc:a61b65c68daeeabcf6bfeae561446bbaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">透明度の変化スピード <br /></td></tr>
+<tr class="separator:a61b65c68daeeabcf6bfeae561446bbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a827a0b02b73bfcad9a38974101c921ff"><td class="memItemLeft" align="right" valign="top"><a id="a827a0b02b73bfcad9a38974101c921ff"></a>
+static <a class="el" href="structvec2d.html">vec2d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a827a0b02b73bfcad9a38974101c921ff">sprite</a> = { 0.0, 0.0 }</td></tr>
+<tr class="memdesc:a827a0b02b73bfcad9a38974101c921ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">火だるまの座標 <br /></td></tr>
+<tr class="separator:a827a0b02b73bfcad9a38974101c921ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5faf645b4be2e05766c6bcadf29f6128"><td class="memItemLeft" align="right" valign="top"><a id="a5faf645b4be2e05766c6bcadf29f6128"></a>
+static <a class="el" href="structvec2d.html">vec2d</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="title_8c.html#a5faf645b4be2e05766c6bcadf29f6128">mouse</a> = { -100.0, -100.0 }</td></tr>
+<tr class="memdesc:a5faf645b4be2e05766c6bcadf29f6128"><td class="mdescLeft">&#160;</td><td class="mdescRight">マウスの座標 <br /></td></tr>
+<tr class="separator:a5faf645b4be2e05766c6bcadf29f6128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>ゲームのタイトルシーンのコントローラー </p>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> に定義があります。</p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="a3369ad10582c1d9c09afc4db0edb8015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3369ad10582c1d9c09afc4db0edb8015">&#9670;&nbsp;</a></span>keyboardHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void keyboardHandler </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>キーボードのハンドラ関数 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>押されたキー（使われていない） </td></tr>
+    <tr><td class="paramname">x</td><td>マウスの x 座標（使われていない） </td></tr>
+    <tr><td class="paramname">y</td><td>マウスの y 座標（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00082">82</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a9b8b6f45a0826a17dee5dbc05cb953bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b8b6f45a0826a17dee5dbc05cb953bc">&#9670;&nbsp;</a></span>specialKeyHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void specialKeyHandler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>特殊キーのハンドラ関数 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>押されたキー（使われていない） </td></tr>
+    <tr><td class="paramname">x</td><td>マウスの x 座標（使われていない） </td></tr>
+    <tr><td class="paramname">y</td><td>マウスの y 座標（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00094">94</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a401da4b42ffd292a990daeed94b5cebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a401da4b42ffd292a990daeed94b5cebd">&#9670;&nbsp;</a></span>xy2uv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvec2d.html">vec2d</a> xy2uv </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>スクリーン座標系からゲームの座標系へ変換する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>スクリーン座標系における x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>スクリーン座標系における y 座標</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd><a class="el" href="structvec2d.html" title="double 型の2次元ベクトル">vec2d</a> ゲーム座標系における座標のベクトル </dd></dl>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00107">107</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a72f4f5ed4918fcbbe1179b7c79e6a974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72f4f5ed4918fcbbe1179b7c79e6a974">&#9670;&nbsp;</a></span>mouseDownHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void mouseDownHandler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>マウスイベントのハンドラ関数 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">button</td><td>イベント関連のマウスボタン </td></tr>
+    <tr><td class="paramname">state</td><td>ボタンの状態 </td></tr>
+    <tr><td class="paramname">x</td><td>スクリーン座標系におけるマウスの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>スクリーン座標系におけるマウスの y 座標 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00126">126</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a140ba93305c4569c590e3c4495077d0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a140ba93305c4569c590e3c4495077d0b">&#9670;&nbsp;</a></span>mouseMoveHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void mouseMoveHandler </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>マウスが移動するときのハンドラ関数 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>スクリーン座標系におけるマウスの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>スクリーン座標系におけるマウスの y 座標 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00153">153</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<h2 class="groupheader">変数詳解</h2>
+<a id="a2a6ed6b7aff3bd0b755ba13f7ea67b16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a6ed6b7aff3bd0b755ba13f7ea67b16">&#9670;&nbsp;</a></span>title</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_scene.html">Scene</a> title</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>初期値:</b><div class="fragment"><div class="line">= {</div><div class="line">  .init = <a class="code" href="title_8c.html#a84dc127e70796f790591e54461b158d2">initTitle</a>,</div><div class="line">  .update = <a class="code" href="util_8c.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>,</div><div class="line">  .render = <a class="code" href="title_8c.html#a1eccdd71e5640c9d47e0ec368cbfbd51">renderTitle</a>,</div><div class="line">  .destroy = <a class="code" href="title_8c.html#a4f19984e6cba7f8c55c555293cd2001d">destroyTitle</a>,</div><div class="line">}</div><div class="ttc" id="title_8c_html_a1eccdd71e5640c9d47e0ec368cbfbd51"><div class="ttname"><a href="title_8c.html#a1eccdd71e5640c9d47e0ec368cbfbd51">renderTitle</a></div><div class="ttdeci">static void renderTitle(void)</div><div class="ttdoc">ゲームのタイトルシーンをレンダリングする</div><div class="ttdef"><b>Definition:</b> <a href="title_8c_source.html#l00179">title.c:179</a></div></div>
+<div class="ttc" id="title_8c_html_a4f19984e6cba7f8c55c555293cd2001d"><div class="ttname"><a href="title_8c.html#a4f19984e6cba7f8c55c555293cd2001d">destroyTitle</a></div><div class="ttdeci">static void destroyTitle(void)</div><div class="ttdoc">ゲームのタイトルシーンから離れる時の処理</div><div class="ttdef"><b>Definition:</b> <a href="title_8c_source.html#l00233">title.c:233</a></div></div>
+<div class="ttc" id="title_8c_html_a84dc127e70796f790591e54461b158d2"><div class="ttname"><a href="title_8c.html#a84dc127e70796f790591e54461b158d2">initTitle</a></div><div class="ttdeci">static void initTitle(void)</div><div class="ttdoc">ゲームのタイトルシーンを初期化する</div><div class="ttdef"><b>Definition:</b> <a href="title_8c_source.html#l00210">title.c:210</a></div></div>
+<div class="ttc" id="util_8c_html_ac6aafaca6eb2c1716beb84f6d9f1f5ac"><div class="ttname"><a href="util_8c.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a></div><div class="ttdeci">void noop(void)</div><div class="ttdoc">何もしない関数</div><div class="ttdef"><b>Definition:</b> <a href="util_8c_source.html#l00078">util.c:78</a></div></div>
+</div><!-- fragment -->
+<p>ゲームのタイトルシーン </p>
+
+<p class="definition"> <a class="el" href="title_8c_source.html">title.c</a> の <a class="el" href="title_8c_source.html#l00045">45</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_fd40b43fc4c1e00689c4b0cc7f9f9515.html">scene</a></li><li class="navelem"><a class="el" href="dir_940633a6abddbbc0cffd793f4be88e6e.html">title</a></li><li class="navelem"><a class="el" href="title_8c.html">title.c</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分14秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

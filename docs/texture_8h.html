@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: render/texture.h ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('texture_8h.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">データ構造</a> &#124;
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#typedef-members">型定義</a> &#124;
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle">
+<div class="title">texture.h ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>テクスチャ ＜ヘッダファイル＞  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &quot;glut.h&quot;</code><br />
+</div>
+<p><a href="texture_8h_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+データ構造</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_sprite.html">Sprite</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">スプライトのオブジェクト  <a href="struct_sprite.html#details">[詳解]</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr class="memitem:acf0aea91077f8b09ace711d10fb5fba2"><td class="memItemLeft" align="right" valign="top"><a id="acf0aea91077f8b09ace711d10fb5fba2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#acf0aea91077f8b09ace711d10fb5fba2">CHARACTER_FRONT_ROW</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:acf0aea91077f8b09ace711d10fb5fba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスが前に向いている状態を表すスプライトの行 <br /></td></tr>
+<tr class="separator:acf0aea91077f8b09ace711d10fb5fba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526009afb79dfb09f4ec65f663e5c63a"><td class="memItemLeft" align="right" valign="top"><a id="a526009afb79dfb09f4ec65f663e5c63a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a526009afb79dfb09f4ec65f663e5c63a">CHARACTER_BACK_ROW</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a526009afb79dfb09f4ec65f663e5c63a"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスが後ろに向いている状態を表す行 <br /></td></tr>
+<tr class="separator:a526009afb79dfb09f4ec65f663e5c63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d65e51b3e6e741722e333ce7f83610a"><td class="memItemLeft" align="right" valign="top"><a id="a4d65e51b3e6e741722e333ce7f83610a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a4d65e51b3e6e741722e333ce7f83610a">CHARACTER_LEFT_ROW</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a4d65e51b3e6e741722e333ce7f83610a"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスが左に向いている状態を表す行 <br /></td></tr>
+<tr class="separator:a4d65e51b3e6e741722e333ce7f83610a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d85bde7b4f7ff80de6449391a89e26"><td class="memItemLeft" align="right" valign="top"><a id="a07d85bde7b4f7ff80de6449391a89e26"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a07d85bde7b4f7ff80de6449391a89e26">CHARACTER_RIGHT_ROW</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a07d85bde7b4f7ff80de6449391a89e26"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスが右に向いている状態を表す行 <br /></td></tr>
+<tr class="separator:a07d85bde7b4f7ff80de6449391a89e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d2326afb5317d6ec3d3f920684e5c6"><td class="memItemLeft" align="right" valign="top"><a id="a98d2326afb5317d6ec3d3f920684e5c6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a98d2326afb5317d6ec3d3f920684e5c6">ENEMY_INACTIVE_COL</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a98d2326afb5317d6ec3d3f920684e5c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵が眠っている状態を表す列 <br /></td></tr>
+<tr class="separator:a98d2326afb5317d6ec3d3f920684e5c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ce8f248ac792e5aef2e7fed417a58c8"><td class="memItemLeft" align="right" valign="top"><a id="a8ce8f248ac792e5aef2e7fed417a58c8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a8ce8f248ac792e5aef2e7fed417a58c8">PATH_ROW</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a8ce8f248ac792e5aef2e7fed417a58c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">地面を表す行 <br /></td></tr>
+<tr class="separator:a8ce8f248ac792e5aef2e7fed417a58c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e14b326d712499619af73b76f60bfca"><td class="memItemLeft" align="right" valign="top"><a id="a6e14b326d712499619af73b76f60bfca"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a6e14b326d712499619af73b76f60bfca">PATH_COL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a6e14b326d712499619af73b76f60bfca"><td class="mdescLeft">&#160;</td><td class="mdescRight">地面を表す列 <br /></td></tr>
+<tr class="separator:a6e14b326d712499619af73b76f60bfca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00cb227fa41bff2284c3286357814d58"><td class="memItemLeft" align="right" valign="top"><a id="a00cb227fa41bff2284c3286357814d58"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a00cb227fa41bff2284c3286357814d58">SHADOW_ROW</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a00cb227fa41bff2284c3286357814d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">陰を表す行 <br /></td></tr>
+<tr class="separator:a00cb227fa41bff2284c3286357814d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507d196e40ebafc281bd97097030a152"><td class="memItemLeft" align="right" valign="top"><a id="a507d196e40ebafc281bd97097030a152"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a507d196e40ebafc281bd97097030a152">SHADOW_COL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a507d196e40ebafc281bd97097030a152"><td class="mdescLeft">&#160;</td><td class="mdescRight">陰を表す列 <br /></td></tr>
+<tr class="separator:a507d196e40ebafc281bd97097030a152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fc3f145b27c579e63bd711d4fd9de60"><td class="memItemLeft" align="right" valign="top"><a id="a7fc3f145b27c579e63bd711d4fd9de60"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a7fc3f145b27c579e63bd711d4fd9de60">FROZEN_PATH_ROW</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a7fc3f145b27c579e63bd711d4fd9de60"><td class="mdescLeft">&#160;</td><td class="mdescRight">凍った地面を表す行 <br /></td></tr>
+<tr class="separator:a7fc3f145b27c579e63bd711d4fd9de60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22bdf69ac8fae8dce7cd7a2f8643b8da"><td class="memItemLeft" align="right" valign="top"><a id="a22bdf69ac8fae8dce7cd7a2f8643b8da"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a22bdf69ac8fae8dce7cd7a2f8643b8da">FROZEN_PATH_COL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a22bdf69ac8fae8dce7cd7a2f8643b8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">凍った地面を表す列 <br /></td></tr>
+<tr class="separator:a22bdf69ac8fae8dce7cd7a2f8643b8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e1c6d220dedaa9de14d0d98fb3745f"><td class="memItemLeft" align="right" valign="top"><a id="ac9e1c6d220dedaa9de14d0d98fb3745f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#ac9e1c6d220dedaa9de14d0d98fb3745f">ICE_SPIKE_ROW</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ac9e1c6d220dedaa9de14d0d98fb3745f"><td class="mdescLeft">&#160;</td><td class="mdescRight">氷の矢を表す行 <br /></td></tr>
+<tr class="separator:ac9e1c6d220dedaa9de14d0d98fb3745f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2705d4dcde74fc78a84223b63056daa7"><td class="memItemLeft" align="right" valign="top"><a id="a2705d4dcde74fc78a84223b63056daa7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a2705d4dcde74fc78a84223b63056daa7">ICE_SPIKE_COL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a2705d4dcde74fc78a84223b63056daa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">氷の矢を表す列 <br /></td></tr>
+<tr class="separator:a2705d4dcde74fc78a84223b63056daa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa1e8c937484533821d640dbdba85751"><td class="memItemLeft" align="right" valign="top"><a id="aaa1e8c937484533821d640dbdba85751"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#aaa1e8c937484533821d640dbdba85751">FIRE_ROW</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:aaa1e8c937484533821d640dbdba85751"><td class="mdescLeft">&#160;</td><td class="mdescRight">火の玉を表す行 <br /></td></tr>
+<tr class="separator:aaa1e8c937484533821d640dbdba85751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35573b7b3f7fb5702856dea852a30d1b"><td class="memItemLeft" align="right" valign="top"><a id="a35573b7b3f7fb5702856dea852a30d1b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a35573b7b3f7fb5702856dea852a30d1b">FIRE_COL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a35573b7b3f7fb5702856dea852a30d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">火の玉を表す列 <br /></td></tr>
+<tr class="separator:a35573b7b3f7fb5702856dea852a30d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19db2e97a7b7990e47d5fd11b300ef36"><td class="memItemLeft" align="right" valign="top"><a id="a19db2e97a7b7990e47d5fd11b300ef36"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a19db2e97a7b7990e47d5fd11b300ef36">COIN_ROW</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a19db2e97a7b7990e47d5fd11b300ef36"><td class="mdescLeft">&#160;</td><td class="mdescRight">コインを表す行 <br /></td></tr>
+<tr class="separator:a19db2e97a7b7990e47d5fd11b300ef36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe12161e102b2681441a8c918ac1255"><td class="memItemLeft" align="right" valign="top"><a id="adfe12161e102b2681441a8c918ac1255"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#adfe12161e102b2681441a8c918ac1255">COIN_COL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:adfe12161e102b2681441a8c918ac1255"><td class="mdescLeft">&#160;</td><td class="mdescRight">コインを表す列 <br /></td></tr>
+<tr class="separator:adfe12161e102b2681441a8c918ac1255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71a431b37f0048362381e988e9435691"><td class="memItemLeft" align="right" valign="top"><a id="a71a431b37f0048362381e988e9435691"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a71a431b37f0048362381e988e9435691">COIN_DARK_ROW</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a71a431b37f0048362381e988e9435691"><td class="mdescLeft">&#160;</td><td class="mdescRight">黒いコインを表す行 <br /></td></tr>
+<tr class="separator:a71a431b37f0048362381e988e9435691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61f2ad9fefac1ab27cacb13a0f2b879"><td class="memItemLeft" align="right" valign="top"><a id="aa61f2ad9fefac1ab27cacb13a0f2b879"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#aa61f2ad9fefac1ab27cacb13a0f2b879">COIN_DARK_COL</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:aa61f2ad9fefac1ab27cacb13a0f2b879"><td class="mdescLeft">&#160;</td><td class="mdescRight">黒いコインを表す列 <br /></td></tr>
+<tr class="separator:aa61f2ad9fefac1ab27cacb13a0f2b879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a905ff8099a62bf9db0ce10f2019bd1e0"><td class="memItemLeft" align="right" valign="top"><a id="a905ff8099a62bf9db0ce10f2019bd1e0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a905ff8099a62bf9db0ce10f2019bd1e0">COIN_BIG_ROW</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a905ff8099a62bf9db0ce10f2019bd1e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">大きいコインを表す行 <br /></td></tr>
+<tr class="separator:a905ff8099a62bf9db0ce10f2019bd1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4a7bb9912bc9d2885023fd50d5d622"><td class="memItemLeft" align="right" valign="top"><a id="aaa4a7bb9912bc9d2885023fd50d5d622"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#aaa4a7bb9912bc9d2885023fd50d5d622">COIN_BIG_COL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:aaa4a7bb9912bc9d2885023fd50d5d622"><td class="mdescLeft">&#160;</td><td class="mdescRight">大きいコインを表す列 <br /></td></tr>
+<tr class="separator:aaa4a7bb9912bc9d2885023fd50d5d622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6639d55b652d29c6a4825e847d1c7a34"><td class="memItemLeft" align="right" valign="top"><a id="a6639d55b652d29c6a4825e847d1c7a34"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a6639d55b652d29c6a4825e847d1c7a34">FX_EXPLODE_ROW</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a6639d55b652d29c6a4825e847d1c7a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">爆発エフェクトの行 <br /></td></tr>
+<tr class="separator:a6639d55b652d29c6a4825e847d1c7a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd73ca6ba869c92a61e0f852e96bb9d"><td class="memItemLeft" align="right" valign="top"><a id="acbd73ca6ba869c92a61e0f852e96bb9d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#acbd73ca6ba869c92a61e0f852e96bb9d">FX_ICE_SPLIT_ROW</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:acbd73ca6ba869c92a61e0f852e96bb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">地面が凍てつくエフェクトの行 <br /></td></tr>
+<tr class="separator:acbd73ca6ba869c92a61e0f852e96bb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e372f29b5ad0f748883b6d5afd2d64b"><td class="memItemLeft" align="right" valign="top"><a id="a0e372f29b5ad0f748883b6d5afd2d64b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a0e372f29b5ad0f748883b6d5afd2d64b">FX_ENEMY_SPAWN_ROW</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a0e372f29b5ad0f748883b6d5afd2d64b"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵が生まれるエフェクトの行 <br /></td></tr>
+<tr class="separator:a0e372f29b5ad0f748883b6d5afd2d64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ccd7f985181c5ccbe0058721332ccb4"><td class="memItemLeft" align="right" valign="top"><a id="a9ccd7f985181c5ccbe0058721332ccb4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a9ccd7f985181c5ccbe0058721332ccb4">FX_ENEMY_REVIVE_ROW</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:a9ccd7f985181c5ccbe0058721332ccb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵が蘇るエフェクトの行 <br /></td></tr>
+<tr class="separator:a9ccd7f985181c5ccbe0058721332ccb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e5d283224a2cac17587ddd4a07cc91"><td class="memItemLeft" align="right" valign="top"><a id="ae9e5d283224a2cac17587ddd4a07cc91"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#ae9e5d283224a2cac17587ddd4a07cc91">FX_SMOKE_ROW</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memdesc:ae9e5d283224a2cac17587ddd4a07cc91"><td class="mdescLeft">&#160;</td><td class="mdescRight">スモークエフェクトの行 <br /></td></tr>
+<tr class="separator:ae9e5d283224a2cac17587ddd4a07cc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+型定義</h2></td></tr>
+<tr class="memitem:ab1686e881087d6370cd9ddebea2ce6d4"><td class="memItemLeft" align="right" valign="top"><a id="ab1686e881087d6370cd9ddebea2ce6d4"></a>
+typedef struct <a class="el" href="struct_sprite.html">Sprite</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#ab1686e881087d6370cd9ddebea2ce6d4">Sprite</a></td></tr>
+<tr class="memdesc:ab1686e881087d6370cd9ddebea2ce6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">スプライトのオブジェクト <br /></td></tr>
+<tr class="separator:ab1686e881087d6370cd9ddebea2ce6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a1a0f98fb47855777ebc795c1a8747b2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a1a0f98fb47855777ebc795c1a8747b2b">setTexParam</a> (GLfloat param)</td></tr>
+<tr class="memdesc:a1a0f98fb47855777ebc795c1a8747b2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">テクスチャのパラメータを設定する  <a href="#a1a0f98fb47855777ebc795c1a8747b2b">[詳解]</a><br /></td></tr>
+<tr class="separator:a1a0f98fb47855777ebc795c1a8747b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ddd3f74d751a58e01c0c653ce393f64"><td class="memItemLeft" align="right" valign="top"><a id="a6ddd3f74d751a58e01c0c653ce393f64"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a6ddd3f74d751a58e01c0c653ce393f64">restoreDefaultTexParam</a> (void)</td></tr>
+<tr class="memdesc:a6ddd3f74d751a58e01c0c653ce393f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">テクスチャのパラメータを初期値に戻す <br /></td></tr>
+<tr class="separator:a6ddd3f74d751a58e01c0c653ce393f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93bc054fe540984fa8c2384503b95f59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a93bc054fe540984fa8c2384503b95f59">renderSprite</a> (<a class="el" href="struct_sprite.html">Sprite</a> *<a class="el" href="title_8c.html#a827a0b02b73bfcad9a38974101c921ff">sprite</a>, uint32_t row, uint32_t col, double dx, double dy, double dw, double dh)</td></tr>
+<tr class="memdesc:a93bc054fe540984fa8c2384503b95f59"><td class="mdescLeft">&#160;</td><td class="mdescRight">スプライトをレンダリングする  <a href="#a93bc054fe540984fa8c2384503b95f59">[詳解]</a><br /></td></tr>
+<tr class="separator:a93bc054fe540984fa8c2384503b95f59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c683885265a286fd5e3ae184a76847a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a0c683885265a286fd5e3ae184a76847a">renderFog</a> (double dx, double dy, double dw, double dh)</td></tr>
+<tr class="memdesc:a0c683885265a286fd5e3ae184a76847a"><td class="mdescLeft">&#160;</td><td class="mdescRight">霧（見える範囲）をレンダリングする  <a href="#a0c683885265a286fd5e3ae184a76847a">[詳解]</a><br /></td></tr>
+<tr class="separator:a0c683885265a286fd5e3ae184a76847a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac31e4e8a2a99dd6755beb44a4f98e665"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#ac31e4e8a2a99dd6755beb44a4f98e665">renderEnergyBar</a> (double percent, double dx, double dy, double dw, double dh)</td></tr>
+<tr class="memdesc:ac31e4e8a2a99dd6755beb44a4f98e665"><td class="mdescLeft">&#160;</td><td class="mdescRight">エネルギーバーをレンダリングする  <a href="#ac31e4e8a2a99dd6755beb44a4f98e665">[詳解]</a><br /></td></tr>
+<tr class="separator:ac31e4e8a2a99dd6755beb44a4f98e665"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31dc8b6967843ae0a76cd1c21fe84d8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a31dc8b6967843ae0a76cd1c21fe84d8e">renderText</a> (const char *str, double x, double y, double fontSize)</td></tr>
+<tr class="memdesc:a31dc8b6967843ae0a76cd1c21fe84d8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">文字列をレンダリングする  <a href="#a31dc8b6967843ae0a76cd1c21fe84d8e">[詳解]</a><br /></td></tr>
+<tr class="separator:a31dc8b6967843ae0a76cd1c21fe84d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31c7dfe7065183fbac3808943a95e285"><td class="memItemLeft" align="right" valign="top"><a id="a31c7dfe7065183fbac3808943a95e285"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a31c7dfe7065183fbac3808943a95e285">loadTextures</a> (void)</td></tr>
+<tr class="memdesc:a31c7dfe7065183fbac3808943a95e285"><td class="mdescLeft">&#160;</td><td class="mdescRight">テクスチャを読み取る <br /></td></tr>
+<tr class="separator:a31c7dfe7065183fbac3808943a95e285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+変数</h2></td></tr>
+<tr class="memitem:a91b5968f18e609ecf3d43f5978ea5978"><td class="memItemLeft" align="right" valign="top"><a id="a91b5968f18e609ecf3d43f5978ea5978"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a91b5968f18e609ecf3d43f5978ea5978">PLAYER_SPRITES</a></td></tr>
+<tr class="memdesc:a91b5968f18e609ecf3d43f5978ea5978"><td class="mdescLeft">&#160;</td><td class="mdescRight">プレイヤーのスプライト <br /></td></tr>
+<tr class="separator:a91b5968f18e609ecf3d43f5978ea5978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbd2cd16e30c4526e0563f5c19d3feef"><td class="memItemLeft" align="right" valign="top"><a id="adbd2cd16e30c4526e0563f5c19d3feef"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#adbd2cd16e30c4526e0563f5c19d3feef">PLAYER_SPRITES_SPOILED</a></td></tr>
+<tr class="memdesc:adbd2cd16e30c4526e0563f5c19d3feef"><td class="mdescLeft">&#160;</td><td class="mdescRight">プレイヤーが凍える状態のスプライト <br /></td></tr>
+<tr class="separator:adbd2cd16e30c4526e0563f5c19d3feef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e1943d55c0a71378af37b3ac160708f"><td class="memItemLeft" align="right" valign="top"><a id="a3e1943d55c0a71378af37b3ac160708f"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a3e1943d55c0a71378af37b3ac160708f">ENEMY_SPRITES</a></td></tr>
+<tr class="memdesc:a3e1943d55c0a71378af37b3ac160708f"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵のスプライト <br /></td></tr>
+<tr class="separator:a3e1943d55c0a71378af37b3ac160708f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8858307ec89674fcde0d3ee0fd3fef"><td class="memItemLeft" align="right" valign="top"><a id="a2f8858307ec89674fcde0d3ee0fd3fef"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a2f8858307ec89674fcde0d3ee0fd3fef">MISC_SPRITES</a></td></tr>
+<tr class="memdesc:a2f8858307ec89674fcde0d3ee0fd3fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">アイテムとか，様々のものを含むスプライト <br /></td></tr>
+<tr class="separator:a2f8858307ec89674fcde0d3ee0fd3fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af23748cfdc680620cca28b0c07b2ac61"><td class="memItemLeft" align="right" valign="top"><a id="af23748cfdc680620cca28b0c07b2ac61"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#af23748cfdc680620cca28b0c07b2ac61">FX_SPRITES</a></td></tr>
+<tr class="memdesc:af23748cfdc680620cca28b0c07b2ac61"><td class="mdescLeft">&#160;</td><td class="mdescRight">エフェクトのスプライト <br /></td></tr>
+<tr class="separator:af23748cfdc680620cca28b0c07b2ac61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac27f0ed616f1e9693f8a59ba8a44c2ff"><td class="memItemLeft" align="right" valign="top"><a id="ac27f0ed616f1e9693f8a59ba8a44c2ff"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#ac27f0ed616f1e9693f8a59ba8a44c2ff">FONT_SPRITES</a></td></tr>
+<tr class="memdesc:ac27f0ed616f1e9693f8a59ba8a44c2ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">フォントのスプライト <br /></td></tr>
+<tr class="separator:ac27f0ed616f1e9693f8a59ba8a44c2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a62d967b9580ea98ec220d2e0428ee0"><td class="memItemLeft" align="right" valign="top"><a id="a4a62d967b9580ea98ec220d2e0428ee0"></a>
+<a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="texture_8h.html#a4a62d967b9580ea98ec220d2e0428ee0">ENERGY_BAR_SPRITES</a></td></tr>
+<tr class="memdesc:a4a62d967b9580ea98ec220d2e0428ee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">エネルギーバーのスプライト <br /></td></tr>
+<tr class="separator:a4a62d967b9580ea98ec220d2e0428ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>テクスチャ ＜ヘッダファイル＞ </p>
+
+<p class="definition"> <a class="el" href="texture_8h_source.html">texture.h</a> に定義があります。</p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="a1a0f98fb47855777ebc795c1a8747b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a0f98fb47855777ebc795c1a8747b2b">&#9670;&nbsp;</a></span>setTexParam()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setTexParam </td>
+          <td>(</td>
+          <td class="paramtype">GLfloat&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>テクスチャのパラメータを設定する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>パラメータ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="texture_8c_source.html">texture.c</a> の <a class="el" href="texture_8c_source.html#l00222">222</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a93bc054fe540984fa8c2384503b95f59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93bc054fe540984fa8c2384503b95f59">&#9670;&nbsp;</a></span>renderSprite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void renderSprite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_sprite.html">Sprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dh</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>スプライトをレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>レンダリングしたいスプライト </td></tr>
+    <tr><td class="paramname">row</td><td>レンダリングしたい行 </td></tr>
+    <tr><td class="paramname">col</td><td>レンダリングしたい列 </td></tr>
+    <tr><td class="paramname">dx</td><td>出力場所の x 座標 </td></tr>
+    <tr><td class="paramname">dy</td><td>出力場所の y 座標 </td></tr>
+    <tr><td class="paramname">dw</td><td>出力の長さ </td></tr>
+    <tr><td class="paramname">dh</td><td>出力の高さ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="texture_8c_source.html">texture.c</a> の <a class="el" href="texture_8c_source.html#l00230">230</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a0c683885265a286fd5e3ae184a76847a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c683885265a286fd5e3ae184a76847a">&#9670;&nbsp;</a></span>renderFog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void renderFog </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dh</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>霧（見える範囲）をレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dx</td><td>出力場所の x 座標 </td></tr>
+    <tr><td class="paramname">dy</td><td>出力場所の y 座標 </td></tr>
+    <tr><td class="paramname">dw</td><td>出力の長さ </td></tr>
+    <tr><td class="paramname">dh</td><td>出力の高さ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="texture_8c_source.html">texture.c</a> の <a class="el" href="texture_8c_source.html#l00244">244</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="ac31e4e8a2a99dd6755beb44a4f98e665"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac31e4e8a2a99dd6755beb44a4f98e665">&#9670;&nbsp;</a></span>renderEnergyBar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void renderEnergyBar </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>percent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dh</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>エネルギーバーをレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">percent</td><td>エネルギーの残量（） </td></tr>
+    <tr><td class="paramname">dx</td><td>出力場所の x 座標 </td></tr>
+    <tr><td class="paramname">dy</td><td>出力場所の y 座標 </td></tr>
+    <tr><td class="paramname">dw</td><td>出力の長さ </td></tr>
+    <tr><td class="paramname">dh</td><td>出力の高さ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="texture_8c_source.html">texture.c</a> の <a class="el" href="texture_8c_source.html#l00251">251</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a31dc8b6967843ae0a76cd1c21fe84d8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31dc8b6967843ae0a76cd1c21fe84d8e">&#9670;&nbsp;</a></span>renderText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void renderText </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fontSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>文字列をレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>レンダリングしたい文字列 </td></tr>
+    <tr><td class="paramname">x</td><td>出力場所の x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>出力場所の y 座標 </td></tr>
+    <tr><td class="paramname">fontSize</td><td>文字サイズ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="texture_8c_source.html">texture.c</a> の <a class="el" href="texture_8c_source.html#l00271">271</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_c30bb48f042946ebe97e62b65a0197ba.html">render</a></li><li class="navelem"><a class="el" href="texture_8h.html">texture.h</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

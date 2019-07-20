@@ -1,0 +1,842 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: maze/maze.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('maze_8c.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">データ構造</a> &#124;
+<a href="#typedef-members">型定義</a> &#124;
+<a href="#func-members">関数</a>  </div>
+  <div class="headertitle">
+<div class="title">maze.c ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>迷路の生成など  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="config_8h_source.html">config.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="maze_8h_source.html">maze/maze.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tile_8h_source.html">maze/tile.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="direction_8h_source.html">maze/direction.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="floodfill_8h_source.html">maze/floodfill.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="list_8h_source.html">util/list.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util/util.h</a>&quot;</code><br />
+</div>
+<p><a href="maze_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+データ構造</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_maze_builder.html">MazeBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">迷路のビルダー  <a href="struct_maze_builder.html#details">[詳解]</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+型定義</h2></td></tr>
+<tr class="memitem:a6e2e72bfedc38d5f199e3f3719b1630c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_maze_builder.html">MazeBuilder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a6e2e72bfedc38d5f199e3f3719b1630c">MazeBuilder</a></td></tr>
+<tr class="memdesc:a6e2e72bfedc38d5f199e3f3719b1630c"><td class="mdescLeft">&#160;</td><td class="mdescRight">迷路のビルダー  <a href="#a6e2e72bfedc38d5f199e3f3719b1630c">[詳解]</a><br /></td></tr>
+<tr class="separator:a6e2e72bfedc38d5f199e3f3719b1630c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a50b38ed3119892e7d6097ae02210d7cd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a50b38ed3119892e7d6097ae02210d7cd">filterDirections</a> (int x, int y, int limit, <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> candidates)</td></tr>
+<tr class="memdesc:a50b38ed3119892e7d6097ae02210d7cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">複数の方向から進まない方向を取り除く  <a href="#a50b38ed3119892e7d6097ae02210d7cd">[詳解]</a><br /></td></tr>
+<tr class="separator:a50b38ed3119892e7d6097ae02210d7cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43736a2fd7f3754cf0850eb4a0dda1ca"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a43736a2fd7f3754cf0850eb4a0dda1ca">updateDistance</a> (<a class="el" href="struct_maze_builder.html">MazeBuilder</a> *builder)</td></tr>
+<tr class="memdesc:a43736a2fd7f3754cf0850eb4a0dda1ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーの次回の走行距離を計算する  <a href="#a43736a2fd7f3754cf0850eb4a0dda1ca">[詳解]</a><br /></td></tr>
+<tr class="separator:a43736a2fd7f3754cf0850eb4a0dda1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c46de510227fd08255a4d84beea042"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#aa4c46de510227fd08255a4d84beea042">calcWeight</a> (<a class="el" href="struct_maze_builder.html">MazeBuilder</a> *builder, char axis)</td></tr>
+<tr class="memdesc:aa4c46de510227fd08255a4d84beea042"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーの位置において，横軸（方向）または縦軸（方向）のウェイトを計算する  <a href="#aa4c46de510227fd08255a4d84beea042">[詳解]</a><br /></td></tr>
+<tr class="separator:aa4c46de510227fd08255a4d84beea042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3334b32ae7d44c02770c6554bb2d796"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#ad3334b32ae7d44c02770c6554bb2d796">chooseDirection</a> (<a class="el" href="struct_maze_builder.html">MazeBuilder</a> *builder, <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> bidir)</td></tr>
+<tr class="memdesc:ad3334b32ae7d44c02770c6554bb2d796"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーが曲がるときに，他の生成器に近づける方向（ウェイトの大きい）を選ぶ  <a href="#ad3334b32ae7d44c02770c6554bb2d796">[詳解]</a><br /></td></tr>
+<tr class="separator:ad3334b32ae7d44c02770c6554bb2d796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834d32ead1bdc8c0b02c1c227aaee7e4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a834d32ead1bdc8c0b02c1c227aaee7e4">turnBuilder</a> (<a class="el" href="struct_maze_builder.html">MazeBuilder</a> *builder)</td></tr>
+<tr class="memdesc:a834d32ead1bdc8c0b02c1c227aaee7e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーを 90 度回転させる  <a href="#a834d32ead1bdc8c0b02c1c227aaee7e4">[詳解]</a><br /></td></tr>
+<tr class="separator:a834d32ead1bdc8c0b02c1c227aaee7e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d2cae74b5d3d3873a6fd2c0d18ceff"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#aa8d2cae74b5d3d3873a6fd2c0d18ceff">moveBuilder</a> (<a class="el" href="struct_maze_builder.html">MazeBuilder</a> *builder)</td></tr>
+<tr class="memdesc:aa8d2cae74b5d3d3873a6fd2c0d18ceff"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーを一回進める  <a href="#aa8d2cae74b5d3d3873a6fd2c0d18ceff">[詳解]</a><br /></td></tr>
+<tr class="separator:aa8d2cae74b5d3d3873a6fd2c0d18ceff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed03952c47ee96fcb0c5e07b581ff5fe"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#aed03952c47ee96fcb0c5e07b581ff5fe">initSpawners</a> (int count, <a class="el" href="structvec2i.html">vec2i</a> spawners[], <a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>])</td></tr>
+<tr class="memdesc:aed03952c47ee96fcb0c5e07b581ff5fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成器を初期化する  <a href="#aed03952c47ee96fcb0c5e07b581ff5fe">[詳解]</a><br /></td></tr>
+<tr class="separator:aed03952c47ee96fcb0c5e07b581ff5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aa3efccca790d811fa69c623e58821d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a9aa3efccca790d811fa69c623e58821d">initBuilders</a> (int minDistance, int maxDistance, int spawnerCount, <a class="el" href="structvec2i.html">vec2i</a> spawners[], <a class="el" href="struct_list.html">List</a> *builders)</td></tr>
+<tr class="memdesc:a9aa3efccca790d811fa69c623e58821d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ビルダーを初期化する  <a href="#a9aa3efccca790d811fa69c623e58821d">[詳解]</a><br /></td></tr>
+<tr class="separator:a9aa3efccca790d811fa69c623e58821d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a166864ccb4ead5b89debdad13502a2c7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a166864ccb4ead5b89debdad13502a2c7">generateMap</a> (<a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], <a class="el" href="struct_list.html">List</a> *builders)</td></tr>
+<tr class="memdesc:a166864ccb4ead5b89debdad13502a2c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">迷路を生成する  <a href="#a166864ccb4ead5b89debdad13502a2c7">[詳解]</a><br /></td></tr>
+<tr class="separator:a166864ccb4ead5b89debdad13502a2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e4ffa47c8ce715c88f3b5328ff06d1"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a70e4ffa47c8ce715c88f3b5328ff06d1">fixMap</a> (<a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], <a class="el" href="structvec2i.html">vec2i</a> *startPoint)</td></tr>
+<tr class="memdesc:a70e4ffa47c8ce715c88f3b5328ff06d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">孤立した部分（離島）を迷路から排除する  <a href="#a70e4ffa47c8ce715c88f3b5328ff06d1">[詳解]</a><br /></td></tr>
+<tr class="separator:a70e4ffa47c8ce715c88f3b5328ff06d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6729c2de195f9f7f33a43ea00b2f15f7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a6729c2de195f9f7f33a43ea00b2f15f7">initMaze</a> (int spawnerCount, int minDistance, int maxDistance, <a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>])</td></tr>
+<tr class="memdesc:a6729c2de195f9f7f33a43ea00b2f15f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">迷路を生成する  <a href="#a6729c2de195f9f7f33a43ea00b2f15f7">[詳解]</a><br /></td></tr>
+<tr class="separator:a6729c2de195f9f7f33a43ea00b2f15f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f73e06d570628a38c9dfadb661c2d0f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a7f73e06d570628a38c9dfadb661c2d0f">isPath</a> (<a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], int x, int y)</td></tr>
+<tr class="memdesc:a7f73e06d570628a38c9dfadb661c2d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">指定のタイルが空いているのかをチェックする  <a href="#a7f73e06d570628a38c9dfadb661c2d0f">[詳解]</a><br /></td></tr>
+<tr class="separator:a7f73e06d570628a38c9dfadb661c2d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37274390ec6a74360b0d047c5d53be98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="maze_8c.html#a37274390ec6a74360b0d047c5d53be98">getAvailableDirection</a> (<a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], int x, int y)</td></tr>
+<tr class="memdesc:a37274390ec6a74360b0d047c5d53be98"><td class="mdescLeft">&#160;</td><td class="mdescRight">指定のタイルにおいて，移動できる方向をチェックする  <a href="#a37274390ec6a74360b0d047c5d53be98">[詳解]</a><br /></td></tr>
+<tr class="separator:a37274390ec6a74360b0d047c5d53be98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>迷路の生成など </p>
+<dl class="section see"><dt>参照</dt><dd><a href="http://www.contralogic.com/2d-pac-man-style-maze-generation/">http://www.contralogic.com/2d-pac-man-style-maze-generation/</a> </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> に定義があります。</p>
+</div><h2 class="groupheader">型定義詳解</h2>
+<a id="a6e2e72bfedc38d5f199e3f3719b1630c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e2e72bfedc38d5f199e3f3719b1630c">&#9670;&nbsp;</a></span>MazeBuilder</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_maze_builder.html">MazeBuilder</a>  <a class="el" href="struct_maze_builder.html">MazeBuilder</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>迷路のビルダー </p>
+
+</div>
+</div>
+<h2 class="groupheader">関数詳解</h2>
+<a id="a50b38ed3119892e7d6097ae02210d7cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b38ed3119892e7d6097ae02210d7cd">&#9670;&nbsp;</a></span>filterDirections()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> filterDirections </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td>
+          <td class="paramname"><em>candidates</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>複数の方向から進まない方向を取り除く </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>現在のビルダーの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>現在のビルダーの y 座標 </td></tr>
+    <tr><td class="paramname">limit</td><td>迷路の大きさ制限 </td></tr>
+    <tr><td class="paramname">candidates</td><td>選択できる方向（複数）</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>Direction 行ける方向 </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00069">69</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a43736a2fd7f3754cf0850eb4a0dda1ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43736a2fd7f3754cf0850eb4a0dda1ca">&#9670;&nbsp;</a></span>updateDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void updateDistance </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_maze_builder.html">MazeBuilder</a> *&#160;</td>
+          <td class="paramname"><em>builder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーの次回の走行距離を計算する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>目標のビルダー </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00092">92</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aa4c46de510227fd08255a4d84beea042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4c46de510227fd08255a4d84beea042">&#9670;&nbsp;</a></span>calcWeight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int calcWeight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_maze_builder.html">MazeBuilder</a> *&#160;</td>
+          <td class="paramname"><em>builder</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>axis</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーの位置において，横軸（方向）または縦軸（方向）のウェイトを計算する </p>
+<p>この関数の戻り値はどの方向において生成器の数が多いかを表している．</p><ul>
+<li>x 軸に対して，左側に生成器の数が多い場合は負の値を，右側が多い場合は正の値を，両側が等しい場合は 0 を返す．</li>
+<li>y 軸に対して，下側に生成器の数が多い場合は負の値を，上側が多い場合は正の値を，両側が等しい場合は 0 を返す．</li>
+</ul>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>目標のビルダー </td></tr>
+    <tr><td class="paramname">axis</td><td>横軸 &lsquo;'x&rsquo;<code>，または縦軸</code>'y'`</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>int ウェイト </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00135">135</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="ad3334b32ae7d44c02770c6554bb2d796"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3334b32ae7d44c02770c6554bb2d796">&#9670;&nbsp;</a></span>chooseDirection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> chooseDirection </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_maze_builder.html">MazeBuilder</a> *&#160;</td>
+          <td class="paramname"><em>builder</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a>&#160;</td>
+          <td class="paramname"><em>bidir</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーが曲がるときに，他の生成器に近づける方向（ウェイトの大きい）を選ぶ </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>目標のビルダー </td></tr>
+    <tr><td class="paramname">bidir</td><td>選択できる両方向</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>Direction 計算で得た片方向 </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00168">168</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a834d32ead1bdc8c0b02c1c227aaee7e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a834d32ead1bdc8c0b02c1c227aaee7e4">&#9670;&nbsp;</a></span>turnBuilder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void turnBuilder </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_maze_builder.html">MazeBuilder</a> *&#160;</td>
+          <td class="paramname"><em>builder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーを 90 度回転させる </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>目標のビルダー </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00186">186</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aa8d2cae74b5d3d3873a6fd2c0d18ceff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d2cae74b5d3d3873a6fd2c0d18ceff">&#9670;&nbsp;</a></span>moveBuilder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void moveBuilder </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_maze_builder.html">MazeBuilder</a> *&#160;</td>
+          <td class="paramname"><em>builder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーを一回進める </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>目標のビルダー </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00201">201</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aed03952c47ee96fcb0c5e07b581ff5fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed03952c47ee96fcb0c5e07b581ff5fe">&#9670;&nbsp;</a></span>initSpawners()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void initSpawners </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec2i.html">vec2i</a>&#160;</td>
+          <td class="paramname"><em>spawners</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成器を初期化する </p>
+<p>迷路を可能な限り広くするため，生成器同士の距離を大きくする必要がある． ここでは，生成器の数を 2n とし，迷路を 2 列に分け，各列に n 個のブロックを分割する． そして，下記のルールに従って生成器を置く． </p><div class="fragment"><div class="line">                     +---+---+---+-...-+----+</div><div class="line">1 行目: 生成器の index=| 0 | 2 | 4 | --&gt; | 2n |</div><div class="line">                     +---+---+---+-...-+----+</div><div class="line"></div><div class="line">                     +------+-...-+---+---+---+</div><div class="line">2 行目: 生成器の index=| 2n+1 | &lt;-- | 5 | 3 | 1 |</div><div class="line">                     +------+-...-+---+---+---+</div></div><!-- fragment --><dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>生成器の数 </td></tr>
+    <tr><td class="paramname">spawners</td><td>生成器の配列 </td></tr>
+    <tr><td class="paramname">tiles</td><td>迷路の構成 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00233">233</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a9aa3efccca790d811fa69c623e58821d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aa3efccca790d811fa69c623e58821d">&#9670;&nbsp;</a></span>initBuilders()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void initBuilders </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>minDistance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxDistance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>spawnerCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec2i.html">vec2i</a>&#160;</td>
+          <td class="paramname"><em>spawners</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_list.html">List</a> *&#160;</td>
+          <td class="paramname"><em>builders</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ビルダーを初期化する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minDistance</td><td>最短走行距離 </td></tr>
+    <tr><td class="paramname">maxDistance</td><td>最大走行距離 </td></tr>
+    <tr><td class="paramname">spawnerCount</td><td>生成器の数 </td></tr>
+    <tr><td class="paramname">spawners</td><td>生成器の配列 </td></tr>
+    <tr><td class="paramname">builders</td><td>ビルダーのリスト </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00282">282</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a166864ccb4ead5b89debdad13502a2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a166864ccb4ead5b89debdad13502a2c7">&#9670;&nbsp;</a></span>generateMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void generateMap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_list.html">List</a> *&#160;</td>
+          <td class="paramname"><em>builders</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>迷路を生成する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tiles</td><td>タイルの保存先 </td></tr>
+    <tr><td class="paramname">builders</td><td>ビルダーのリスト </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00326">326</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a70e4ffa47c8ce715c88f3b5328ff06d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70e4ffa47c8ce715c88f3b5328ff06d1">&#9670;&nbsp;</a></span>fixMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int fixMap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structvec2i.html">vec2i</a> *&#160;</td>
+          <td class="paramname"><em>startPoint</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>孤立した部分（離島）を迷路から排除する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tiles</td><td>迷路の構成 </td></tr>
+    <tr><td class="paramname">startPoint</td><td>チェックの出発点</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>int 開いているタイルの数 </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00354">354</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a6729c2de195f9f7f33a43ea00b2f15f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6729c2de195f9f7f33a43ea00b2f15f7">&#9670;&nbsp;</a></span>initMaze()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int initMaze </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>spawnerCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>minDistance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxDistance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>迷路を生成する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spawnerCount</td><td>生成器の数 </td></tr>
+    <tr><td class="paramname">minDistance</td><td>ビルダーの最短走行距離 </td></tr>
+    <tr><td class="paramname">maxDistance</td><td>ビルダーの最大走行距離 </td></tr>
+    <tr><td class="paramname">tiles</td><td>迷路の構成の保存先</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>int 空いているタイルの数 </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00373">373</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a7f73e06d570628a38c9dfadb661c2d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f73e06d570628a38c9dfadb661c2d0f">&#9670;&nbsp;</a></span>isPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isPath </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>指定のタイルが空いているのかをチェックする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tiles</td><td>迷路の構成 </td></tr>
+    <tr><td class="paramname">x</td><td>タイルの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>タイルの y 座標</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>true タイルが空いている（道である） </dd>
+<dd>
+false タイルが閉じている（壁である） </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00395">395</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a37274390ec6a74360b0d047c5d53be98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37274390ec6a74360b0d047c5d53be98">&#9670;&nbsp;</a></span>getAvailableDirection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="direction_8h.html#a224b9163917ac32fc95a60d8c1eec3aa">Direction</a> getAvailableDirection </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a>&#160;</td>
+          <td class="paramname"><em>tiles</em>[MAZE_SIZE][MAZE_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>指定のタイルにおいて，移動できる方向をチェックする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tiles</td><td>迷路の構成 </td></tr>
+    <tr><td class="paramname">x</td><td>タイルの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>タイルの y 座標</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>Direction 移動できる方向 </dd></dl>
+
+<p class="definition"> <a class="el" href="maze_8c_source.html">maze.c</a> の <a class="el" href="maze_8c_source.html#l00405">405</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_931ce304af081f85f63237a1d4f7bc66.html">maze</a></li><li class="navelem"><a class="el" href="maze_8c.html">maze.c</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

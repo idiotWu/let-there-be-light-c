@@ -1,0 +1,596 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: scene/game/enemy.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('enemy_8c.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle">
+<div class="title">enemy.c ファイル</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>敵の定義  
+<a href="#details">[詳解]</a></p>
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="enemy_8h_source.html">scene/game/enemy.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="state_8h_source.html">state.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="engine_8h_source.html">render/engine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texture_8h_source.html">render/texture.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fx_8h_source.html">render/fx.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tile_8h_source.html">maze/tile.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="maze_8h_source.html">maze/maze.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="floodfill_8h_source.html">maze/floodfill.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util/util.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="list_8h_source.html">util/list.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="difficulty_8h_source.html">scene/game/difficulty.h</a>&quot;</code><br />
+</div>
+<p><a href="enemy_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a2c623eae5029dada8360115b247c8967"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a2c623eae5029dada8360115b247c8967">spoilTilesUpdate</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a2c623eae5029dada8360115b247c8967"><td class="mdescLeft">&#160;</td><td class="mdescRight">地面を凍らせるアニメーションを更新する  <a href="#a2c623eae5029dada8360115b247c8967">[詳解]</a><br /></td></tr>
+<tr class="separator:a2c623eae5029dada8360115b247c8967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22c593cac996432b8965d37b4c1825e8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a22c593cac996432b8965d37b4c1825e8">spoilTilesComplete</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a22c593cac996432b8965d37b4c1825e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">地面を凍らせるアニメーションが終わったときの処理  <a href="#a22c593cac996432b8965d37b4c1825e8">[詳解]</a><br /></td></tr>
+<tr class="separator:a22c593cac996432b8965d37b4c1825e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e1bbfa3dc10b82336c78f006dc97831"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a4e1bbfa3dc10b82336c78f006dc97831">spoilTiles</a> (int x, int y, int radius)</td></tr>
+<tr class="memdesc:a4e1bbfa3dc10b82336c78f006dc97831"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="floodfill_8h.html#a8f7ff33be282269ca389d21e8237ec95">floodFill</a> アルゴリズムを使って地面を凍らせるアニメーション  <a href="#a4e1bbfa3dc10b82336c78f006dc97831">[詳解]</a><br /></td></tr>
+<tr class="separator:a4e1bbfa3dc10b82336c78f006dc97831"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf56e04d969ff42b59d735ca0b91d7eb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#aaf56e04d969ff42b59d735ca0b91d7eb">enemyExplode</a> (<a class="el" href="struct_enemy.html">Enemy</a> *enemy)</td></tr>
+<tr class="memdesc:aaf56e04d969ff42b59d735ca0b91d7eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を爆発させる  <a href="#aaf56e04d969ff42b59d735ca0b91d7eb">[詳解]</a><br /></td></tr>
+<tr class="separator:aaf56e04d969ff42b59d735ca0b91d7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1bf6bdcbd292be5c44d4d7cac65ea7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a4b1bf6bdcbd292be5c44d4d7cac65ea7">moveEnemy</a> (<a class="el" href="struct_enemy.html">Enemy</a> *enemy)</td></tr>
+<tr class="memdesc:a4b1bf6bdcbd292be5c44d4d7cac65ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を移動させる  <a href="#a4b1bf6bdcbd292be5c44d4d7cac65ea7">[詳解]</a><br /></td></tr>
+<tr class="separator:a4b1bf6bdcbd292be5c44d4d7cac65ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530365f1fc5d70176763af00e401c03c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structvec2i.html">vec2i</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a530365f1fc5d70176763af00e401c03c">getEnemyDelta</a> (<a class="el" href="struct_enemy.html">Enemy</a> *enemy)</td></tr>
+<tr class="memdesc:a530365f1fc5d70176763af00e401c03c"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵がプレイヤーに近づくための変位  <a href="#a530365f1fc5d70176763af00e401c03c">[詳解]</a><br /></td></tr>
+<tr class="separator:a530365f1fc5d70176763af00e401c03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04d7beedfe81f25b5ac677974fa400cf"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a04d7beedfe81f25b5ac677974fa400cf">moveEnemyUpdate</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a04d7beedfe81f25b5ac677974fa400cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を移動させるアニメーションを更新する  <a href="#a04d7beedfe81f25b5ac677974fa400cf">[詳解]</a><br /></td></tr>
+<tr class="separator:a04d7beedfe81f25b5ac677974fa400cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16abb472ffbc99e990d2b40a88b4aa7b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a16abb472ffbc99e990d2b40a88b4aa7b">moveEnemyComplete</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a16abb472ffbc99e990d2b40a88b4aa7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を移動させるアニメーションが終わった後の処理  <a href="#a16abb472ffbc99e990d2b40a88b4aa7b">[詳解]</a><br /></td></tr>
+<tr class="separator:a16abb472ffbc99e990d2b40a88b4aa7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12b101b1fefb0310123196ebee0cbea"><td class="memItemLeft" align="right" valign="top"><a id="aa12b101b1fefb0310123196ebee0cbea"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#aa12b101b1fefb0310123196ebee0cbea">activateEnemies</a> (void)</td></tr>
+<tr class="memdesc:aa12b101b1fefb0310123196ebee0cbea"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を起こす <br /></td></tr>
+<tr class="separator:aa12b101b1fefb0310123196ebee0cbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa56da3bed7bb29c31ee2bf6afb22f5c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#aaa56da3bed7bb29c31ee2bf6afb22f5c">createEnemy</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:aaa56da3bed7bb29c31ee2bf6afb22f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵を生成する  <a href="#aaa56da3bed7bb29c31ee2bf6afb22f5c">[詳解]</a><br /></td></tr>
+<tr class="separator:aaa56da3bed7bb29c31ee2bf6afb22f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a712f5f12470c0a3780b406a7fbde7238"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a712f5f12470c0a3780b406a7fbde7238">updateEnemyState</a> (<a class="el" href="struct_animation.html">Animation</a> *animation)</td></tr>
+<tr class="memdesc:a712f5f12470c0a3780b406a7fbde7238"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵のスプライトを更新する  <a href="#a712f5f12470c0a3780b406a7fbde7238">[詳解]</a><br /></td></tr>
+<tr class="separator:a712f5f12470c0a3780b406a7fbde7238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2196b17fa8342f5473105fa6587e195e"><td class="memItemLeft" align="right" valign="top"><a id="a2196b17fa8342f5473105fa6587e195e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a2196b17fa8342f5473105fa6587e195e">initEnemy</a> (void)</td></tr>
+<tr class="memdesc:a2196b17fa8342f5473105fa6587e195e"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵の生成器を初期化する <br /></td></tr>
+<tr class="separator:a2196b17fa8342f5473105fa6587e195e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9494e25ff984cf66a803baccf3ec56f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a9494e25ff984cf66a803baccf3ec56f3">destroyEnemy</a> (bool shouldExpload)</td></tr>
+<tr class="memdesc:a9494e25ff984cf66a803baccf3ec56f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵の生成器を廃棄する  <a href="#a9494e25ff984cf66a803baccf3ec56f3">[詳解]</a><br /></td></tr>
+<tr class="separator:a9494e25ff984cf66a803baccf3ec56f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+変数</h2></td></tr>
+<tr class="memitem:a077aa771f2feba4d9e7194633caccbb8"><td class="memItemLeft" align="right" valign="top"><a id="a077aa771f2feba4d9e7194633caccbb8"></a>
+static <a class="el" href="struct_animation.html">Animation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a077aa771f2feba4d9e7194633caccbb8">enemySpawner</a> = NULL</td></tr>
+<tr class="memdesc:a077aa771f2feba4d9e7194633caccbb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵の生成器 <br /></td></tr>
+<tr class="separator:a077aa771f2feba4d9e7194633caccbb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55650050a2b10013be27b1293b4c0e5d"><td class="memItemLeft" align="right" valign="top"><a id="a55650050a2b10013be27b1293b4c0e5d"></a>
+static <a class="el" href="struct_animation.html">Animation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enemy_8c.html#a55650050a2b10013be27b1293b4c0e5d">enemyStateUpdater</a></td></tr>
+<tr class="memdesc:a55650050a2b10013be27b1293b4c0e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵のスプライトの状態（フレーム）を更新するタイマー <br /></td></tr>
+<tr class="separator:a55650050a2b10013be27b1293b4c0e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>敵の定義 </p>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> に定義があります。</p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="a2c623eae5029dada8360115b247c8967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c623eae5029dada8360115b247c8967">&#9670;&nbsp;</a></span>spoilTilesUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void spoilTilesUpdate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>地面を凍らせるアニメーションを更新する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00034">34</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a22c593cac996432b8965d37b4c1825e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22c593cac996432b8965d37b4c1825e8">&#9670;&nbsp;</a></span>spoilTilesComplete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void spoilTilesComplete </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>地面を凍らせるアニメーションが終わったときの処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00055">55</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a4e1bbfa3dc10b82336c78f006dc97831"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e1bbfa3dc10b82336c78f006dc97831">&#9670;&nbsp;</a></span>spoilTiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void spoilTiles </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>radius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="floodfill_8h.html#a8f7ff33be282269ca389d21e8237ec95">floodFill</a> アルゴリズムを使って地面を凍らせるアニメーション </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>出発タイルの x 座標 </td></tr>
+    <tr><td class="paramname">y</td><td>出発タイルの y 座標 </td></tr>
+    <tr><td class="paramname">radius</td><td>凍らせる範囲 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00067">67</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aaf56e04d969ff42b59d735ca0b91d7eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf56e04d969ff42b59d735ca0b91d7eb">&#9670;&nbsp;</a></span>enemyExplode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void enemyExplode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a> *&#160;</td>
+          <td class="paramname"><em>enemy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵を爆発させる </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enemy</td><td>敵 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00086">86</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a4b1bf6bdcbd292be5c44d4d7cac65ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1bf6bdcbd292be5c44d4d7cac65ea7">&#9670;&nbsp;</a></span>moveEnemy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void moveEnemy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a> *&#160;</td>
+          <td class="paramname"><em>enemy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵を移動させる </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enemy</td><td>敵 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00194">194</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a530365f1fc5d70176763af00e401c03c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a530365f1fc5d70176763af00e401c03c">&#9670;&nbsp;</a></span>getEnemyDelta()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structvec2i.html">vec2i</a> getEnemyDelta </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_enemy.html">Enemy</a> *&#160;</td>
+          <td class="paramname"><em>enemy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵がプレイヤーに近づくための変位 </p>
+<p>この関数は <a class="el" href="struct_state.html#a49694b2def162aa511acbb43104060eb">GameState.stepsFromPlayer</a> に基づき， 敵を上下左右からプレイヤーへの距離が一番短いタイルに移動させる</p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enemy</td><td>敵</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd><a class="el" href="structvec2i.html" title="int 型の2次元ベクトル">vec2i</a> 変位 </dd></dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00117">117</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a04d7beedfe81f25b5ac677974fa400cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04d7beedfe81f25b5ac677974fa400cf">&#9670;&nbsp;</a></span>moveEnemyUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void moveEnemyUpdate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵を移動させるアニメーションを更新する </p>
+<p>敵がプレイヤーに突き当たると爆発する</p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00161">161</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a16abb472ffbc99e990d2b40a88b4aa7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16abb472ffbc99e990d2b40a88b4aa7b">&#9670;&nbsp;</a></span>moveEnemyComplete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void moveEnemyComplete </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵を移動させるアニメーションが終わった後の処理 </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>アニメーション </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00183">183</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="aaa56da3bed7bb29c31ee2bf6afb22f5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa56da3bed7bb29c31ee2bf6afb22f5c">&#9670;&nbsp;</a></span>createEnemy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void createEnemy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵を生成する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>生成器のアニメーション（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00256">256</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a712f5f12470c0a3780b406a7fbde7238"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a712f5f12470c0a3780b406a7fbde7238">&#9670;&nbsp;</a></span>updateEnemyState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void updateEnemyState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_animation.html">Animation</a> *&#160;</td>
+          <td class="paramname"><em>animation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵のスプライトを更新する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animation</td><td>更新のタイマー（使われていない） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00294">294</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="a9494e25ff984cf66a803baccf3ec56f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9494e25ff984cf66a803baccf3ec56f3">&#9670;&nbsp;</a></span>destroyEnemy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void destroyEnemy </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>shouldExpload</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>敵の生成器を廃棄する </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shouldExpload</td><td>残る敵を爆発させる </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="enemy_8c_source.html">enemy.c</a> の <a class="el" href="enemy_8c_source.html#l00325">325</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_fd40b43fc4c1e00689c4b0cc7f9f9515.html">scene</a></li><li class="navelem"><a class="el" href="dir_9c12e1ed3f6cdd392cffccc83cf77653.html">game</a></li><li class="navelem"><a class="el" href="enemy_8c.html">enemy.c</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分14秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

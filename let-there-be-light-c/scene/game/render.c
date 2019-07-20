@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ゲームシーンのレンダリング
+ */
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <math.h>
@@ -18,11 +22,17 @@
 #include "util/list.h"
 #include "util/util.h"
 
+//! キャラクタスプライトを拡大する倍数
 #define CHARACTER_SPRITE_SCALE      1.2
+//! キャラクタスプライトの縦方向における基準位置
 #define CHARACTER_SPRITE_BASELINE   0.3
 
+//! エネルギーバーの長さ
 #define ENERGY_BAR_WIDTH            (MAZE_SIZE / 4.0)
 
+/**
+ * @brief 迷路のタイルをレンダリングする
+ */
 static void renderTiles(void) {
   // render one more tile
   double r = GameState.visibleRadius + 1.0;
@@ -71,6 +81,15 @@ static void renderTiles(void) {
   }
 }
 
+/**
+ * @brief キャラクタ（敵，プレイヤー）をレンダリングする
+ *
+ * @param sprite    キャラクタスプライト
+ * @param col       スプライトの列
+ * @param x         キャラクタの位置の x 座標
+ * @param y         キャラクタの位置の y 座標
+ * @param direction キャラクタの向き
+ */
 static void renderCharacter(Sprite* sprite, int col,
                             double x, double y, Direction direction) {
   int row = CHARACTER_FRONT_ROW;
@@ -104,12 +123,18 @@ static void renderCharacter(Sprite* sprite, int col,
                CHARACTER_SPRITE_SCALE, CHARACTER_SPRITE_SCALE);
 }
 
+/**
+ * @brief プレイヤーをレンダリングする
+ */
 static void renderPlayer(void) {
   Player* player = &GameState.player;
 
   renderCharacter(player->spoiled ? PLAYER_SPRITES_SPOILED : PLAYER_SPRITES, player->spriteState, player->x, player->y, player->direction);
 }
 
+/**
+ * @brief 敵をレンダリングする
+ */
 static void renderEnemies(void) {
   ListIterator it = createListIterator(GameState.enemies);
 
@@ -130,6 +155,9 @@ static void renderEnemies(void) {
   }
 }
 
+/**
+ * @brief HUD をレンダリングする
+ */
 static void renderHUD(void) {
   glPushMatrix();
   glTranslated(0.0, MAZE_SIZE, 0.0);

@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: state.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('state_8h_source.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">state.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="state_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef STATE_H</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define STATE_H</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="player_8h.html">scene/game/player.h</a>&quot;</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="enemy_8h.html">scene/game/enemy.h</a>&quot;</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scene_8h.html">scene/scene.h</a>&quot;</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util/util.h</a>&quot;</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="list_8h.html">util/list.h</a>&quot;</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tile_8h.html">maze/tile.h</a>&quot;</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div><div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="struct_client_rect.html">   23</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_client_rect.html">ClientRect</a> {</div><div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="struct_client_rect.html#a4467598fbba812fe1339ab4e83806573">   25</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#a4467598fbba812fe1339ab4e83806573">top</a>;</div><div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="struct_client_rect.html#ab833bacb3fa8d1a189efcbba74f10fa1">   27</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#ab833bacb3fa8d1a189efcbba74f10fa1">right</a>;</div><div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="struct_client_rect.html#a24c109489bdfad4b0937c2d19d9c0e20">   29</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#a24c109489bdfad4b0937c2d19d9c0e20">bottom</a>;</div><div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="struct_client_rect.html#a5eeeb20fab9ff0f54568882b94d57921">   31</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#a5eeeb20fab9ff0f54568882b94d57921">left</a>;</div><div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="struct_client_rect.html#a9df23e056f5d1a0388cd8190431c0e03">   33</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#a9df23e056f5d1a0388cd8190431c0e03">width</a>;</div><div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="struct_client_rect.html#a89f6abd564014faeff7cd20c340a9c7d">   35</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_client_rect.html#a89f6abd564014faeff7cd20c340a9c7d">height</a>;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <a class="code" href="state_8h.html#a054b2dc09aa3d5eaa76d4ec3d29f2564">ClientRect</a>;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="struct_state.html">   41</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_state.html">State</a> {</div><div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="struct_state.html#a6de66f9ad116ce1d596c7f4edc40c521">   43</a></span>&#160;  <a class="code" href="struct_scene.html">Scene</a>* <a class="code" href="struct_state.html#a6de66f9ad116ce1d596c7f4edc40c521">scene</a>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">struct </span>{</div><div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="struct_state.html#ac8947941479c38403a09c14a60b03f01">   48</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_state.html#ac8947941479c38403a09c14a60b03f01">major</a>;</div><div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="struct_state.html#aec7b96885baf2e6f10efbdef9d935a0b">   50</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="struct_state.html#aec7b96885baf2e6f10efbdef9d935a0b">minor</a>;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  } <a class="code" href="struct_state.html#afac31197e707bcd71657a31cb1398901">level</a>;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="struct_state.html#aaa2aeaeefe47bab459a90c92283f285f">   54</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_state.html#aaa2aeaeefe47bab459a90c92283f285f">remainItem</a>;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div><div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="struct_state.html#a12089d24a674a3d083fde5556b5a343c">   57</a></span>&#160;  <a class="code" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> <a class="code" href="struct_state.html#a12089d24a674a3d083fde5556b5a343c">maze</a>[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>];</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div><div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="struct_state.html#a49694b2def162aa511acbb43104060eb">   60</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_state.html#a49694b2def162aa511acbb43104060eb">stepsFromPlayer</a>[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>];</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="struct_state.html#aacb87bcf18b3ce3bc42fa7daacc4b17b">   63</a></span>&#160;  <a class="code" href="structvec2i.html">vec2i</a>* <a class="code" href="struct_state.html#aacb87bcf18b3ce3bc42fa7daacc4b17b">openTiles</a>;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div><div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="struct_state.html#a631341956c255e7659119b88e991b43b">   66</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_state.html#a631341956c255e7659119b88e991b43b">pathLength</a>;</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div><div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="struct_state.html#a1656129c4a4fd8809254194f08f0ac70">   69</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="struct_state.html#a1656129c4a4fd8809254194f08f0ac70">paused</a>;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div><div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="struct_state.html#abc5343b71580c385146cf97e06f0b16c">   72</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_state.html#abc5343b71580c385146cf97e06f0b16c">visibleRadius</a>;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div><div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="struct_state.html#a48d060e255d04932104c90ee4ac7a150">   75</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="struct_state.html#a48d060e255d04932104c90ee4ac7a150">lastVisibleRadius</a>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div><div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="struct_state.html#a6f643fae9f6a87f183bf1952c06f551c">   78</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="struct_state.html#a6f643fae9f6a87f183bf1952c06f551c">unlockLimits</a>;</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div><div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="struct_state.html#af61d6983a9396a11078805087518af88">   81</a></span>&#160;  <a class="code" href="struct_player.html">Player</a> <a class="code" href="struct_state.html#af61d6983a9396a11078805087518af88">player</a>;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div><div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="struct_state.html#a9aa411a757f65acf5de2b27df5696b08">   84</a></span>&#160;  <a class="code" href="struct_list.html">List</a>* <a class="code" href="struct_state.html#a9aa411a757f65acf5de2b27df5696b08">enemies</a>;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div><div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="struct_state.html#a2590409326b69bdf595aa3f52f2c5df2">   87</a></span>&#160;  <a class="code" href="struct_client_rect.html">ClientRect</a> <a class="code" href="struct_state.html#a2590409326b69bdf595aa3f52f2c5df2">ortho</a>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div><div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="struct_state.html#a8982d69320d9d31a81d2b13698244ef0">   90</a></span>&#160;  <a class="code" href="struct_client_rect.html">ClientRect</a> <a class="code" href="struct_state.html#a8982d69320d9d31a81d2b13698244ef0">viewport</a>;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <a class="code" href="state_8h.html#ab685e455239a4fd6c4d0b820e4b9bd5d">State</a>;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keyword">extern</span> <a class="code" href="struct_state.html">State</a> <a class="code" href="state_8h.html#abfba619da78b9fc39d3e0aeb2c31ce99">GameState</a>;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordtype">void</span> <a class="code" href="state_8h.html#ab54961c008d8f9ce52f5630d71688988">initGameState</a>(<span class="keywordtype">void</span>);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="struct_state_html_a6f643fae9f6a87f183bf1952c06f551c"><div class="ttname"><a href="struct_state.html#a6f643fae9f6a87f183bf1952c06f551c">State::unlockLimits</a></div><div class="ttdeci">bool unlockLimits</div><div class="ttdoc">制限を解除する</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00078">state.h:78</a></div></div>
+<div class="ttc" id="state_8h_html_abfba619da78b9fc39d3e0aeb2c31ce99"><div class="ttname"><a href="state_8h.html#abfba619da78b9fc39d3e0aeb2c31ce99">GameState</a></div><div class="ttdeci">State GameState</div><div class="ttdoc">ゲーム全体の状態を表すグローバル変数</div><div class="ttdef"><b>Definition:</b> <a href="state_8c_source.html#l00016">state.c:16</a></div></div>
+<div class="ttc" id="config_8h_html_a435c893b3d82298d514a7c5f1e433bff"><div class="ttname"><a href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a></div><div class="ttdeci">#define MAZE_SIZE</div><div class="ttdoc">迷路のサイズ</div><div class="ttdef"><b>Definition:</b> <a href="config_8h_source.html#l00009">config.h:9</a></div></div>
+<div class="ttc" id="struct_state_html_a8982d69320d9d31a81d2b13698244ef0"><div class="ttname"><a href="struct_state.html#a8982d69320d9d31a81d2b13698244ef0">State::viewport</a></div><div class="ttdeci">ClientRect viewport</div><div class="ttdoc">現在の表示領域（ビューポート）</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00090">state.h:90</a></div></div>
+<div class="ttc" id="struct_state_html_ac8947941479c38403a09c14a60b03f01"><div class="ttname"><a href="struct_state.html#ac8947941479c38403a09c14a60b03f01">State::major</a></div><div class="ttdeci">int major</div><div class="ttdoc">ワールド</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00048">state.h:48</a></div></div>
+<div class="ttc" id="struct_state_html_aaa2aeaeefe47bab459a90c92283f285f"><div class="ttname"><a href="struct_state.html#aaa2aeaeefe47bab459a90c92283f285f">State::remainItem</a></div><div class="ttdeci">int remainItem</div><div class="ttdoc">残りのアイテム数</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00054">state.h:54</a></div></div>
+<div class="ttc" id="struct_state_html_a631341956c255e7659119b88e991b43b"><div class="ttname"><a href="struct_state.html#a631341956c255e7659119b88e991b43b">State::pathLength</a></div><div class="ttdeci">int pathLength</div><div class="ttdoc">径路の総計の長さ ＝ 開いているタイルの個数</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00066">state.h:66</a></div></div>
+<div class="ttc" id="struct_client_rect_html_a24c109489bdfad4b0937c2d19d9c0e20"><div class="ttname"><a href="struct_client_rect.html#a24c109489bdfad4b0937c2d19d9c0e20">ClientRect::bottom</a></div><div class="ttdeci">double bottom</div><div class="ttdoc">矩形区間の下辺</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00029">state.h:29</a></div></div>
+<div class="ttc" id="config_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">ゲームの設定</div></div>
+<div class="ttc" id="scene_8h_html"><div class="ttname"><a href="scene_8h.html">scene.h</a></div><div class="ttdoc">シーンコントローラーのプロトタイプ（ヘッダファイル）</div></div>
+<div class="ttc" id="player_8h_html"><div class="ttname"><a href="player_8h.html">player.h</a></div><div class="ttdoc">プレイヤーの定義 ＜ヘッダファイル＞</div></div>
+<div class="ttc" id="struct_state_html_a1656129c4a4fd8809254194f08f0ac70"><div class="ttname"><a href="struct_state.html#a1656129c4a4fd8809254194f08f0ac70">State::paused</a></div><div class="ttdeci">bool paused</div><div class="ttdoc">ゲームを一時中止する</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00069">state.h:69</a></div></div>
+<div class="ttc" id="state_8h_html_ab54961c008d8f9ce52f5630d71688988"><div class="ttname"><a href="state_8h.html#ab54961c008d8f9ce52f5630d71688988">initGameState</a></div><div class="ttdeci">void initGameState(void)</div><div class="ttdoc">ゲームの状態を初期化する</div><div class="ttdef"><b>Definition:</b> <a href="state_8c_source.html#l00018">state.c:18</a></div></div>
+<div class="ttc" id="state_8h_html_a054b2dc09aa3d5eaa76d4ec3d29f2564"><div class="ttname"><a href="state_8h.html#a054b2dc09aa3d5eaa76d4ec3d29f2564">ClientRect</a></div><div class="ttdeci">struct ClientRect ClientRect</div><div class="ttdoc">出力画面における矩形空間</div></div>
+<div class="ttc" id="tile_8h_html_acd2017d946fd818c3b8ca377bc4006c7"><div class="ttname"><a href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a></div><div class="ttdeci">Tile</div><div class="ttdoc">タイル</div><div class="ttdef"><b>Definition:</b> <a href="tile_8h_source.html#l00011">tile.h:11</a></div></div>
+<div class="ttc" id="struct_state_html_a9aa411a757f65acf5de2b27df5696b08"><div class="ttname"><a href="struct_state.html#a9aa411a757f65acf5de2b27df5696b08">State::enemies</a></div><div class="ttdeci">List * enemies</div><div class="ttdoc">敵のリスト</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00084">state.h:84</a></div></div>
+<div class="ttc" id="structvec2i_html"><div class="ttname"><a href="structvec2i.html">vec2i</a></div><div class="ttdoc">int 型の2次元ベクトル</div><div class="ttdef"><b>Definition:</b> <a href="util_8h_source.html#l00039">util.h:39</a></div></div>
+<div class="ttc" id="struct_state_html_aec7b96885baf2e6f10efbdef9d935a0b"><div class="ttname"><a href="struct_state.html#aec7b96885baf2e6f10efbdef9d935a0b">State::minor</a></div><div class="ttdeci">int minor</div><div class="ttdoc">ステージ</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00050">state.h:50</a></div></div>
+<div class="ttc" id="list_8h_html"><div class="ttname"><a href="list_8h.html">list.h</a></div><div class="ttdoc">双方向連結リスト ＜ヘッダファイル＞</div></div>
+<div class="ttc" id="tile_8h_html"><div class="ttname"><a href="tile_8h.html">tile.h</a></div><div class="ttdoc">タイルの定義（ヘッダファイル）</div></div>
+<div class="ttc" id="enemy_8h_html"><div class="ttname"><a href="enemy_8h.html">enemy.h</a></div><div class="ttdoc">敵の定義 ＜ヘッダファイル＞</div></div>
+<div class="ttc" id="util_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">ユーティリティ ＜ヘッダファイル＞</div></div>
+<div class="ttc" id="struct_state_html_af61d6983a9396a11078805087518af88"><div class="ttname"><a href="struct_state.html#af61d6983a9396a11078805087518af88">State::player</a></div><div class="ttdeci">Player player</div><div class="ttdoc">プレイヤーインスタンス</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00081">state.h:81</a></div></div>
+<div class="ttc" id="struct_state_html_abc5343b71580c385146cf97e06f0b16c"><div class="ttname"><a href="struct_state.html#abc5343b71580c385146cf97e06f0b16c">State::visibleRadius</a></div><div class="ttdeci">double visibleRadius</div><div class="ttdoc">見える範囲（エネルギー）</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00072">state.h:72</a></div></div>
+<div class="ttc" id="struct_state_html"><div class="ttname"><a href="struct_state.html">State</a></div><div class="ttdoc">ゲームの状態</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00041">state.h:41</a></div></div>
+<div class="ttc" id="struct_state_html_afac31197e707bcd71657a31cb1398901"><div class="ttname"><a href="struct_state.html#afac31197e707bcd71657a31cb1398901">State::level</a></div><div class="ttdeci">struct State::@0 level</div><div class="ttdoc">現在のレベル</div></div>
+<div class="ttc" id="state_8h_html_ab685e455239a4fd6c4d0b820e4b9bd5d"><div class="ttname"><a href="state_8h.html#ab685e455239a4fd6c4d0b820e4b9bd5d">State</a></div><div class="ttdeci">struct State State</div><div class="ttdoc">ゲームの状態</div></div>
+<div class="ttc" id="struct_state_html_a6de66f9ad116ce1d596c7f4edc40c521"><div class="ttname"><a href="struct_state.html#a6de66f9ad116ce1d596c7f4edc40c521">State::scene</a></div><div class="ttdeci">Scene * scene</div><div class="ttdoc">現在のシーン</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00043">state.h:43</a></div></div>
+<div class="ttc" id="struct_state_html_a49694b2def162aa511acbb43104060eb"><div class="ttname"><a href="struct_state.html#a49694b2def162aa511acbb43104060eb">State::stepsFromPlayer</a></div><div class="ttdeci">int stepsFromPlayer[MAZE_SIZE][MAZE_SIZE]</div><div class="ttdoc">各タイルにおけるプレイヤーまでの最小歩数</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00060">state.h:60</a></div></div>
+<div class="ttc" id="struct_list_html"><div class="ttname"><a href="struct_list.html">List</a></div><div class="ttdoc">リストオブジェクト</div><div class="ttdef"><b>Definition:</b> <a href="list_8h_source.html#l00027">list.h:27</a></div></div>
+<div class="ttc" id="struct_state_html_a12089d24a674a3d083fde5556b5a343c"><div class="ttname"><a href="struct_state.html#a12089d24a674a3d083fde5556b5a343c">State::maze</a></div><div class="ttdeci">Tile maze[MAZE_SIZE][MAZE_SIZE]</div><div class="ttdoc">現在の迷路の構成</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00057">state.h:57</a></div></div>
+<div class="ttc" id="struct_state_html_a2590409326b69bdf595aa3f52f2c5df2"><div class="ttname"><a href="struct_state.html#a2590409326b69bdf595aa3f52f2c5df2">State::ortho</a></div><div class="ttdeci">ClientRect ortho</div><div class="ttdoc">現在の座標系</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00087">state.h:87</a></div></div>
+<div class="ttc" id="struct_client_rect_html_ab833bacb3fa8d1a189efcbba74f10fa1"><div class="ttname"><a href="struct_client_rect.html#ab833bacb3fa8d1a189efcbba74f10fa1">ClientRect::right</a></div><div class="ttdeci">double right</div><div class="ttdoc">矩形区間の右辺</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00027">state.h:27</a></div></div>
+<div class="ttc" id="struct_client_rect_html_a9df23e056f5d1a0388cd8190431c0e03"><div class="ttname"><a href="struct_client_rect.html#a9df23e056f5d1a0388cd8190431c0e03">ClientRect::width</a></div><div class="ttdeci">double width</div><div class="ttdoc">矩形区間の長さ</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00033">state.h:33</a></div></div>
+<div class="ttc" id="struct_scene_html"><div class="ttname"><a href="struct_scene.html">Scene</a></div><div class="ttdoc">シーンコントローラー</div><div class="ttdef"><b>Definition:</b> <a href="scene_8h_source.html#l00009">scene.h:9</a></div></div>
+<div class="ttc" id="struct_client_rect_html_a5eeeb20fab9ff0f54568882b94d57921"><div class="ttname"><a href="struct_client_rect.html#a5eeeb20fab9ff0f54568882b94d57921">ClientRect::left</a></div><div class="ttdeci">double left</div><div class="ttdoc">矩形区間の左辺</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00031">state.h:31</a></div></div>
+<div class="ttc" id="struct_state_html_aacb87bcf18b3ce3bc42fa7daacc4b17b"><div class="ttname"><a href="struct_state.html#aacb87bcf18b3ce3bc42fa7daacc4b17b">State::openTiles</a></div><div class="ttdeci">vec2i * openTiles</div><div class="ttdoc">歩けるタイル</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00063">state.h:63</a></div></div>
+<div class="ttc" id="struct_client_rect_html_a4467598fbba812fe1339ab4e83806573"><div class="ttname"><a href="struct_client_rect.html#a4467598fbba812fe1339ab4e83806573">ClientRect::top</a></div><div class="ttdeci">double top</div><div class="ttdoc">矩形区間の上辺</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00025">state.h:25</a></div></div>
+<div class="ttc" id="struct_client_rect_html_a89f6abd564014faeff7cd20c340a9c7d"><div class="ttname"><a href="struct_client_rect.html#a89f6abd564014faeff7cd20c340a9c7d">ClientRect::height</a></div><div class="ttdeci">double height</div><div class="ttdoc">矩形区間の高さ</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00035">state.h:35</a></div></div>
+<div class="ttc" id="struct_client_rect_html"><div class="ttname"><a href="struct_client_rect.html">ClientRect</a></div><div class="ttdoc">出力画面における矩形空間</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00023">state.h:23</a></div></div>
+<div class="ttc" id="struct_player_html"><div class="ttname"><a href="struct_player.html">Player</a></div><div class="ttdoc">プレイヤーを表すのオブジェクト</div><div class="ttdef"><b>Definition:</b> <a href="player_8h_source.html#l00015">player.h:15</a></div></div>
+<div class="ttc" id="struct_state_html_a48d060e255d04932104c90ee4ac7a150"><div class="ttname"><a href="struct_state.html#a48d060e255d04932104c90ee4ac7a150">State::lastVisibleRadius</a></div><div class="ttdeci">double lastVisibleRadius</div><div class="ttdoc">1 つ前のステージのエネルギー残量</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00075">state.h:75</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="state_8h.html">state.h</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

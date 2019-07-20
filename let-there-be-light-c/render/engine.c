@@ -1,21 +1,7 @@
 /**
- * Timeline based animation engine
- *
- *       t
- * ------+------------------------------------------> timeline
- * +-----|-+
- * |   A | | <- animation{}
- * +-----|-+
- *    +--|------+
- *    |  | A    |
- *    +--|------+
- *  +----|+-----+-----+-----+-----+
- *  |  A ||  A  |  A  |  A  |  A  | <- repeating animation
- *  +----|+-----+-----+-----+-----+
- *       |
- *    render(t)
+ * @file
+ * @brief タイムラインに基づいたアニメーションエンジン
  */
-
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -25,26 +11,21 @@
 #include "render/engine.h"
 #include "util/list.h"
 
+/**
+ * @internal
+ * @brief 遅らせている関数および引数に渡すデータを記録するオブジェクト
+ */
 typedef struct Delay {
+  //! コールバック関数
   DelayCallback callback;
+  //! `callback` の引数に渡すデータ
   void* data;
 } Delay;
 
+//! エンジンのメインタイムライン
 static List GameTL;
 
-/**
- * Animation Model:
- *  3 frames/period non-repeat:
- *   begin <-------|-------|-------> end
- *             1       2       3
- *
- *  3 frames/period * 2 repeats:
- *    begin <---|---|---><---|---|---> end
- *            1   2   3    1   2   3
- */
-Animation* createAnimation(int frameCount,
-                           double duration,
-                           int repeat) {
+Animation* createAnimation(int frameCount, double duration, int repeat) {
   assert(frameCount > 0);
   assert(repeat > 0);
 
@@ -59,7 +40,7 @@ Animation* createAnimation(int frameCount,
   animation->repeat = repeat;
   animation->frameCount = frameCount;
 
-  animation->interval = ceil(duration / ANIMATION_60_FPS / animation->frameCount);
+  animation->interval = ceil(duration / ANIMATION_REFRESH_INTERVAL / animation->frameCount);
 
   animation->target = NULL;
   animation->from = NULL;
@@ -80,7 +61,7 @@ Animation* createAnimation(int frameCount,
 }
 
 Animation* createAnimation60FPS(double duration, int repeat) {
-  return createAnimation(round(duration / ANIMATION_60_FPS), duration, repeat);
+  return createAnimation(round(duration / ANIMATION_REFRESH_INTERVAL), duration, repeat);
 }
 
 void cancelAnimation(Animation* animation) {

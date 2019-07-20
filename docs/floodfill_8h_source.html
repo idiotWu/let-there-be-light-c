@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Let There Be Light: maze/floodfill.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Let There Be Light
+   </div>
+   <div id="projectbrief">光よ、あれ！</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('floodfill_8h_source.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">floodfill.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="floodfill_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef FLOODFILL_H</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define FLOODFILL_H</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stddef.h&gt;</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="config_8h.html">config.h</a>&quot;</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tile_8h.html">maze/tile.h</a>&quot;</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="list_8h.html">util/list.h</a>&quot;</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="floodfill_8h.html#a5ca445e682517f2c39d5a85cc2ef8ef8">   17</a></span>&#160;<span class="preprocessor">#define FLOOD_DEPTH_UNVISITED  -1</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="struct_flood_state.html">   22</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_flood_state.html">FloodState</a> {</div><div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="struct_flood_state.html#a164223db94c49cf684d5f9023dcb913d">   24</a></span>&#160;  <a class="code" href="struct_list.html">List</a>* <a class="code" href="struct_flood_state.html#a164223db94c49cf684d5f9023dcb913d">frontiers</a>;</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="struct_flood_state.html#a4315393a0c0d7e9e211fa55686abc4a2">   26</a></span>&#160;  <span class="keyword">const</span> <a class="code" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> (*<a class="code" href="struct_flood_state.html#a4315393a0c0d7e9e211fa55686abc4a2">tiles</a>)[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>];</div><div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="struct_flood_state.html#ac2bf2bf1be7c0801f70af8ff2784c80b">   28</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_flood_state.html#ac2bf2bf1be7c0801f70af8ff2784c80b">depthMap</a>[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>];</div><div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="struct_flood_state.html#a631341956c255e7659119b88e991b43b">   30</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_flood_state.html#a631341956c255e7659119b88e991b43b">pathLength</a>;</div><div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="struct_flood_state.html#a6dbc550bcb1b61833ec65d1c2f719640">   32</a></span>&#160;  <span class="keywordtype">int</span> <a class="code" href="struct_flood_state.html#a6dbc550bcb1b61833ec65d1c2f719640">currentDepth</a>;</div><div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="struct_flood_state.html#a9324389a5cdc532c6417a87ccafe18ce">   34</a></span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="struct_flood_state.html#a9324389a5cdc532c6417a87ccafe18ce">finished</a>;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <a class="code" href="floodfill_8h.html#a459d045224fba45cbbd8a6aeecc68ee2">FloodState</a>;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> <a class="code" href="floodfill_8h.html#a4f6248e8b8fff0e82053f548bfadfa6d">floodForward</a>(<a class="code" href="struct_flood_state.html">FloodState</a>* state);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<a class="code" href="struct_flood_state.html">FloodState</a>* <a class="code" href="floodfill_8h.html#a7017bde15cc22cf7e39b017c81ebff87">floodGenerate</a>(<span class="keyword">const</span> <a class="code" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<a class="code" href="struct_flood_state.html">FloodState</a>* <a class="code" href="floodfill_8h.html#a8f7ff33be282269ca389d21e8237ec95">floodFill</a>(<a class="code" href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a> tiles[<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>][<a class="code" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a>], <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">void</span> <a class="code" href="floodfill_8h.html#ae63068a87333f61753d1b558c7715022">floodDestory</a>(<a class="code" href="struct_flood_state.html">FloodState</a>* state);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif</span></div><div class="ttc" id="config_8h_html_a435c893b3d82298d514a7c5f1e433bff"><div class="ttname"><a href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a></div><div class="ttdeci">#define MAZE_SIZE</div><div class="ttdoc">迷路のサイズ</div><div class="ttdef"><b>Definition:</b> <a href="config_8h_source.html#l00009">config.h:9</a></div></div>
+<div class="ttc" id="struct_flood_state_html_a6dbc550bcb1b61833ec65d1c2f719640"><div class="ttname"><a href="struct_flood_state.html#a6dbc550bcb1b61833ec65d1c2f719640">FloodState::currentDepth</a></div><div class="ttdeci">int currentDepth</div><div class="ttdoc">現在の歩数</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00032">floodfill.h:32</a></div></div>
+<div class="ttc" id="struct_flood_state_html_a164223db94c49cf684d5f9023dcb913d"><div class="ttname"><a href="struct_flood_state.html#a164223db94c49cf684d5f9023dcb913d">FloodState::frontiers</a></div><div class="ttdeci">List * frontiers</div><div class="ttdoc">Flood の先頭</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00024">floodfill.h:24</a></div></div>
+<div class="ttc" id="floodfill_8h_html_ae63068a87333f61753d1b558c7715022"><div class="ttname"><a href="floodfill_8h.html#ae63068a87333f61753d1b558c7715022">floodDestory</a></div><div class="ttdeci">void floodDestory(FloodState *state)</div><div class="ttdoc">指定の Flood-fill を廃棄する</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8c_source.html#l00112">floodfill.c:112</a></div></div>
+<div class="ttc" id="struct_flood_state_html_a4315393a0c0d7e9e211fa55686abc4a2"><div class="ttname"><a href="struct_flood_state.html#a4315393a0c0d7e9e211fa55686abc4a2">FloodState::tiles</a></div><div class="ttdeci">const Tile(* tiles)[MAZE_SIZE]</div><div class="ttdoc">迷路の構成</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00026">floodfill.h:26</a></div></div>
+<div class="ttc" id="config_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">ゲームの設定</div></div>
+<div class="ttc" id="floodfill_8h_html_a8f7ff33be282269ca389d21e8237ec95"><div class="ttname"><a href="floodfill_8h.html#a8f7ff33be282269ca389d21e8237ec95">floodFill</a></div><div class="ttdeci">FloodState * floodFill(Tile tiles[MAZE_SIZE][MAZE_SIZE], int x, int y)</div><div class="ttdoc">Flood-fill を指定のタイルから自動的に実行する</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8c_source.html#l00100">floodfill.c:100</a></div></div>
+<div class="ttc" id="floodfill_8h_html_a4f6248e8b8fff0e82053f548bfadfa6d"><div class="ttname"><a href="floodfill_8h.html#a4f6248e8b8fff0e82053f548bfadfa6d">floodForward</a></div><div class="ttdeci">void floodForward(FloodState *state)</div><div class="ttdoc">Flood を一回進める</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8c_source.html#l00041">floodfill.c:41</a></div></div>
+<div class="ttc" id="tile_8h_html_acd2017d946fd818c3b8ca377bc4006c7"><div class="ttname"><a href="tile_8h.html#acd2017d946fd818c3b8ca377bc4006c7">Tile</a></div><div class="ttdeci">Tile</div><div class="ttdoc">タイル</div><div class="ttdef"><b>Definition:</b> <a href="tile_8h_source.html#l00011">tile.h:11</a></div></div>
+<div class="ttc" id="list_8h_html"><div class="ttname"><a href="list_8h.html">list.h</a></div><div class="ttdoc">双方向連結リスト ＜ヘッダファイル＞</div></div>
+<div class="ttc" id="tile_8h_html"><div class="ttname"><a href="tile_8h.html">tile.h</a></div><div class="ttdoc">タイルの定義（ヘッダファイル）</div></div>
+<div class="ttc" id="floodfill_8h_html_a459d045224fba45cbbd8a6aeecc68ee2"><div class="ttname"><a href="floodfill_8h.html#a459d045224fba45cbbd8a6aeecc68ee2">FloodState</a></div><div class="ttdeci">struct FloodState FloodState</div><div class="ttdoc">Flood の状態を表す</div></div>
+<div class="ttc" id="struct_flood_state_html_a631341956c255e7659119b88e991b43b"><div class="ttname"><a href="struct_flood_state.html#a631341956c255e7659119b88e991b43b">FloodState::pathLength</a></div><div class="ttdeci">int pathLength</div><div class="ttdoc">開いているタイルの数</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00030">floodfill.h:30</a></div></div>
+<div class="ttc" id="floodfill_8h_html_a7017bde15cc22cf7e39b017c81ebff87"><div class="ttname"><a href="floodfill_8h.html#a7017bde15cc22cf7e39b017c81ebff87">floodGenerate</a></div><div class="ttdeci">FloodState * floodGenerate(const Tile tiles[MAZE_SIZE][MAZE_SIZE], int x, int y)</div><div class="ttdoc">Flood-fill を指定のタイルで生成する</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8c_source.html#l00082">floodfill.c:82</a></div></div>
+<div class="ttc" id="struct_list_html"><div class="ttname"><a href="struct_list.html">List</a></div><div class="ttdoc">リストオブジェクト</div><div class="ttdef"><b>Definition:</b> <a href="list_8h_source.html#l00027">list.h:27</a></div></div>
+<div class="ttc" id="struct_flood_state_html_ac2bf2bf1be7c0801f70af8ff2784c80b"><div class="ttname"><a href="struct_flood_state.html#ac2bf2bf1be7c0801f70af8ff2784c80b">FloodState::depthMap</a></div><div class="ttdeci">int depthMap[MAZE_SIZE][MAZE_SIZE]</div><div class="ttdoc">各タイルに対して水が流れてくるまでの歩数</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00028">floodfill.h:28</a></div></div>
+<div class="ttc" id="struct_flood_state_html_a9324389a5cdc532c6417a87ccafe18ce"><div class="ttname"><a href="struct_flood_state.html#a9324389a5cdc532c6417a87ccafe18ce">FloodState::finished</a></div><div class="ttdeci">bool finished</div><div class="ttdoc">Flood が全部のタイルに流れ込んだか</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00034">floodfill.h:34</a></div></div>
+<div class="ttc" id="struct_flood_state_html"><div class="ttname"><a href="struct_flood_state.html">FloodState</a></div><div class="ttdoc">Flood の状態を表す</div><div class="ttdef"><b>Definition:</b> <a href="floodfill_8h_source.html#l00022">floodfill.h:22</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_931ce304af081f85f63237a1d4f7bc66.html">maze</a></li><li class="navelem"><a class="el" href="floodfill_8h.html">floodfill.h</a></li>
+    <li class="footer">2019年07月21日(日) 01時17分13秒作成 - Let There Be Light / 構成: 
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
+</body>
+</html>

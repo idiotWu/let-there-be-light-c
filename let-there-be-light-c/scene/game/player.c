@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief プレイヤーの定義
+ */
 #include <string.h>
 #include <stdlib.h>
 
@@ -12,10 +16,16 @@
 #include "maze/direction.h"
 #include "maze/maze.h"
 
-static Animation* playerIdleStateUpdater;
+//! プレイヤーのスプライトの状態（フレーム）を更新するタイマー
+static Animation* playerStateUpdater;
 
 // ============ Move Player Begin ============ //
 
+/**
+ * @brief プレイヤーを移動させるアニメーションを更新する
+ * *
+ * @param animation アニメーション
+ */
 static void movePlayerUpdate(Animation* animation) {
   vec2i* fromPos = animation->from;
   vec2i* delta = animation->delta;
@@ -26,14 +36,20 @@ static void movePlayerUpdate(Animation* animation) {
   GameState.player.y = fromPos->y + delta->y * percent;
 }
 
-// complete callback
+/**
+ * @brief プレイヤーの移動が終わった後の処理
+ *
+ * @details プレイヤーを \ref Player.idle "idle" の状態に変更し，
+ * \ref State.stepsFromPlayer "GameState.stepsFromPlayer" を更新する
+ *
+ * @param animation アニメーション
+ */
 static void movePlayerComplete(Animation* animation) {
   UNUSED(animation);
   GameState.player.idle = true;
   updateStepsFromPlayer();
 }
 
-// move player by delta
 void movePlayer(int deltaX, int deltaY) {
   // ensure single direction
   if (deltaX && deltaY) {
@@ -71,7 +87,11 @@ void movePlayer(int deltaX, int deltaY) {
 
 // ============ Misc Begin ============ //
 
-// forward player's state
+/**
+ * @brief プレイヤーのスプライトを更新する
+ *
+ * @param animation 更新のタイマー
+ */
 static void updatePlayerState(Animation* animation) {
   // slows down when player is idle (i.e. play is not moving)
   // -> update once per period
@@ -82,6 +102,9 @@ static void updatePlayerState(Animation* animation) {
   GameState.player.spriteState = (GameState.player.spriteState + 1) % PLAYER_SPRITES->cols;
 }
 
+/**
+ * @brief ステージの始まりにプレイヤーの位置を計算する
+ */
 static void initStartPos(void) {
   int startIndex = randomInt(0, GameState.pathLength - 1);
 
@@ -97,14 +120,14 @@ void initPlayer(void) {
   initStartPos();
   updateStepsFromPlayer();
 
-  playerIdleStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION, ANIMATION_INFINITY);
+  playerStateUpdater = createAnimation(PLAYER_SPRITES->cols, CHARACTER_STATE_ANIMATION_DURATION, ANIMATION_INFINITY);
 
-  playerIdleStateUpdater->update = updatePlayerState;
+  playerStateUpdater->update = updatePlayerState;
 }
 
 void destroyPlayer(void) {
-  cancelAnimation(playerIdleStateUpdater);
-  playerIdleStateUpdater = NULL;
+  cancelAnimation(playerStateUpdater);
+  playerStateUpdater = NULL;
 }
 
 void updateStepsFromPlayer(void) {

@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ユーティリティ
+ */
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -6,7 +10,7 @@
 
 double randomBetween(double lower, double upper) {
   static int randInitFlag = 0;
-  
+
   // init once
   if (!randInitFlag) {
     randInitFlag = 1;

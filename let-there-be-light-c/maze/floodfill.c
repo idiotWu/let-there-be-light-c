@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief Flood-fill アルゴリズム
+ */
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -10,6 +14,13 @@
 #include "util/list.h"
 #include "util/util.h"
 
+/**
+ * @brief 着いたタイルをマークする
+ *
+ * @param x     タイルの x 座標
+ * @param y     タイルの y 座標
+ * @param state 現在の Flood
+ */
 static void mark(int x, int y, FloodState* state) {
   if (state->depthMap[y][x] != FLOOD_DEPTH_UNVISITED) {
     return;

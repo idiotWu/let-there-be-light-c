@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief 実用的なレンダリング関数
+ */
 #include "glut.h"
 
 #include "render/helper.h"

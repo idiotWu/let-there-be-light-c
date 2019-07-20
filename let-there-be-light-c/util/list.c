@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief 双方向連結リスト
+ */
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -145,10 +150,27 @@ Node* createNode(void) {
 
 ///////////// LIST ITERATOR /////////////
 
+/**
+ * @brief イテレーションが終わったのかをチェックする
+ *
+ * @param it 目標のイテレータ
+ *
+ * @return true  イテレーションが終わった
+ * @return false イテレーションが進行中
+ */
 static bool iteratorFinished(ListIterator* it) {
   return it->nextNode == NULL || it->nextIndex >= it->initialLength;
 }
 
+/**
+ * @brief イテレータを次のノードに移動させる
+ *
+ * @details `iterator.next(list)` を呼び出すたびに，イテレータを次のノードに移動させる
+ *
+ * @param it イテレータ自身（self）
+ *
+ * @return Node* 今回のイテレーションにおいて，イテレータが指すノード
+ */
 static Node* iterateNext(ListIterator* it) {
   if (it->done) {
     return NULL;

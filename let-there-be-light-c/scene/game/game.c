@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ゲームのコントローラー
+ */
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,10 +31,20 @@
 #include "render/texture.h"
 #include "render/fx.h"
 
+/**
+ * @brief ゲームを初期化する
+ */
 static void initGame(void);
+/**
+ * @brief ゲームを更新する
+ */
 static void updateGame(void);
+/**
+ * @brief ゲームシーンから離れる時の処理
+ */
 static void leaveGame(void);
 
+//! ゲームシーン
 static Scene game = {
   .init = initGame,
   .update = updateGame,
@@ -40,8 +54,11 @@ static Scene game = {
 
 Scene* gameScene = &game;
 
-// ============ Maze Initialization Begin ============ //
+// ============ Maze Initialization ============ //
 
+/**
+ * @brief アイテムを迷路の中に配置する
+ */
 static void initItems(void) {
   Tile (*tiles)[MAZE_SIZE] = GameState.maze;
 
@@ -71,6 +88,13 @@ static void initItems(void) {
 
 // ============ Visible Radius ============ //
 
+/**
+ * @brief 見える範囲を拡大するアニメーションを更新する（補間のアニメーション）
+ *
+ * @details アニメーションの進行状態により見える範囲を少しずつ拡大する
+ *
+ * @param animation アニメーション
+ */
 static void expandVisionUpdate(Animation* animation) {
   double* fromRadius = animation->from;
   double* deltaRadius = animation->delta;
@@ -80,6 +104,12 @@ static void expandVisionUpdate(Animation* animation) {
   GameState.visibleRadius = *fromRadius + *deltaRadius * percent;
 }
 
+/**
+ * @brief 見える範囲を拡大する
+ *
+ * @param radius   拡大後の半径（エネルギー残量）
+ * @param duration アニメーションの持続時間
+ */
 static void expandVision(double radius, double duration) {
   double* fromRadius = malloc(sizeof(double));
   double* deltaRadius = malloc(sizeof(double));
@@ -96,7 +126,9 @@ static void expandVision(double radius, double duration) {
 
 // ============ Keyboard Handler ============ //
 
-// handle pressed arrow keys
+/**
+ * @brief 押している方向キーを読み取り，プレイヤーを移動させる
+ */
 static void readKeyboard(void) {
   Direction moveDir = getPressedKeys();
 
@@ -135,6 +167,9 @@ static void readKeyboard(void) {
   }
 }
 
+/**
+ * @brief アイテムの状態を更新する
+ */
 static void updateItems(void) {
   int x = GameState.player.x;
   int y = GameState.player.y;
@@ -182,6 +217,13 @@ static void initGame(void) {
   bindGameKeyboardHandlers();
 }
 
+/**
+ * @brief ゲームクリアの処理
+ *
+ * @details この関数は遅れて実行される
+ *
+ * @param _ `delay` 関数のためのプレースホルダー（使われていない）
+ */
 static void gameClear(void* _) {
   UNUSED(_);
 
@@ -202,30 +244,37 @@ static void updateGame(void) {
     return;
   }
 
-  Player* player = &GameState.player;
-
-  player->spoiled = (GameState.maze[(int)player->y][(int)player->x] & TILE_SPOILED);
-
   GameState.visibleRadius -= getVisibleRadiusRuducingRate();
 
+  // game over
   if (GameState.visibleRadius <= 0) {
     return switchScene(gameOverScene);
   }
 
-  if (GameState.player.idle) {
+  Player* player = &GameState.player;
+
+  player->spoiled = (GameState.maze[(int)player->y][(int)player->x] & TILE_SPOILED);
+
+  // move player when it's idle(not moving)
+  if (player->idle) {
     updateItems();
     readKeyboard();
   }
 
+  // activate sleeping enemies
   activateEnemies();
 
+  // stage clear
   if (GameState.remainItem == 0) {
     player->spoiled = false;
     GameState.paused = true;
     GameState.lastVisibleRadius = GameState.visibleRadius;
 
+    // show maze
     expandVision(MAZE_SIZE * 10, 3000);
+    // remove all enemies
     destroyEnemy(true);
+    // clear spoiled tiles
     fxFlood(player->x, player->y);
 
     delay(5000, gameClear, NULL);

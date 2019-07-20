@@ -1,3 +1,7 @@
+/**
+ * @file
+ * @brief ステージのタイトルシーンのコントローラー
+ */
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
@@ -13,10 +17,13 @@
 #include "util/util.h"
 #include "render/texture.h"
 
+//! タイトルのフォントサイズ
 #define FONT_SIZE 1.2
 
+//! ステージのタイトルをレンダリングする
 static void renderLevelTitle(void);
 
+//! ステージのタイトルシーン
 static Scene levelTitle = {
   .init = noop,
   .update = noop,

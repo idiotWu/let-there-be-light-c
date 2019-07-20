@@ -43,7 +43,8 @@ static void spoilTilesUpdate(Animation* animation) {
     vec2i* frontier = node->data;
 
     setBits(GameState.maze[frontier->y][frontier->x], TILE_SPOILED);
-    fxExplodeAtTile(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
+//    fxExplodeAtTile(FX_ICE_SPLIT_ROW, frontier->x, frontier->y);
+    fxExplode(FX_ICE_SPLIT_ROW, frontier->x + 0.5, frontier->y + 0.5, 0.5);
   }
 }
 
@@ -88,7 +89,8 @@ static void enemyExplode(Enemy* enemy) {
 
   cancelAnimation(enemy->movingAnimation);
 
-  fxExplodeAtTile(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
+//  fxExplodeAtTile(FX_ICE_SPLIT_ROW, enemy->x, enemy->y);
+  fxExplode(FX_ICE_SPLIT_ROW, enemy->x + 0.5, enemy->y + 0.5, 0.5);
 
   spoilTiles(enemy->x, enemy->y, radius);
 

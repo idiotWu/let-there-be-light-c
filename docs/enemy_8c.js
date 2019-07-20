@@ -13,7 +13,7 @@ var enemy_8c =
     [ "createEnemy", "enemy_8c.html#aaa56da3bed7bb29c31ee2bf6afb22f5c", null ],
     [ "updateEnemyState", "enemy_8c.html#a712f5f12470c0a3780b406a7fbde7238", null ],
     [ "initEnemy", "enemy_8c.html#a2196b17fa8342f5473105fa6587e195e", null ],
-    [ "destroyEnemy", "enemy_8c.html#a9494e25ff984cf66a803baccf3ec56f3", null ],
+    [ "destroyEnemy", "enemy_8c.html#a2b561067d02120a223cf0ab63c7ac685", null ],
     [ "enemySpawner", "enemy_8c.html#a077aa771f2feba4d9e7194633caccbb8", null ],
     [ "enemyStateUpdater", "enemy_8c.html#a55650050a2b10013be27b1293b4c0e5d", null ]
 ];

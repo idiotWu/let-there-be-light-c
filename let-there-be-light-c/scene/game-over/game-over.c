@@ -133,14 +133,11 @@ static void keyboardHandler(unsigned char key, int x, int y) {
 
   if (key == 'R' || key == 'r') {
     levelTransition();
-    destroyGameOver();
     return;
   }
 
   if (key == 'T' || key == 't') {
-    initGameState();
     fxFadeOut(1000, titleScene);
-    destroyGameOver();
     return;
   }
 }

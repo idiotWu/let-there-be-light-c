@@ -208,9 +208,8 @@ static void renderTitle(void) {
 }
 
 static void initTitle(void) {
-  GameState.unlockLimits = false;
-  GameState.level.major = 1;
-  GameState.level.minor = 1;
+  // reset game state
+  initGameState();
 
   sprite.x = randomBetween(GameState.ortho.left, GameState.ortho.right - 1);
   sprite.y = randomBetween(GameState.ortho.bottom, GameState.ortho.top - 1);

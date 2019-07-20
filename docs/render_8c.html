@@ -126,6 +126,10 @@ $(document).ready(function(){initNavTree('render_8c.html','');});
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#a785dbd6b4a46e580b98188ef2781e278">CHARACTER_SPRITE_BASELINE</a>&#160;&#160;&#160;0.3</td></tr>
 <tr class="memdesc:a785dbd6b4a46e580b98188ef2781e278"><td class="mdescLeft">&#160;</td><td class="mdescRight">キャラクタスプライトの縦方向における基準位置 <br /></td></tr>
 <tr class="separator:a785dbd6b4a46e580b98188ef2781e278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab88e8af7cda7e795c1923d5004ca8fbc"><td class="memItemLeft" align="right" valign="top"><a id="ab88e8af7cda7e795c1923d5004ca8fbc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#ab88e8af7cda7e795c1923d5004ca8fbc">GHOST_ALPHA</a>&#160;&#160;&#160;0.1</td></tr>
+<tr class="memdesc:ab88e8af7cda7e795c1923d5004ca8fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵をゴーストとしてレンダリングする時の透明度 <br /></td></tr>
+<tr class="separator:ab88e8af7cda7e795c1923d5004ca8fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeb7c05dd4e0b8001a735bc68d39b968"><td class="memItemLeft" align="right" valign="top"><a id="aaeb7c05dd4e0b8001a735bc68d39b968"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#aaeb7c05dd4e0b8001a735bc68d39b968">ENERGY_BAR_WIDTH</a>&#160;&#160;&#160;(<a class="el" href="config_8h.html#a435c893b3d82298d514a7c5f1e433bff">MAZE_SIZE</a> / 4.0)</td></tr>
 <tr class="memdesc:aaeb7c05dd4e0b8001a735bc68d39b968"><td class="mdescLeft">&#160;</td><td class="mdescRight">エネルギーバーの長さ <br /></td></tr>
@@ -144,10 +148,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#add6aff3b630ca0c47de09983cefebb77">renderPlayer</a> (void)</td></tr>
 <tr class="memdesc:add6aff3b630ca0c47de09983cefebb77"><td class="mdescLeft">&#160;</td><td class="mdescRight">プレイヤーをレンダリングする <br /></td></tr>
 <tr class="separator:add6aff3b630ca0c47de09983cefebb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2765d54fa1f972a1abec6954acbd325"><td class="memItemLeft" align="right" valign="top"><a id="aa2765d54fa1f972a1abec6954acbd325"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#aa2765d54fa1f972a1abec6954acbd325">renderEnemies</a> (void)</td></tr>
-<tr class="memdesc:aa2765d54fa1f972a1abec6954acbd325"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵をレンダリングする <br /></td></tr>
-<tr class="separator:aa2765d54fa1f972a1abec6954acbd325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc69078472c1ce0832cce4ed074029c8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#abc69078472c1ce0832cce4ed074029c8">renderEnemies</a> (bool asGhost)</td></tr>
+<tr class="memdesc:abc69078472c1ce0832cce4ed074029c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">敵をレンダリングする  <a href="#abc69078472c1ce0832cce4ed074029c8">[詳解]</a><br /></td></tr>
+<tr class="separator:abc69078472c1ce0832cce4ed074029c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e900d9dba7238413d7186d7dbcde60"><td class="memItemLeft" align="right" valign="top"><a id="ac2e900d9dba7238413d7186d7dbcde60"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="render_8c.html#ac2e900d9dba7238413d7186d7dbcde60">renderHUD</a> (void)</td></tr>
 <tr class="memdesc:ac2e900d9dba7238413d7186d7dbcde60"><td class="mdescLeft">&#160;</td><td class="mdescRight">HUD をレンダリングする <br /></td></tr>
@@ -226,7 +229,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rend
   </dd>
 </dl>
 
-<p class="definition"> <a class="el" href="render_8c_source.html">render.c</a> の <a class="el" href="render_8c_source.html#l00093">93</a> 行目に定義があります。</p>
+<p class="definition"> <a class="el" href="render_8c_source.html">render.c</a> の <a class="el" href="render_8c_source.html#l00096">96</a> 行目に定義があります。</p>
+
+</div>
+</div>
+<a id="abc69078472c1ce0832cce4ed074029c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc69078472c1ce0832cce4ed074029c8">&#9670;&nbsp;</a></span>renderEnemies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void renderEnemies </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>asGhost</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>敵をレンダリングする </p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">asGhost</td><td>敵をゴースト（半透明）としてレンダリングする </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"> <a class="el" href="render_8c_source.html">render.c</a> の <a class="el" href="render_8c_source.html#l00143">143</a> 行目に定義があります。</p>
 
 </div>
 </div>
@@ -236,7 +275,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rend
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_fd40b43fc4c1e00689c4b0cc7f9f9515.html">scene</a></li><li class="navelem"><a class="el" href="dir_9c12e1ed3f6cdd392cffccc83cf77653.html">game</a></li><li class="navelem"><a class="el" href="render_8c.html">render.c</a></li>
-    <li class="footer">2019年07月21日(日) 01時47分20秒作成 - Let There Be Light / 構成: 
+    <li class="footer">2019年07月21日(日) 05時37分33秒作成 - Let There Be Light / 構成: 
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
   </ul>

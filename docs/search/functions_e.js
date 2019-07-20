@@ -4,7 +4,7 @@ var searchData=
   ['settexparam',['setTexParam',['../texture_8c.html#a1a0f98fb47855777ebc795c1a8747b2b',1,'setTexParam(GLfloat param):&#160;texture.c'],['../texture_8h.html#a1a0f98fb47855777ebc795c1a8747b2b',1,'setTexParam(GLfloat param):&#160;texture.c']]],
   ['showhint',['showHint',['../game-over_8c.html#af5e627f25355c2dc0be13bc46840c7eb',1,'game-over.c']]],
   ['showmessage',['showMessage',['../game-over_8c.html#a572576d3f8b393a4d49e835c14ad219a',1,'game-over.c']]],
-  ['shuffle',['shuffle',['../util_8c.html#aed7efd5d4883d6c3af4e54687d7b5fc1',1,'shuffle(void *array, size_t length, size_t bytesPerElement):&#160;util.c'],['../util_8h.html#aed7efd5d4883d6c3af4e54687d7b5fc1',1,'shuffle(void *array, size_t length, size_t bytesPerElement):&#160;util.c']]],
+  ['shuffle',['shuffle',['../util_8c.html#a8344770ccd7ac12e3604553de1f5e034',1,'shuffle(void *_array, size_t length, size_t bytesPerElement):&#160;util.c'],['../util_8h.html#aed7efd5d4883d6c3af4e54687d7b5fc1',1,'shuffle(void *array, size_t length, size_t bytesPerElement):&#160;util.c']]],
   ['sign',['sign',['../util_8c.html#abd4c35ac723582cd0751d1f92c494cf9',1,'sign(double num):&#160;util.c'],['../util_8h.html#abd4c35ac723582cd0751d1f92c494cf9',1,'sign(double num):&#160;util.c']]],
   ['specialkeyhandler',['specialKeyHandler',['../title_8c.html#a9b8b6f45a0826a17dee5dbc05cb953bc',1,'title.c']]],
   ['spoiltiles',['spoilTiles',['../enemy_8c.html#a4e1bbfa3dc10b82336c78f006dc97831',1,'enemy.c']]],

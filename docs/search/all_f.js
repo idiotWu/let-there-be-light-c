@@ -15,7 +15,7 @@ var searchData=
   ['render_2eh',['render.h',['../render_8h.html',1,'']]],
   ['rendercharacter',['renderCharacter',['../render_8c.html#ae675117f855e17d936b1ba9b072f7106',1,'render.c']]],
   ['rendereasteregg',['renderEasterEgg',['../title_8c.html#a9a1f6b9d01d5c5807978f052c75aee77',1,'title.c']]],
-  ['renderenemies',['renderEnemies',['../render_8c.html#aa2765d54fa1f972a1abec6954acbd325',1,'render.c']]],
+  ['renderenemies',['renderEnemies',['../render_8c.html#abc69078472c1ce0832cce4ed074029c8',1,'render.c']]],
   ['renderenergybar',['renderEnergyBar',['../texture_8c.html#ac31e4e8a2a99dd6755beb44a4f98e665',1,'renderEnergyBar(double percent, double dx, double dy, double dw, double dh):&#160;texture.c'],['../texture_8h.html#ac31e4e8a2a99dd6755beb44a4f98e665',1,'renderEnergyBar(double percent, double dx, double dy, double dw, double dh):&#160;texture.c']]],
   ['renderfog',['renderFog',['../texture_8c.html#a0c683885265a286fd5e3ae184a76847a',1,'renderFog(double dx, double dy, double dw, double dh):&#160;texture.c'],['../texture_8h.html#a0c683885265a286fd5e3ae184a76847a',1,'renderFog(double dx, double dy, double dw, double dh):&#160;texture.c']]],
   ['renderfrontiers',['renderFrontiers',['../fx_8c.html#a036e695bbf2af2e9a8e609dbc0113d45',1,'fx.c']]],

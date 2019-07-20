@@ -23,5 +23,6 @@ var searchData=
   ['getminorlevel',['getMinorLevel',['../difficulty_8c.html#a34cb1bbf9fde50b7a025f0f2f6a23fb1',1,'difficulty.c']]],
   ['getpressedkeys',['getPressedKeys',['../keyboard_8c.html#afcefca11ddcf0477c578984a9788bfa1',1,'getPressedKeys(void):&#160;keyboard.c'],['../keyboard_8h.html#afcefca11ddcf0477c578984a9788bfa1',1,'getPressedKeys(void):&#160;keyboard.c']]],
   ['getspawnercount',['getSpawnerCount',['../difficulty_8c.html#aa17b8c8e6bea123cc5e6433f6ddc0be5',1,'getSpawnerCount(void):&#160;difficulty.c'],['../difficulty_8h.html#aa17b8c8e6bea123cc5e6433f6ddc0be5',1,'getSpawnerCount(void):&#160;difficulty.c']]],
-  ['getvisibleradiusruducingrate',['getVisibleRadiusRuducingRate',['../difficulty_8c.html#a4f2ac51a3279f314b2d3a021e0f4bbd5',1,'getVisibleRadiusRuducingRate(void):&#160;difficulty.c'],['../difficulty_8h.html#a4f2ac51a3279f314b2d3a021e0f4bbd5',1,'getVisibleRadiusRuducingRate(void):&#160;difficulty.c']]]
+  ['getvisibleradiusruducingrate',['getVisibleRadiusRuducingRate',['../difficulty_8c.html#a4f2ac51a3279f314b2d3a021e0f4bbd5',1,'getVisibleRadiusRuducingRate(void):&#160;difficulty.c'],['../difficulty_8h.html#a4f2ac51a3279f314b2d3a021e0f4bbd5',1,'getVisibleRadiusRuducingRate(void):&#160;difficulty.c']]],
+  ['ghost_5falpha',['GHOST_ALPHA',['../render_8c.html#ab88e8af7cda7e795c1923d5004ca8fbc',1,'render.c']]]
 ];

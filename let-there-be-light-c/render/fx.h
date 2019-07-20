@@ -35,7 +35,7 @@ void fxFadeOut(double duration, Scene* toScene);
 void fxExplode(int spriteRow, double x, double y, double size);
 
 /**
- * @brief 指定のタイルで爆発するアニメーション
+ * @brief 指定のタイルに標準サイズで爆発するアニメーション
  *
  * @param spriteRow 爆発スプライトの行
  * @param x         爆発が発生するタイルの x 座標

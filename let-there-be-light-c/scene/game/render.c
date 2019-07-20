@@ -27,8 +27,11 @@
 //! キャラクタスプライトの縦方向における基準位置
 #define CHARACTER_SPRITE_BASELINE   0.3
 
+//! 敵をゴーストとしてレンダリングする時の透明度
+#define GHOST_ALPHA   0.1
+
 //! エネルギーバーの長さ
-#define ENERGY_BAR_WIDTH            (MAZE_SIZE / 4.0)
+#define ENERGY_BAR_WIDTH  (MAZE_SIZE / 4.0)
 
 /**
  * @brief 迷路のタイルをレンダリングする
@@ -134,13 +137,25 @@ static void renderPlayer(void) {
 
 /**
  * @brief 敵をレンダリングする
+ *
+ * @param asGhost 敵をゴースト（半透明）としてレンダリングする
  */
-static void renderEnemies(void) {
+static void renderEnemies(bool asGhost) {
   ListIterator it = createListIterator(GameState.enemies);
 
   while (!it.done) {
     Node* node = it.next(&it);
     Enemy* enemy = node->data;
+
+    if (asGhost) {
+      if (!enemy->activated) {
+        continue;
+      }
+
+      setTexParam(GL_MODULATE);
+      glColor4d(1.0, 1.0, 1.0, GHOST_ALPHA);
+    }
+
     double ox = enemy->x + 0.5;
     double oy = enemy->y + 0.5;
     double scale = min(1.0, (double)enemy->remainSteps / ENEMY_MAX_STEPS + 0.2);
@@ -151,7 +166,9 @@ static void renderEnemies(void) {
     glTranslated(-ox, -oy, 0.0);
 
     renderCharacter(ENEMY_SPRITES, enemy->spriteState, enemy->x, enemy->y, enemy->direction);
+
     glPopMatrix();
+    restoreDefaultTexParam();
   }
 }
 
@@ -206,10 +223,13 @@ void renderGame(void) {
 
   renderTiles();
   renderPlayer();
-  renderEnemies();
+  renderEnemies(false);
 
   glDisable(GL_STENCIL_TEST);
+
   renderFog(worldX, worldY, worldSize, worldSize);
+  // render enemies as ghost
+  renderEnemies(true);
 
   renderHUD();
 }

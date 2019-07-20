@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"globals_i.html":[5,1,0,8],
 "globals_k.html":[5,1,0,9],
 "globals_l.html":[5,1,0,10],
 "globals_m.html":[5,1,0,11],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "struct_player.html#a97808a9870039f4168da10ecfb5dc472":[4,0,10,2],
 "struct_player.html#ab927965981178aa1fba979a37168db2a":[4,0,10,1],
 "struct_player.html#af88b946fb90d5f08b5fb740c70e98c10":[4,0,10,0],
-"struct_scene.html":[4,0,11],
-"struct_scene.html#a4d29bef9a0956bea882a95a4955a009b":[4,0,11,1]
+"struct_scene.html":[4,0,11]
 };

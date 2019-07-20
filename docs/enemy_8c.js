@@ -1,5 +1,6 @@
 var enemy_8c =
 [
+    [ "setSpolied", "enemy_8c.html#ab62ab249af9dd52737cac0265ec10f50", null ],
     [ "spoilTilesUpdate", "enemy_8c.html#a2c623eae5029dada8360115b247c8967", null ],
     [ "spoilTilesComplete", "enemy_8c.html#a22c593cac996432b8965d37b4c1825e8", null ],
     [ "spoilTiles", "enemy_8c.html#a4e1bbfa3dc10b82336c78f006dc97831", null ],

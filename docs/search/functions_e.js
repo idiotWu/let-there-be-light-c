@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['setspolied',['setSpolied',['../enemy_8c.html#ab62ab249af9dd52737cac0265ec10f50',1,'enemy.c']]],
   ['settexparam',['setTexParam',['../texture_8c.html#a1a0f98fb47855777ebc795c1a8747b2b',1,'setTexParam(GLfloat param):&#160;texture.c'],['../texture_8h.html#a1a0f98fb47855777ebc795c1a8747b2b',1,'setTexParam(GLfloat param):&#160;texture.c']]],
   ['showhint',['showHint',['../game-over_8c.html#af5e627f25355c2dc0be13bc46840c7eb',1,'game-over.c']]],
   ['showmessage',['showMessage',['../game-over_8c.html#a572576d3f8b393a4d49e835c14ad219a',1,'game-over.c']]],

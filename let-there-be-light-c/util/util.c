@@ -35,14 +35,16 @@ void swap(void* a, void* b, size_t bytes) {
   }
 }
 
-void shuffle(void* array, size_t length, size_t bytesPerElement) {
-  while (length --> 1) {
-    size_t index = randomInt(0, (int)length - 1);
+void shuffle(void* _array, size_t length, size_t bytesPerElement) {
+  // cast `void*` to `char*` for arithmetic
+  char* array = _array;
 
-    // cast `void*` to `char*` for arithmetic
+  while (length --> 1) {
+    size_t index = randomInt(0, (int)length);
+
     swap(
-      (char*)array + index * bytesPerElement,
-      (char*)array + length * bytesPerElement,
+      array + index * bytesPerElement,
+      array + length * bytesPerElement,
       bytesPerElement
     );
   }

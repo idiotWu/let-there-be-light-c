@@ -68,7 +68,7 @@
 //! Window をスクリーンの中央に表示させる
 #define CENTERING_WINDOW
 
-//! 前回のフレームレートの計算から経過したフレーム数
+//! 最後に FPS を更新してから経過したフレーム数
 static int frameCount = 0;
 
 /**
@@ -117,7 +117,7 @@ void updateTitle(int fps) {
 /**
  * @brief ゲームの状態を更新する
  *
- * @param timestamp 現在の時刻
+ * @param timestamp 最後に FPS を更新した時刻
  */
 void update(int timestamp) {
   // count FPS

@@ -132,11 +132,14 @@ static void keyboardHandler(unsigned char key, int x, int y) {
   UNUSED(x); UNUSED(y);
 
   if (key == 'R' || key == 'r') {
+    // remove event handlers
+    glutKeyboardFunc(NULL);
     levelTransition();
     return;
   }
 
   if (key == 'T' || key == 't') {
+    glutKeyboardFunc(NULL);
     fxFadeOut(1000, titleScene);
     return;
   }

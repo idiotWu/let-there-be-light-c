@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Flood-fill アルゴリズム（ヘッダファイル）
+ * @brief Flood-fill アルゴリズム ＜ヘッダファイル＞
  */
 #ifndef FLOODFILL_H
 #define FLOODFILL_H

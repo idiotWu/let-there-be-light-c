@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief 方向の定義（ヘッダファイル）
+ * @brief 方向の定義 ＜ヘッダファイル＞
  */
 #ifndef DIRECTION_H
 #define DIRECTION_H

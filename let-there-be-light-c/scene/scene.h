@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief シーンコントローラーのプロトタイプ（ヘッダファイル）
+ * @brief シーンコントローラーのプロトタイプ ＜ヘッダファイル＞
  */
 #ifndef SCENE_H
 #define SCENE_H

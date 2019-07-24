@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief 迷路の生成など（ヘッダファイル）
+ * @brief 迷路の生成など ＜ヘッダファイル＞
  *
  * @see <http://www.contralogic.com/2d-pac-man-style-maze-generation/>
  */

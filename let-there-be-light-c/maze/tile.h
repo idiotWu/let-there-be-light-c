@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief タイルの定義（ヘッダファイル）
+ * @brief タイルの定義 ＜ヘッダファイル＞
  */
 #ifndef TILE_H
 #define TILE_H

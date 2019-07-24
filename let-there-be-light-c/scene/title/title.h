@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief ゲームのタイトルシーンのコントローラー（ヘッダファイル）
+ * @brief ゲームのタイトルシーンのコントローラー ＜ヘッダファイル＞
  */
 #ifndef TITLE_H
 #define TITLE_H

@@ -42,7 +42,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <stdint.h>
+#include <limits.h>
 #include <stdbool.h>
 
 /**
@@ -57,7 +57,7 @@
 /**
  * @brief 無限に繰り返すアニメーション
  */
-#define ANIMATION_INFINITY UINT16_MAX
+#define ANIMATION_INFINITY INT_MAX
 
 /**
  * @brief アニメーションの後始末のフラグ
@@ -82,11 +82,11 @@ typedef enum AnimationCleanFlag {
  */
 typedef struct Animation {
   //! ターゲットを記録するポイント変数
-  void *target;
+  void* target;
   //! 始まりの値を記録するポイント変数
-  void *from;
+  void* from;
   //! 変化量を記録するポイント変数
-  void *delta;
+  void* delta;
 
   //! 現在のフレーム
   int currentFrame;
@@ -127,21 +127,21 @@ typedef struct Animation {
   /**
    * @brief アニメーションのレンダリング関数
    */
-  void (*render)(struct Animation *);
+  void (*render)(struct Animation*);
   /**
    * @brief アニメーションがアップデートするときのコールバック関数
    */
-  void (*update)(struct Animation *);
+  void (*update)(struct Animation*);
   /**
    * @brief アニメーションが終わったときのコールバック関数
    */
-  void (*complete)(struct Animation *);
+  void (*complete)(struct Animation*);
 } Animation;
 
 /**
  * @brief 遅らせて実行する関数
  */
-typedef void (*DelayCallback)(void *);
+typedef void (*DelayCallback)(void*);
 
 /**
  * @brief アニメーションを生成し，メインタイムラインに追加する
@@ -164,7 +164,7 @@ typedef void (*DelayCallback)(void *);
  * @return Animation* アニメーション
  */
 
-Animation *createAnimation(int frames, double duration, int repeat);
+Animation* createAnimation(int frames, double duration, int repeat);
 
 /**
  * @brief 60 FPS のアニメーションを生成する
@@ -174,14 +174,14 @@ Animation *createAnimation(int frames, double duration, int repeat);
  *
  * @return Animation* アニメーション
  */
-Animation *createAnimation60FPS(double duration, int repeat);
+Animation* createAnimation60FPS(double duration, int repeat);
 
 /**
  * @brief 指定のアニメーションをキャンセルする
  *
  * @param animation キャンセルしたいアニメーション
  */
-void cancelAnimation(Animation *animation);
+void cancelAnimation(Animation* animation);
 
 /**
  * @brief アニメーションエンジンを次のフレームに動かす
@@ -202,6 +202,6 @@ void engineRender(void);
  *
  * @return Animation* 目標関数を遅らせるアニメーション
  */
-Animation *delay(double duration, DelayCallback callback, void *data);
+Animation* delay(double duration, DelayCallback callback, void* data);
 
 #endif

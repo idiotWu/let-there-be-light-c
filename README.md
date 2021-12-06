@@ -8,7 +8,7 @@ A Pacman-like game with [procedural maze generation](https://maze-gen.stackblitz
 
 ## How To Play
 
-### MacOS
+### macOS
 
 1. Download [mac.zip](https://github.com/idiotWu/let-there-be-light-c/releases/download/1.0.0/mac.zip) and unzip it
 2. Open `bash` and run `cd /path/to/the/unzipped/directory`

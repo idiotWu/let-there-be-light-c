@@ -23,7 +23,7 @@ A Pacman-like game with [procedural maze generation](https://maze-gen.stackblitz
 
 ## Engine
 
-This game is powered by a simple timeline-based animation engine, and you can find the source code in [let-there-be-light-c/render/engine.h](https://github.com/idiotWu/let-there-be-light-c/blob/master/let-there-be-light-c/render/engine.h).
+This game is powered by a simple timeline-based animation engine. You can find the source code in [let-there-be-light-c/render/engine.h](https://github.com/idiotWu/let-there-be-light-c/blob/master/let-there-be-light-c/render/engine.h).
 
 See also [this gist](https://gist.github.com/idiotWu/fb6b084fab6db0d6c4ab60b27e6ddfa6#file-main-c) for usage examples.
 
@@ -31,3 +31,4 @@ See also [this gist](https://gist.github.com/idiotWu/fb6b084fab6db0d6c4ab60b27e6
 ## Credits
 
 - [2D Pac-Man style Maze Generation](http://www.contralogic.com/2d-pac-man-style-maze-generation/)
+- [Superpowers Asset Packs](https://github.com/sparklinlabs/superpowers-asset-packs)

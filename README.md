@@ -2,8 +2,8 @@
 
 A Pacman-like game with [procedural maze generation](https://maze-gen.stackblitz.io).
 
-<a href="https://youtu.be/PP3lqniQ10c">
-  <img src="https://user-images.githubusercontent.com/6022672/144750445-9eefa727-f71f-4359-ab64-0d733bdc4944.png" width="500" alt="Screen Recording">
+<a href="https://www.youtube.com/watch?v=vpVM1zOUQpE">
+  <img src="https://user-images.githubusercontent.com/6022672/144929989-8b80c703-1bda-4b5d-ac34-8e68e4a7f7f9.png" width="500" alt="Screen Recording">
 </a>
 
 ## How To Play

@@ -25,7 +25,7 @@ A Pacman-like game with [procedural maze generation](https://maze-gen.stackblitz
 
 This game is powered by a simple timeline-based animation engine, and you can find the source code in [let-there-be-light-c/render/engine.h](https://github.com/idiotWu/let-there-be-light-c/blob/master/let-there-be-light-c/render/engine.h).
 
-See also [this gist](https://gist.github.com/idiotWu/fb6b084fab6db0d6c4ab60b27e6ddfa6#gistcomment-2934748) for usage examples.
+See also [this gist](https://gist.github.com/idiotWu/fb6b084fab6db0d6c4ab60b27e6ddfa6#file-main-c) for usage examples.
 
 
 ## Credits
